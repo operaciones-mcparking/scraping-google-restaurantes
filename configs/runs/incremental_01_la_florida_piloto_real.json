@@ -1,0 +1,18 @@
+{
+  "piloto": {
+    "comuna": "La Florida",
+    "region": "Metropolitana",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 10,
+    "maxScrolls": 3,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_01_la_florida_piloto_real.csv",
+    "salidaExcel": "data/incremental/incremental_01_la_florida_piloto_real.xlsx",
+    "salidaRaw": "data/incremental/incremental_01_la_florida_piloto_real_raw.json",
+    "log": "data/logs/incremental_01_la_florida_piloto_real.log"
+  }
+}

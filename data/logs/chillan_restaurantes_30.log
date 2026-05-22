@@ -1,0 +1,123 @@
+2026-05-22T04:16:36.499Z Inicio scraper Google Maps piloto
+2026-05-22T04:16:36.504Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T04:16:36.508Z Máximo resultados: 30. Scrolls máximos: 6
+2026-05-22T04:16:37.396Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T04:16:37.825Z Pausa 4385 ms: carga inicial
+2026-05-22T04:16:42.321Z Resultados visibles acumulados: 7
+2026-05-22T04:16:42.343Z Pausa 4996 ms: scroll 1
+2026-05-22T04:16:47.362Z Resultados visibles acumulados: 7
+2026-05-22T04:16:47.432Z Pausa 3212 ms: scroll 2
+2026-05-22T04:16:50.661Z Resultados visibles acumulados: 14
+2026-05-22T04:16:50.689Z Pausa 3800 ms: scroll 3
+2026-05-22T04:16:54.507Z Resultados visibles acumulados: 14
+2026-05-22T04:16:54.530Z Pausa 2189 ms: scroll 4
+2026-05-22T04:16:56.749Z Resultados visibles acumulados: 20
+2026-05-22T04:16:56.775Z Pausa 2558 ms: scroll 5
+2026-05-22T04:16:59.348Z Resultados visibles acumulados: 20
+2026-05-22T04:16:59.376Z Pausa 2616 ms: scroll 6
+2026-05-22T04:17:02.022Z Resultados visibles acumulados: 23
+2026-05-22T04:17:02.025Z Fichas a abrir una por una: 23
+2026-05-22T04:17:02.029Z Procesando 1/23
+2026-05-22T04:17:02.033Z Abriendo ficha: https://www.google.com/maps/place/Casa+del+Barrio/data=!4m7!3m6!1s0x9668d741f1e7bf11:0xbdbf15c689318ef0!8m2!3d-36.5789187!4d-72.0512433!16s%2Fg%2F11lss72rjz!19sChIJEb_n8UHXaJYR8I4xicYVv70?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:02.392Z Pausa 3906 ms: espera de ficha
+2026-05-22T04:17:06.425Z Pausa 2408 ms: pausa entre fichas
+2026-05-22T04:17:08.845Z Procesando 2/23
+2026-05-22T04:17:08.850Z Abriendo ficha: https://www.google.com/maps/place/Bar+Pr%C3%B3cer/data=!4m7!3m6!1s0x9668d7e46a1c3a9f:0xd4b92823219ba1d0!8m2!3d-36.5603212!4d-72.0933141!16s%2Fg%2F11r_xh1py5!19sChIJnzocauTXaJYR0KGbISMoudQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:09.270Z Pausa 4497 ms: espera de ficha
+2026-05-22T04:17:13.888Z Pausa 4287 ms: pausa entre fichas
+2026-05-22T04:17:18.181Z Procesando 3/23
+2026-05-22T04:17:18.185Z Abriendo ficha: https://www.google.com/maps/place/Onde%27l+Pala/data=!4m7!3m6!1s0x9668d7d32357ba4b:0xcbd450cc8b813db6!8m2!3d-36.6007129!4d-72.0955085!16s%2Fg%2F11clhq9lvn!19sChIJS7pXI9PXaJYRtj2Bi8xQ1Ms?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:18.386Z Pausa 2826 ms: espera de ficha
+2026-05-22T04:17:21.322Z Pausa 4056 ms: pausa entre fichas
+2026-05-22T04:17:25.380Z Procesando 4/23
+2026-05-22T04:17:25.383Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:25.543Z Pausa 3425 ms: espera de ficha
+2026-05-22T04:17:29.085Z Pausa 4781 ms: pausa entre fichas
+2026-05-22T04:17:33.876Z Procesando 5/23
+2026-05-22T04:17:33.880Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Zasha/data=!4m7!3m6!1s0x9668d7d5eec972b7:0xfb0866f2c16242a9!8m2!3d-36.6072718!4d-72.0992526!16s%2Fg%2F11f54mczxm!19sChIJt3LJ7tXXaJYRqUJiwfJmCPs?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:34.049Z Pausa 4225 ms: espera de ficha
+2026-05-22T04:17:38.380Z Pausa 2890 ms: pausa entre fichas
+2026-05-22T04:17:41.283Z Procesando 6/23
+2026-05-22T04:17:41.287Z Abriendo ficha: https://www.google.com/maps/place/Fuego+Di+Vino/data=!4m7!3m6!1s0x9668d7d4d0353efb:0x5a23baae07b4f345!8m2!3d-36.6041503!4d-72.0951384!16s%2Fg%2F11b7q5qwbg!19sChIJ-z410NTXaJYRRfO0B666I1o?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:41.474Z Pausa 4919 ms: espera de ficha
+2026-05-22T04:17:46.509Z Pausa 2577 ms: pausa entre fichas
+2026-05-22T04:17:49.095Z Procesando 7/23
+2026-05-22T04:17:49.098Z Abriendo ficha: https://www.google.com/maps/place/Brote+de+Primavera/data=!4m7!3m6!1s0x9668d743b1787749:0x74379625a16cd3fe!8m2!3d-36.610358!4d-72.1070076!16s%2Fg%2F11qyc3f_dy!19sChIJSXd4sUPXaJYR_tNsoSWWN3Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:49.275Z Pausa 3978 ms: espera de ficha
+2026-05-22T04:17:53.363Z Pausa 3149 ms: pausa entre fichas
+2026-05-22T04:17:56.520Z Procesando 8/23
+2026-05-22T04:17:56.523Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Pensi%C3%B3n+Vald%C3%A9s/data=!4m7!3m6!1s0x9669282bcd0e6601:0x12c9f5813e7913c7!8m2!3d-36.6109309!4d-72.0992906!16s%2Fg%2F11b8_y25r6!19sChIJAWYOzSsoaZYRxxN5PoH1yRI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:17:56.714Z Pausa 2375 ms: espera de ficha
+2026-05-22T04:17:59.182Z Pausa 2189 ms: pausa entre fichas
+2026-05-22T04:18:01.379Z Procesando 9/23
+2026-05-22T04:18:01.382Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+La+Caleta+De+Tito/data=!4m7!3m6!1s0x966929d4b24978ff:0x56054506a338f247!8m2!3d-36.6117125!4d-72.0939595!16s%2Fg%2F11f03x99wf!19sChIJ_3hJstQpaZYRR_I4owZFBVY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:01.609Z Pausa 3263 ms: espera de ficha
+2026-05-22T04:18:04.978Z Pausa 3915 ms: pausa entre fichas
+2026-05-22T04:18:08.909Z Procesando 10/23
+2026-05-22T04:18:08.912Z Abriendo ficha: https://www.google.com/maps/place/Aay+Chabela+Restaurant/data=!4m7!3m6!1s0x9668d7dea8c4930b:0x2770903794774fc5!8m2!3d-36.6081967!4d-72.1033385!16s%2Fg%2F11f5v7km71!19sChIJC5PEqN7XaJYRxU93lDeQcCc?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:09.192Z Pausa 3590 ms: espera de ficha
+2026-05-22T04:18:12.988Z Pausa 2562 ms: pausa entre fichas
+2026-05-22T04:18:15.556Z Procesando 11/23
+2026-05-22T04:18:15.560Z Abriendo ficha: https://www.google.com/maps/place/Vita+Wines+House,+Casa+de+vinos/data=!4m7!3m6!1s0x9668d786459af0b9:0xff81c3a3610f9d43!8m2!3d-36.5928329!4d-72.1037306!16s%2Fg%2F11k9zc5rwv!19sChIJufCaRYbXaJYRQ50PYaPDgf8?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:15.872Z Pausa 3958 ms: espera de ficha
+2026-05-22T04:18:19.999Z Pausa 4388 ms: pausa entre fichas
+2026-05-22T04:18:24.398Z Procesando 12/23
+2026-05-22T04:18:24.403Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuelita/data=!4m7!3m6!1s0x9668d79c79fa8b8d:0xee00d9ad405dd3bc!8m2!3d-36.5906248!4d-72.087245!16s%2Fg%2F11spps83kt!19sChIJjYv6eZzXaJYRvNNdQK3ZAO4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:24.683Z Pausa 4435 ms: espera de ficha
+2026-05-22T04:18:29.232Z Pausa 4021 ms: pausa entre fichas
+2026-05-22T04:18:33.261Z Procesando 13/23
+2026-05-22T04:18:33.266Z Abriendo ficha: https://www.google.com/maps/place/Entre+Amigos+Restobar/data=!4m7!3m6!1s0x966929d560055555:0x230485888c285b29!8m2!3d-36.6070194!4d-72.0927345!16s%2Fg%2F11dxddx27g!19sChIJVVUFYNUpaZYRKVsojIiFBCM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:33.539Z Pausa 2199 ms: espera de ficha
+2026-05-22T04:18:35.858Z Pausa 4351 ms: pausa entre fichas
+2026-05-22T04:18:40.224Z Procesando 14/23
+2026-05-22T04:18:40.230Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+3+Regiones/data=!4m7!3m6!1s0x9668d757623c17bb:0xf348bc1a5fa133b8!8m2!3d-36.6078265!4d-72.092205!16s%2Fg%2F11qbr9886l!19sChIJuxc8YlfXaJYRuDOhXxq8SPM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:40.514Z Pausa 3537 ms: espera de ficha
+2026-05-22T04:18:44.256Z Pausa 4169 ms: pausa entre fichas
+2026-05-22T04:18:48.442Z Procesando 15/23
+2026-05-22T04:18:48.448Z Abriendo ficha: https://www.google.com/maps/place/Santos+Pecadores/data=!4m7!3m6!1s0x9668d62c40674379:0x67299528f12705e6!8m2!3d-36.600087!4d-72.0898069!16s%2Fg%2F1v5k473t!19sChIJeUNnQCzWaJYR5gUn8SiVKWc?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:48.728Z Pausa 2141 ms: espera de ficha
+2026-05-22T04:18:51.005Z Pausa 2861 ms: pausa entre fichas
+2026-05-22T04:18:53.878Z Procesando 16/23
+2026-05-22T04:18:53.881Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+El+Chapu/data=!4m7!3m6!1s0x9669ca19b111c019:0x70fd64e57055940c!8m2!3d-36.611892!4d-72.0821374!16s%2Fg%2F1tgwc36w!19sChIJGcARsRnKaZYRDJRVcOVk_XA?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:18:54.153Z Pausa 4413 ms: espera de ficha
+2026-05-22T04:18:58.684Z Pausa 4107 ms: pausa entre fichas
+2026-05-22T04:19:02.797Z Procesando 17/23
+2026-05-22T04:19:02.801Z Abriendo ficha: https://www.google.com/maps/place/Volcano+Restaurant/data=!4m7!3m6!1s0x9668d7ba06c77f91:0x6f3eb74ac17461d!8m2!3d-36.5609654!4d-72.0933011!16s%2Fg%2F11k56967tb!19sChIJkX_HBrrXaJYRHUYXrHTr8wY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:03.087Z Pausa 2957 ms: espera de ficha
+2026-05-22T04:19:06.463Z Pausa 3814 ms: pausa entre fichas
+2026-05-22T04:19:10.282Z Procesando 18/23
+2026-05-22T04:19:10.287Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Punto+Lime%C3%B1o/data=!4m7!3m6!1s0x9668d7df00000001:0x186a91f217b358e9!8m2!3d-36.6011131!4d-72.1038751!16s%2Fg%2F11c1x38b8j!19sChIJAQAAAN_XaJYR6VizF_KRahg?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:10.589Z Pausa 4882 ms: espera de ficha
+2026-05-22T04:19:15.584Z Pausa 4261 ms: pausa entre fichas
+2026-05-22T04:19:19.849Z Procesando 19/23
+2026-05-22T04:19:19.854Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Sabor+a+Mar/data=!4m7!3m6!1s0x9668d7ce40d1aee7:0xcc4e547731967766!8m2!3d-36.5967373!4d-72.1019622!16s%2Fg%2F11c67qwdz6!19sChIJ567RQM7XaJYRZneWMXdUTsw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:20.138Z Pausa 4562 ms: espera de ficha
+2026-05-22T04:19:24.817Z Pausa 4095 ms: pausa entre fichas
+2026-05-22T04:19:28.919Z Procesando 20/23
+2026-05-22T04:19:28.924Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Entre+Chill%C3%A1n+Y+Chill%C3%A1n+Viejo/data=!4m7!3m6!1s0x96692819cb16975f:0xc48ff1ace347cf0a!8m2!3d-36.620945!4d-72.1209983!16s%2Fg%2F11c0qgzsyw!19sChIJX5cWyxkoaZYRCs9H46zxj8Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:29.251Z Pausa 3859 ms: espera de ficha
+2026-05-22T04:19:33.227Z Pausa 2742 ms: pausa entre fichas
+2026-05-22T04:19:35.977Z Procesando 21/23
+2026-05-22T04:19:35.980Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Arcoiris/data=!4m7!3m6!1s0x9668d7d7dcc49ab9:0x663ac9fa5680a2af!8m2!3d-36.6083442!4d-72.1043306!16s%2Fg%2F11g8h1h31d!19sChIJuZrE3NfXaJYRr6KAVvrJOmY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:36.249Z Pausa 3841 ms: espera de ficha
+2026-05-22T04:19:40.218Z Pausa 4853 ms: pausa entre fichas
+2026-05-22T04:19:45.088Z Procesando 22/23
+2026-05-22T04:19:45.095Z Abriendo ficha: https://www.google.com/maps/place/Casa+Pierrot/data=!4m7!3m6!1s0x96692900415732a3:0x3d2904724e7faefc!8m2!3d-36.6131455!4d-72.1019494!16s%2Fg%2F11vr187ltd!19sChIJozJXQQApaZYR_K5_TnIEKT0?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:45.364Z Pausa 4334 ms: espera de ficha
+2026-05-22T04:19:49.817Z Pausa 3124 ms: pausa entre fichas
+2026-05-22T04:19:52.946Z Procesando 23/23
+2026-05-22T04:19:52.949Z Abriendo ficha: https://www.google.com/maps/place/Cassis+Mall+Arauco+Chill%C3%A1n/data=!4m7!3m6!1s0x9669291a45c5f073:0x7c6e5e884dd1b012!8m2!3d-36.60968!4d-72.1009!16s%2Fg%2F11wr2vrt08!19sChIJc_DFRRopaZYRErDRTYhebnw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:19:53.279Z Pausa 2813 ms: espera de ficha
+2026-05-22T04:19:56.523Z Pausa 4668 ms: pausa entre fichas
+2026-05-22T04:20:01.216Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\chillan_restaurantes_30.csv
+2026-05-22T04:20:01.219Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\chillan_restaurantes_30_raw.json
+2026-05-22T04:20:01.582Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\chillan_restaurantes_30.xlsx
+2026-05-22T04:20:01.584Z Resumen final:
+2026-05-22T04:20:01.587Z Total filas extraídas: 23
+2026-05-22T04:20:01.589Z Total restaurantes válidos: 22
+2026-05-22T04:20:01.592Z Total no válidos: 1
+2026-05-22T04:20:01.595Z Teléfonos vacíos: 1
+2026-05-22T04:20:01.597Z Direcciones vacías: 0
+2026-05-22T04:20:01.599Z Sitios web vacíos: 12
+2026-05-22T04:20:01.601Z Duplicados eliminados: 0
+2026-05-22T04:20:01.604Z Fin scraper. Filas extraídas: 23

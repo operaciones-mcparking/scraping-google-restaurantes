@@ -1,0 +1,193 @@
+2026-05-22T06:20:48.212Z Inicio scraper Google Maps piloto
+2026-05-22T06:20:48.219Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T06:20:48.219Z Máximo resultados: 7. Scrolls máximos: 4
+2026-05-22T06:20:48.746Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T06:20:49.118Z Pausa 2912 ms: carga inicial
+2026-05-22T06:20:52.111Z Resultados visibles acumulados: 7
+2026-05-22T06:20:52.111Z Fichas a abrir una por una: 7
+2026-05-22T06:20:52.112Z Procesando 1/7
+2026-05-22T06:20:52.120Z Abriendo ficha: https://www.google.com/maps/place/Casa+del+Barrio/data=!4m7!3m6!1s0x9668d741f1e7bf11:0xbdbf15c689318ef0!8m2!3d-36.5789187!4d-72.0512433!16s%2Fg%2F11lss72rjz!19sChIJEb_n8UHXaJYR8I4xicYVv70?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:20:52.411Z Pausa 3030 ms: espera de ficha
+2026-05-22T06:20:55.538Z Pausa 4067 ms: pausa entre fichas
+2026-05-22T06:20:59.607Z Procesando 2/7
+2026-05-22T06:20:59.608Z Abriendo ficha: https://www.google.com/maps/place/Onde%27l+Pala/data=!4m7!3m6!1s0x9668d7d32357ba4b:0xcbd450cc8b813db6!8m2!3d-36.6007129!4d-72.0955085!16s%2Fg%2F11clhq9lvn!19sChIJS7pXI9PXaJYRtj2Bi8xQ1Ms?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:20:59.959Z Pausa 2226 ms: espera de ficha
+2026-05-22T06:21:02.266Z Pausa 3783 ms: pausa entre fichas
+2026-05-22T06:21:06.056Z Procesando 3/7
+2026-05-22T06:21:06.058Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:21:06.215Z Pausa 4500 ms: espera de ficha
+2026-05-22T06:21:10.799Z Pausa 2693 ms: pausa entre fichas
+2026-05-22T06:21:13.506Z Procesando 4/7
+2026-05-22T06:21:13.508Z Abriendo ficha: https://www.google.com/maps/place/Fuego+Di+Vino/data=!4m7!3m6!1s0x9668d7d4d0353efb:0x5a23baae07b4f345!8m2!3d-36.6041503!4d-72.0951384!16s%2Fg%2F11b7q5qwbg!19sChIJ-z410NTXaJYRRfO0B666I1o?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:21:13.650Z Pausa 3737 ms: espera de ficha
+2026-05-22T06:21:17.453Z Pausa 3386 ms: pausa entre fichas
+2026-05-22T06:21:20.857Z Procesando 5/7
+2026-05-22T06:21:20.859Z Abriendo ficha: https://www.google.com/maps/place/Brote+de+Primavera/data=!4m7!3m6!1s0x9668d743b1787749:0x74379625a16cd3fe!8m2!3d-36.610358!4d-72.1070076!16s%2Fg%2F11qyc3f_dy!19sChIJSXd4sUPXaJYR_tNsoSWWN3Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:21:21.023Z Pausa 4791 ms: espera de ficha
+2026-05-22T06:21:25.885Z Pausa 3815 ms: pausa entre fichas
+2026-05-22T06:21:29.705Z Procesando 6/7
+2026-05-22T06:21:29.707Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Pensi%C3%B3n+Vald%C3%A9s/data=!4m7!3m6!1s0x9669282bcd0e6601:0x12c9f5813e7913c7!8m2!3d-36.6109309!4d-72.0992906!16s%2Fg%2F11b8_y25r6!19sChIJAWYOzSsoaZYRxxN5PoH1yRI?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:21:29.871Z Pausa 2314 ms: espera de ficha
+2026-05-22T06:21:32.261Z Pausa 2213 ms: pausa entre fichas
+2026-05-22T06:21:34.479Z Procesando 7/7
+2026-05-22T06:21:34.480Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+La+Caleta+De+Tito/data=!4m7!3m6!1s0x966929d4b24978ff:0x56054506a338f247!8m2!3d-36.6117125!4d-72.0939595!16s%2Fg%2F11f03x99wf!19sChIJ_3hJstQpaZYRR_I4owZFBVY?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:21:34.640Z Pausa 2422 ms: espera de ficha
+2026-05-22T06:21:37.130Z Pausa 3433 ms: pausa entre fichas
+2026-05-22T06:21:40.580Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán.csv
+2026-05-22T06:21:40.581Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán_raw.json
+2026-05-22T06:21:40.826Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chill�n.xlsx
+2026-05-22T06:21:40.827Z Resumen final:
+2026-05-22T06:21:40.828Z Total filas extraídas: 7
+2026-05-22T06:21:40.828Z Total restaurantes válidos: 7
+2026-05-22T06:21:40.829Z Total no válidos: 0
+2026-05-22T06:21:40.830Z Teléfonos vacíos: 0
+2026-05-22T06:21:40.831Z Direcciones vacías: 0
+2026-05-22T06:21:40.832Z Sitios web vacíos: 3
+2026-05-22T06:21:40.832Z Duplicados eliminados: 0
+2026-05-22T06:21:40.833Z Fin scraper. Filas extraídas: 7
+2026-05-22T07:15:11.289Z Inicio scraper Google Maps piloto
+2026-05-22T07:15:11.290Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T07:15:11.291Z Máximo resultados: 4. Scrolls máximos: 4
+2026-05-22T07:15:11.938Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T07:15:12.316Z Pausa 3044 ms: carga inicial
+2026-05-22T07:15:15.432Z Resultados visibles acumulados: 4
+2026-05-22T07:15:15.432Z Fichas a abrir una por una: 4
+2026-05-22T07:15:15.433Z Procesando 1/4
+2026-05-22T07:15:15.434Z Abriendo ficha: https://www.google.com/maps/place/Casa+del+Barrio/data=!4m7!3m6!1s0x9668d741f1e7bf11:0xbdbf15c689318ef0!8m2!3d-36.5789187!4d-72.0512433!16s%2Fg%2F11lss72rjz!19sChIJEb_n8UHXaJYR8I4xicYVv70?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:15:15.723Z Pausa 3255 ms: espera de ficha
+2026-05-22T07:15:19.071Z Pausa 3840 ms: pausa entre fichas
+2026-05-22T07:15:22.918Z Procesando 2/4
+2026-05-22T07:15:22.920Z Abriendo ficha: https://www.google.com/maps/place/Onde%27l+Pala/data=!4m7!3m6!1s0x9668d7d32357ba4b:0xcbd450cc8b813db6!8m2!3d-36.6007129!4d-72.0955085!16s%2Fg%2F11clhq9lvn!19sChIJS7pXI9PXaJYRtj2Bi8xQ1Ms?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:15:23.309Z Pausa 4977 ms: espera de ficha
+2026-05-22T07:15:28.406Z Pausa 4963 ms: pausa entre fichas
+2026-05-22T07:15:33.384Z Procesando 3/4
+2026-05-22T07:15:33.385Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:15:33.578Z Pausa 4128 ms: espera de ficha
+2026-05-22T07:15:37.778Z Pausa 4717 ms: pausa entre fichas
+2026-05-22T07:15:42.499Z Procesando 4/4
+2026-05-22T07:15:42.499Z Abriendo ficha: https://www.google.com/maps/place/Fuego+Di+Vino/data=!4m7!3m6!1s0x9668d7d4d0353efb:0x5a23baae07b4f345!8m2!3d-36.6041503!4d-72.0951384!16s%2Fg%2F11b7q5qwbg!19sChIJ-z410NTXaJYRRfO0B666I1o?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:15:42.662Z Pausa 4144 ms: espera de ficha
+2026-05-22T07:15:46.884Z Pausa 2540 ms: pausa entre fichas
+2026-05-22T07:15:49.441Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán.csv
+2026-05-22T07:15:49.442Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán_raw.json
+2026-05-22T07:15:49.670Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chill�n.xlsx
+2026-05-22T07:15:49.671Z Resumen final:
+2026-05-22T07:15:49.671Z Total filas extraídas: 4
+2026-05-22T07:15:49.672Z Total restaurantes válidos: 4
+2026-05-22T07:15:49.672Z Total no válidos: 0
+2026-05-22T07:15:49.673Z Teléfonos vacíos: 0
+2026-05-22T07:15:49.673Z Direcciones vacías: 0
+2026-05-22T07:15:49.674Z Sitios web vacíos: 0
+2026-05-22T07:15:49.674Z Duplicados eliminados: 0
+2026-05-22T07:15:49.675Z Fin scraper. Filas extraídas: 4
+2026-05-22T07:49:53.099Z Inicio scraper Google Maps piloto
+2026-05-22T07:49:53.101Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T07:49:53.101Z Máximo resultados: 15. Scrolls máximos: 8
+2026-05-22T07:49:53.960Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T07:49:54.467Z Pausa 4192 ms: carga inicial
+2026-05-22T07:49:58.780Z Resultados visibles acumulados: 7
+2026-05-22T07:49:58.804Z Pausa 2477 ms: scroll 1
+2026-05-22T07:50:01.306Z Resultados visibles acumulados: 14
+2026-05-22T07:50:01.329Z Pausa 3502 ms: scroll 2
+2026-05-22T07:50:04.845Z Resultados visibles acumulados: 14
+2026-05-22T07:50:04.871Z Pausa 2237 ms: scroll 3
+2026-05-22T07:50:07.124Z Resultados visibles acumulados: 15
+2026-05-22T07:50:07.125Z Fichas a abrir una por una: 15
+2026-05-22T07:50:07.126Z Procesando 1/15
+2026-05-22T07:50:07.128Z Abriendo ficha: https://www.google.com/maps/place/Casa+del+Barrio/data=!4m7!3m6!1s0x9668d741f1e7bf11:0xbdbf15c689318ef0!8m2!3d-36.5789187!4d-72.0512433!16s%2Fg%2F11lss72rjz!19sChIJEb_n8UHXaJYR8I4xicYVv70?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:07.515Z Pausa 3662 ms: espera de ficha
+2026-05-22T07:50:11.311Z Pausa 3563 ms: pausa entre fichas
+2026-05-22T07:50:14.888Z Procesando 2/15
+2026-05-22T07:50:14.890Z Abriendo ficha: https://www.google.com/maps/place/Onde%27l+Pala/data=!4m7!3m6!1s0x9668d7d32357ba4b:0xcbd450cc8b813db6!8m2!3d-36.6007129!4d-72.0955085!16s%2Fg%2F11clhq9lvn!19sChIJS7pXI9PXaJYRtj2Bi8xQ1Ms?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:15.315Z Pausa 4827 ms: espera de ficha
+2026-05-22T07:50:20.295Z Pausa 4680 ms: pausa entre fichas
+2026-05-22T07:50:24.995Z Procesando 3/15
+2026-05-22T07:50:24.998Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:25.177Z Pausa 4683 ms: espera de ficha
+2026-05-22T07:50:30.012Z Pausa 4649 ms: pausa entre fichas
+2026-05-22T07:50:34.673Z Procesando 4/15
+2026-05-22T07:50:34.673Z Abriendo ficha: https://www.google.com/maps/place/Fuego+Di+Vino/data=!4m7!3m6!1s0x9668d7d4d0353efb:0x5a23baae07b4f345!8m2!3d-36.6041503!4d-72.0951384!16s%2Fg%2F11b7q5qwbg!19sChIJ-z410NTXaJYRRfO0B666I1o?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:34.956Z Pausa 4097 ms: espera de ficha
+2026-05-22T07:50:39.184Z Pausa 2126 ms: pausa entre fichas
+2026-05-22T07:50:41.327Z Procesando 5/15
+2026-05-22T07:50:41.329Z Abriendo ficha: https://www.google.com/maps/place/Brote+de+Primavera/data=!4m7!3m6!1s0x9668d743b1787749:0x74379625a16cd3fe!8m2!3d-36.610358!4d-72.1070076!16s%2Fg%2F11qyc3f_dy!19sChIJSXd4sUPXaJYR_tNsoSWWN3Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:41.597Z Pausa 2658 ms: espera de ficha
+2026-05-22T07:50:44.386Z Pausa 2423 ms: pausa entre fichas
+2026-05-22T07:50:46.813Z Procesando 6/15
+2026-05-22T07:50:46.814Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+La+Caleta+De+Tito/data=!4m7!3m6!1s0x966929d4b24978ff:0x56054506a338f247!8m2!3d-36.6117125!4d-72.0939595!16s%2Fg%2F11f03x99wf!19sChIJ_3hJstQpaZYRR_I4owZFBVY?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:47.100Z Pausa 4862 ms: espera de ficha
+2026-05-22T07:50:52.097Z Pausa 2510 ms: pausa entre fichas
+2026-05-22T07:50:54.611Z Procesando 7/15
+2026-05-22T07:50:54.612Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Pensi%C3%B3n+Vald%C3%A9s/data=!4m7!3m6!1s0x9669282bcd0e6601:0x12c9f5813e7913c7!8m2!3d-36.6109309!4d-72.0992906!16s%2Fg%2F11b8_y25r6!19sChIJAWYOzSsoaZYRxxN5PoH1yRI?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:50:54.902Z Pausa 2614 ms: espera de ficha
+2026-05-22T07:50:57.674Z Pausa 2950 ms: pausa entre fichas
+2026-05-22T07:51:00.625Z Procesando 8/15
+2026-05-22T07:51:00.626Z Abriendo ficha: https://www.google.com/maps/place/Aay+Chabela+Restaurant/data=!4m7!3m6!1s0x9668d7dea8c4930b:0x2770903794774fc5!8m2!3d-36.6081967!4d-72.1033385!16s%2Fg%2F11f5v7km71!19sChIJC5PEqN7XaJYRxU93lDeQcCc?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:51:00.904Z Pausa 4582 ms: espera de ficha
+2026-05-22T07:51:05.586Z Pausa 3344 ms: pausa entre fichas
+2026-05-22T07:51:08.935Z Procesando 9/15
+2026-05-22T07:51:08.936Z Abriendo ficha: https://www.google.com/maps/place/Vita+Wines+House,+Casa+de+vinos/data=!4m7!3m6!1s0x9668d786459af0b9:0xff81c3a3610f9d43!8m2!3d-36.5928329!4d-72.1037306!16s%2Fg%2F11k9zc5rwv!19sChIJufCaRYbXaJYRQ50PYaPDgf8?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:51:09.198Z Pausa 4554 ms: espera de ficha
+2026-05-22T07:51:13.907Z Pausa 4863 ms: pausa entre fichas
+2026-05-22T07:51:18.782Z Procesando 10/15
+2026-05-22T07:51:18.784Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuelita/data=!4m7!3m6!1s0x9668d79c79fa8b8d:0xee00d9ad405dd3bc!8m2!3d-36.5906248!4d-72.087245!16s%2Fg%2F11spps83kt!19sChIJjYv6eZzXaJYRvNNdQK3ZAO4?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:51:19.084Z Pausa 4330 ms: espera de ficha
+2026-05-22T07:51:23.529Z Pausa 3480 ms: pausa entre fichas
+2026-05-22T07:51:27.030Z Procesando 11/15
+2026-05-22T07:51:27.030Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+3+Regiones/data=!4m7!3m6!1s0x9668d757623c17bb:0xf348bc1a5fa133b8!8m2!3d-36.6078265!4d-72.092205!16s%2Fg%2F11qbr9886l!19sChIJuxc8YlfXaJYRuDOhXxq8SPM?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:51:27.311Z Pausa 4420 ms: espera de ficha
+2026-05-22T07:51:31.850Z Pausa 2446 ms: pausa entre fichas
+2026-05-22T07:51:48.393Z Inicio scraper Google Maps piloto
+2026-05-22T07:51:48.394Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T07:51:48.394Z Máximo resultados: 3. Scrolls máximos: 8
+2026-05-22T07:51:49.226Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T07:51:49.791Z Pausa 4314 ms: carga inicial
+2026-05-22T07:51:54.214Z Resultados visibles acumulados: 3
+2026-05-22T07:51:54.215Z Fichas a abrir una por una: 3
+2026-05-22T07:51:54.216Z Procesando 1/3
+2026-05-22T07:51:54.218Z Abriendo ficha: https://www.google.com/maps/place/Casa+del+Barrio/data=!4m7!3m6!1s0x9668d741f1e7bf11:0xbdbf15c689318ef0!8m2!3d-36.5789187!4d-72.0512433!16s%2Fg%2F11lss72rjz!19sChIJEb_n8UHXaJYR8I4xicYVv70?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:51:54.614Z Pausa 3424 ms: espera de ficha
+2026-05-22T07:51:58.162Z Pausa 3215 ms: pausa entre fichas
+2026-05-22T07:52:01.390Z Procesando 2/3
+2026-05-22T07:52:01.391Z Abriendo ficha: https://www.google.com/maps/place/Onde%27l+Pala/data=!4m7!3m6!1s0x9668d7d32357ba4b:0xcbd450cc8b813db6!8m2!3d-36.6007129!4d-72.0955085!16s%2Fg%2F11clhq9lvn!19sChIJS7pXI9PXaJYRtj2Bi8xQ1Ms?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:52:01.826Z Pausa 4111 ms: espera de ficha
+2026-05-22T07:52:06.053Z Pausa 3394 ms: pausa entre fichas
+2026-05-22T07:52:09.453Z Procesando 3/3
+2026-05-22T07:52:09.455Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:52:09.737Z Pausa 2738 ms: espera de ficha
+2026-05-22T07:52:13.075Z Pausa 4825 ms: pausa entre fichas
+2026-05-22T07:52:17.911Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán.csv
+2026-05-22T07:52:17.912Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán_raw.json
+2026-05-22T07:52:18.229Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chill�n.xlsx
+2026-05-22T07:52:18.230Z Resumen final:
+2026-05-22T07:52:18.231Z Total filas extraídas: 3
+2026-05-22T07:52:18.232Z Total restaurantes válidos: 3
+2026-05-22T07:52:18.233Z Total no válidos: 0
+2026-05-22T07:52:18.235Z Teléfonos vacíos: 0
+2026-05-22T07:52:18.236Z Direcciones vacías: 0
+2026-05-22T07:52:18.237Z Sitios web vacíos: 0
+2026-05-22T07:52:18.238Z Duplicados eliminados: 0
+2026-05-22T07:52:18.239Z Fin scraper. Filas extraídas: 3
+2026-05-22T14:20:05.003Z Inicio scraper Google Maps piloto
+2026-05-22T14:20:05.008Z Búsqueda: restaurantes en Chillán, Región Ñuble, Chile
+2026-05-22T14:20:05.008Z Máximo resultados: 1. Scrolls máximos: 4
+2026-05-22T14:20:05.706Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419
+2026-05-22T14:20:06.071Z Pausa 2267 ms: carga inicial
+2026-05-22T14:20:08.453Z Resultados visibles acumulados: 1
+2026-05-22T14:20:08.454Z Fichas a abrir una por una: 1
+2026-05-22T14:20:08.455Z Procesando 1/1
+2026-05-22T14:20:08.456Z Abriendo ficha: https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T14:20:19.836Z Pausa 2560 ms: espera de ficha
+2026-05-22T14:20:22.622Z Pausa 3241 ms: pausa entre fichas
+2026-05-22T14:20:25.920Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán.csv
+2026-05-22T14:20:25.921Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chillán_raw.json
+2026-05-22T14:20:26.266Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_chill�n.xlsx
+2026-05-22T14:20:26.267Z Resumen final:
+2026-05-22T14:20:26.268Z Total filas extraídas: 1
+2026-05-22T14:20:26.269Z Total restaurantes válidos: 1
+2026-05-22T14:20:26.270Z Total no válidos: 0
+2026-05-22T14:20:26.271Z Teléfonos vacíos: 0
+2026-05-22T14:20:26.272Z Direcciones vacías: 0
+2026-05-22T14:20:26.273Z Sitios web vacíos: 0
+2026-05-22T14:20:26.274Z Duplicados eliminados: 0
+2026-05-22T14:20:26.276Z Fin scraper. Filas extraídas: 1

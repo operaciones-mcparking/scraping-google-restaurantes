@@ -1,0 +1,127 @@
+2026-05-22T03:59:59.240Z Inicio scraper Google Maps piloto
+2026-05-22T03:59:59.245Z Búsqueda: restaurantes en Providencia, Región Metropolitana, Chile
+2026-05-22T03:59:59.248Z Máximo resultados: 30. Scrolls máximos: 6
+2026-05-22T04:00:00.122Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Providencia%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T04:00:00.490Z Pausa 3974 ms: carga inicial
+2026-05-22T04:00:04.584Z Resultados visibles acumulados: 7
+2026-05-22T04:00:04.613Z Pausa 3022 ms: scroll 1
+2026-05-22T04:00:07.649Z Resultados visibles acumulados: 7
+2026-05-22T04:00:07.678Z Pausa 2967 ms: scroll 2
+2026-05-22T04:00:10.665Z Resultados visibles acumulados: 14
+2026-05-22T04:00:10.696Z Pausa 3158 ms: scroll 3
+2026-05-22T04:00:13.881Z Resultados visibles acumulados: 14
+2026-05-22T04:00:13.913Z Pausa 3269 ms: scroll 4
+2026-05-22T04:00:17.201Z Resultados visibles acumulados: 20
+2026-05-22T04:00:17.227Z Pausa 3474 ms: scroll 5
+2026-05-22T04:00:20.720Z Resultados visibles acumulados: 20
+2026-05-22T04:00:20.749Z Pausa 2270 ms: scroll 6
+2026-05-22T04:00:23.038Z Resultados visibles acumulados: 24
+2026-05-22T04:00:23.041Z Fichas a abrir una por una: 24
+2026-05-22T04:00:23.046Z Procesando 1/24
+2026-05-22T04:00:23.050Z Abriendo ficha: https://www.google.com/maps/place/TACU+TACU+Restaurante+-+Providencia/data=!4m7!3m6!1s0x9662cf4b70822fe9:0xf81994fdb40ea03c!8m2!3d-33.4203473!4d-70.6104797!16s%2Fg%2F11tfz6cvsk!19sChIJ6S-CcEvPYpYRPKAOtP2UGfg?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:23.435Z Pausa 3917 ms: espera de ficha
+2026-05-22T04:00:27.488Z Pausa 2531 ms: pausa entre fichas
+2026-05-22T04:00:30.022Z Procesando 2/24
+2026-05-22T04:00:30.024Z Abriendo ficha: https://www.google.com/maps/place/Hambrientos+%26+Sedientos+Providencia/data=!4m7!3m6!1s0x9662c54e18342111:0x42730626ff48fd4e!8m2!3d-33.4417148!4d-70.6325479!16s%2Fg%2F11m9zcrvgy!19sChIJESE0GE7FYpYRTv1I_yYGc0I?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:30.543Z Pausa 3429 ms: espera de ficha
+2026-05-22T04:00:34.087Z Pausa 3751 ms: pausa entre fichas
+2026-05-22T04:00:37.845Z Procesando 3/24
+2026-05-22T04:00:37.848Z Abriendo ficha: https://www.google.com/maps/place/Bertazzo+Trattoria/data=!4m7!3m6!1s0x9662c50068aaf8fb:0x819f7672d9d163f5!8m2!3d-33.4459438!4d-70.6274188!16s%2Fg%2F11vxswfqfx!19sChIJ-_iqaADFYpYR9WPR2XJ2n4E?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:38.082Z Pausa 3765 ms: espera de ficha
+2026-05-22T04:00:41.948Z Pausa 2603 ms: pausa entre fichas
+2026-05-22T04:00:44.569Z Procesando 4/24
+2026-05-22T04:00:44.572Z Abriendo ficha: https://www.google.com/maps/place/Kil%C3%BA+-+Casa+de+Carnes/data=!4m7!3m6!1s0x9662c5d9547e1577:0xfc5330f70249a13c!8m2!3d-33.431898!4d-70.623884!16s%2Fg%2F11wj0k0h23!19sChIJdxV-VNnFYpYRPKFJAvcwU_w?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:44.768Z Pausa 2475 ms: espera de ficha
+2026-05-22T04:00:47.433Z Pausa 3679 ms: pausa entre fichas
+2026-05-22T04:00:51.118Z Procesando 5/24
+2026-05-22T04:00:51.121Z Abriendo ficha: https://www.google.com/maps/place/La+Yunta+Providencia/data=!4m7!3m6!1s0x9662cf7c1d4926e9:0x86997b36f37f3a27!8m2!3d-33.4349707!4d-70.6163277!16s%2Fg%2F11cpppmpkp!19sChIJ6SZJHXzPYpYRJzp_8zZ7mYY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:51.307Z Pausa 4694 ms: espera de ficha
+2026-05-22T04:00:56.097Z Pausa 3293 ms: pausa entre fichas
+2026-05-22T04:00:59.402Z Procesando 6/24
+2026-05-22T04:00:59.405Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Viva+La+Vida/data=!4m7!3m6!1s0x9662c5900af9e0f1:0x7a3457df8c8e8df0!8m2!3d-33.4323847!4d-70.6350521!16s%2Fg%2F11bbrm9xzn!19sChIJ8eD5CpDFYpYR8I2OjN9XNHo?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:00:59.591Z Pausa 4789 ms: espera de ficha
+2026-05-22T04:01:04.457Z Pausa 2942 ms: pausa entre fichas
+2026-05-22T04:01:07.405Z Procesando 7/24
+2026-05-22T04:01:07.410Z Abriendo ficha: https://www.google.com/maps/place/La+Hacienda+Gaucha/data=!4m7!3m6!1s0x9662cf77d05d9733:0x50a5c2a41484f2f5!8m2!3d-33.4387109!4d-70.6083537!16s%2Fg%2F11b7q82hfy!19sChIJM5dd0HfPYpYR9fKEFKTCpVA?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:07.603Z Pausa 2289 ms: espera de ficha
+2026-05-22T04:01:09.995Z Pausa 2981 ms: pausa entre fichas
+2026-05-22T04:01:12.984Z Procesando 8/24
+2026-05-22T04:01:12.987Z Abriendo ficha: https://www.google.com/maps/place/El+Ancla+Providencia/data=!4m7!3m6!1s0x9662cf624adfc5c7:0x1baee6a121460f2c!8m2!3d-33.4260057!4d-70.6186499!16s%2Fg%2F11bycjg_bd!19sChIJx8XfSmLPYpYRLA9GIaHmrhs?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:13.183Z Pausa 2148 ms: espera de ficha
+2026-05-22T04:01:15.719Z Pausa 3637 ms: pausa entre fichas
+2026-05-22T04:01:19.358Z Procesando 9/24
+2026-05-22T04:01:19.362Z Abriendo ficha: https://www.google.com/maps/place/Le+Bistrot+de+Gaetan/data=!4m7!3m6!1s0x9662cf6627dc8ad1:0xe6d73bc9a7a6887!8m2!3d-33.4208641!4d-70.6100723!16s%2Fg%2F1wl4rt9r!19sChIJ0YrcJ2bPYpYRh2h6mrxzbQ4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:19.551Z Pausa 4530 ms: espera de ficha
+2026-05-22T04:01:24.163Z Pausa 2418 ms: pausa entre fichas
+2026-05-22T04:01:26.585Z Procesando 10/24
+2026-05-22T04:01:26.591Z Abriendo ficha: https://www.google.com/maps/place/Ay+Mi+Madre+Restobar+Providencia/data=!4m7!3m6!1s0x9662cf31549a0e2f:0xe91ba3c5bee359c3!8m2!3d-33.426514!4d-70.6200915!16s%2Fg%2F11n08wt6lj!19sChIJLw6aVDHPYpYRw1njvsWjG-k?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:26.801Z Pausa 2878 ms: espera de ficha
+2026-05-22T04:01:29.781Z Pausa 4646 ms: pausa entre fichas
+2026-05-22T04:01:34.435Z Procesando 11/24
+2026-05-22T04:01:34.439Z Abriendo ficha: https://www.google.com/maps/place/Casaluz+Restaurant/data=!4m7!3m6!1s0x9662c581e19870c3:0x9be183df6be6387c!8m2!3d-33.4421855!4d-70.6264657!16s%2Fg%2F1tx16kc6!19sChIJw3CY4YHFYpYRfDjma9-D4Zs?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:34.625Z Pausa 3758 ms: espera de ficha
+2026-05-22T04:01:38.488Z Pausa 4937 ms: pausa entre fichas
+2026-05-22T04:01:43.435Z Procesando 12/24
+2026-05-22T04:01:43.440Z Abriendo ficha: https://www.google.com/maps/place/Giratorio/data=!4m7!3m6!1s0x9662cf68c0b11a77:0x2943c2e12a71bae4!8m2!3d-33.421721!4d-70.6085958!16s%2Fg%2F1hjhbv_h4!19sChIJdxqxwGjPYpYR5LpxKuHCQyk?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:43.644Z Pausa 2359 ms: espera de ficha
+2026-05-22T04:01:46.219Z Pausa 3729 ms: pausa entre fichas
+2026-05-22T04:01:49.951Z Procesando 13/24
+2026-05-22T04:01:49.954Z Abriendo ficha: https://www.google.com/maps/place/Carrer+Nou/data=!4m7!3m6!1s0x9662cf814b9705a5:0x7d584a20336bdc9!8m2!3d-33.4455205!4d-70.6168304!16s%2Fg%2F11ckqrj8n1!19sChIJpQWXS4HPYpYRyb02A6KE1Qc?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:50.152Z Pausa 2659 ms: espera de ficha
+2026-05-22T04:01:52.919Z Pausa 4080 ms: pausa entre fichas
+2026-05-22T04:01:57.007Z Procesando 14/24
+2026-05-22T04:01:57.012Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Peumayen+-+Comida+Chilena+Santiago/data=!4m7!3m6!1s0x9662c59aa16db1dd:0x1766370983bcca20!8m2!3d-33.4328182!4d-70.6350162!16s%2Fg%2F11b6z1sxl8!19sChIJ3bFtoZrFYpYRIMq8gwk3Zhc?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:01:57.223Z Pausa 2587 ms: espera de ficha
+2026-05-22T04:01:59.929Z Pausa 4851 ms: pausa entre fichas
+2026-05-22T04:02:04.783Z Procesando 15/24
+2026-05-22T04:02:04.787Z Abriendo ficha: https://www.google.com/maps/place/Le+Flaubert/data=!4m7!3m6!1s0x9662cf66f40e9c4b:0x1436ab6a7739daf5!8m2!3d-33.4221115!4d-70.6128618!16s%2Fg%2F1tz72lg5!19sChIJS5wO9GbPYpYR9do5d2qrNhQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:05.005Z Pausa 2993 ms: espera de ficha
+2026-05-22T04:02:08.088Z Pausa 3520 ms: pausa entre fichas
+2026-05-22T04:02:11.616Z Procesando 16/24
+2026-05-22T04:02:11.620Z Abriendo ficha: https://www.google.com/maps/place/La+Brava+Restaurant/data=!4m7!3m6!1s0x9662cf0007137975:0xfef2a0c7b5929a5c!8m2!3d-33.4268293!4d-70.6150193!16s%2Fg%2F11xn6z0qkj!19sChIJdXkTBwDPYpYRXJqStceg8v4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:11.831Z Pausa 4959 ms: espera de ficha
+2026-05-22T04:02:16.874Z Pausa 4134 ms: pausa entre fichas
+2026-05-22T04:02:21.016Z Procesando 17/24
+2026-05-22T04:02:21.020Z Abriendo ficha: https://www.google.com/maps/place/Del+Beto+Restaurant/data=!4m7!3m6!1s0x9662cf83ed3d8115:0xa4d5d3532a0430e8!8m2!3d-33.4444713!4d-70.6141735!16s%2Fg%2F1tj6w0d9!19sChIJFYE97YPPYpYR6DAEKlPT1aQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:21.207Z Pausa 4792 ms: espera de ficha
+2026-05-22T04:02:26.159Z Pausa 2079 ms: pausa entre fichas
+2026-05-22T04:02:28.247Z Procesando 18/24
+2026-05-22T04:02:28.251Z Abriendo ficha: https://www.google.com/maps/place/Eladio+Restaurant+Providencia/data=!4m7!3m6!1s0x9662cf68bef264ff:0xeb1ffbda7ce6dec6!8m2!3d-33.421716!4d-70.6085802!16s%2Fg%2F1v2kymky!19sChIJ_2TyvmjPYpYRxt7mfNr7H-s?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:28.441Z Pausa 2957 ms: espera de ficha
+2026-05-22T04:02:31.511Z Pausa 4731 ms: pausa entre fichas
+2026-05-22T04:02:36.246Z Procesando 19/24
+2026-05-22T04:02:36.248Z Abriendo ficha: https://www.google.com/maps/place/Bar+Liguria+Manuel+Montt/data=!4m7!3m6!1s0x9662cf62e6a64093:0x7a36ab4eafc5b3a7!8m2!3d-33.4284996!4d-70.6191305!16s%2Fg%2F1hhm352mj!19sChIJk0Cm5mLPYpYRp7PFr06rNno?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:36.419Z Pausa 4128 ms: espera de ficha
+2026-05-22T04:02:40.651Z Pausa 3272 ms: pausa entre fichas
+2026-05-22T04:02:43.931Z Procesando 20/24
+2026-05-22T04:02:43.935Z Abriendo ficha: https://www.google.com/maps/place/La+Bifer%C3%ADa/data=!4m7!3m6!1s0x9662cf668887840f:0xca13f08fa4fcfd86!8m2!3d-33.4228831!4d-70.6128602!16s%2Fg%2F12hyf2gfj!19sChIJD4SHiGbPYpYRhv38pI_wE8o?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:44.175Z Pausa 2658 ms: espera de ficha
+2026-05-22T04:02:46.977Z Pausa 2506 ms: pausa entre fichas
+2026-05-22T04:02:49.497Z Procesando 21/24
+2026-05-22T04:02:49.501Z Abriendo ficha: https://www.google.com/maps/place/Pal%C2%B4Mar+Restaurant/data=!4m7!3m6!1s0x9662c532355eb9f1:0x50a389fa5e63504d!8m2!3d-33.4408405!4d-70.627778!16s%2Fg%2F11sh7rl04_!19sChIJ8bleNTLFYpYRTVBjXvqJo1A?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:49.715Z Pausa 3523 ms: espera de ficha
+2026-05-22T04:02:53.308Z Pausa 4590 ms: pausa entre fichas
+2026-05-22T04:02:57.913Z Procesando 22/24
+2026-05-22T04:02:57.917Z Abriendo ficha: https://www.google.com/maps/place/TPM+BAR+Barrio+Italia/data=!4m7!3m6!1s0x9662c56cf0e6687b:0xa1a3e66c58d204a2!8m2!3d-33.4458846!4d-70.6250865!16s%2Fg%2F11shy38b39!19sChIJe2jm8GzFYpYRogTSWGzmo6E?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:02:58.105Z Pausa 2853 ms: espera de ficha
+2026-05-22T04:03:01.062Z Pausa 4873 ms: pausa entre fichas
+2026-05-22T04:03:05.940Z Procesando 23/24
+2026-05-22T04:03:05.943Z Abriendo ficha: https://www.google.com/maps/place/Bar+Porfirio/data=!4m7!3m6!1s0x9662cf96ce215003:0xc98947b728875671!8m2!3d-33.4346145!4d-70.6168949!16s%2Fg%2F11j0hsv5fl!19sChIJA1AhzpbPYpYRcVaHKLdHick?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:03:06.138Z Pausa 2489 ms: espera de ficha
+2026-05-22T04:03:08.726Z Pausa 3407 ms: pausa entre fichas
+2026-05-22T04:03:12.140Z Procesando 24/24
+2026-05-22T04:03:12.145Z Abriendo ficha: https://www.google.com/maps/place/OCULTO+BEERGARDEN/data=!4m7!3m6!1s0x9662c5a37ed8cbd3:0x765c5a48fc6c3aac!8m2!3d-33.4334369!4d-70.625374!16s%2Fg%2F11jmwrpqk4!19sChIJ08vYfqPFYpYRrDps_EhaXHY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:03:12.340Z Pausa 4839 ms: espera de ficha
+2026-05-22T04:03:17.303Z Pausa 2508 ms: pausa entre fichas
+2026-05-22T04:03:19.829Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\providencia_restaurantes_30.csv
+2026-05-22T04:03:19.834Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\providencia_restaurantes_30_raw.json
+2026-05-22T04:03:20.206Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\providencia_restaurantes_30.xlsx
+2026-05-22T04:03:20.208Z Resumen final:
+2026-05-22T04:03:20.211Z Total filas extraídas: 24
+2026-05-22T04:03:20.214Z Total restaurantes válidos: 24
+2026-05-22T04:03:20.216Z Total no válidos: 0
+2026-05-22T04:03:20.218Z Teléfonos vacíos: 3
+2026-05-22T04:03:20.221Z Direcciones vacías: 0
+2026-05-22T04:03:20.222Z Sitios web vacíos: 0
+2026-05-22T04:03:20.224Z Duplicados eliminados: 0
+2026-05-22T04:03:20.227Z Fin scraper. Filas extraídas: 24

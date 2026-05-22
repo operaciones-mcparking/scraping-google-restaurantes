@@ -1,0 +1,165 @@
+2026-05-22T03:30:57.106Z Inicio scraper Google Maps piloto
+2026-05-22T03:30:57.108Z Búsqueda: restaurantes en Las Condes, Región Metropolitana, Chile
+2026-05-22T03:30:57.109Z Máximo resultados: 50. Scrolls máximos: 8
+2026-05-22T03:30:57.424Z Playwright carga correctamente.
+2026-05-22T03:30:58.287Z Chrome local abre y cierra correctamente con Playwright.
+2026-05-22T03:31:11.016Z Inicio scraper Google Maps piloto
+2026-05-22T03:31:11.018Z Búsqueda: restaurantes en Las Condes, Región Metropolitana, Chile
+2026-05-22T03:31:11.019Z Máximo resultados: 50. Scrolls máximos: 8
+2026-05-22T03:31:12.012Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Las%20Condes%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T03:31:12.625Z Pausa 4940 ms: carga inicial
+2026-05-22T03:31:17.683Z Resultados visibles acumulados: 7
+2026-05-22T03:31:17.716Z Pausa 2056 ms: scroll 1
+2026-05-22T03:31:19.788Z Resultados visibles acumulados: 14
+2026-05-22T03:31:19.814Z Pausa 3857 ms: scroll 2
+2026-05-22T03:31:23.688Z Resultados visibles acumulados: 14
+2026-05-22T03:31:23.717Z Pausa 2005 ms: scroll 3
+2026-05-22T03:31:25.736Z Resultados visibles acumulados: 20
+2026-05-22T03:31:25.765Z Pausa 4039 ms: scroll 4
+2026-05-22T03:31:29.819Z Resultados visibles acumulados: 20
+2026-05-22T03:31:29.846Z Pausa 3620 ms: scroll 5
+2026-05-22T03:31:33.488Z Resultados visibles acumulados: 25
+2026-05-22T03:31:33.516Z Pausa 3536 ms: scroll 6
+2026-05-22T03:31:37.072Z Resultados visibles acumulados: 25
+2026-05-22T03:31:37.099Z Pausa 4708 ms: scroll 7
+2026-05-22T03:31:41.822Z Resultados visibles acumulados: 30
+2026-05-22T03:31:41.849Z Pausa 3993 ms: scroll 8
+2026-05-22T03:31:45.872Z Resultados visibles acumulados: 30
+2026-05-22T03:31:45.873Z Fichas a abrir una por una: 30
+2026-05-22T03:31:45.874Z Procesando 1/30
+2026-05-22T03:31:45.875Z Abriendo ficha: https://www.google.com/maps/place/Diablo+Vino+y+Fuego+Restaurante/data=!4m7!3m6!1s0x9662cf000e465ddb:0x6db641c2529150bd!8m2!3d-33.4176518!4d-70.6013263!16s%2Fg%2F11ybgm1n6y!19sChIJ211GDgDPYpYRvVCRUsJBtm0?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:31:46.335Z Pausa 2898 ms: espera de ficha
+2026-05-22T03:31:49.363Z Pausa 2602 ms: pausa entre fichas
+2026-05-22T03:31:51.972Z Procesando 2/30
+2026-05-22T03:31:51.974Z Abriendo ficha: https://www.google.com/maps/place/La+Cabrera+Chile+Isidora/data=!4m7!3m6!1s0x9662cf1a85a95ee5:0x1afc90f8f5200406!8m2!3d-33.4146907!4d-70.5966256!16s%2Fg%2F11pzx6mqls!19sChIJ5V6phRrPYpYRBgQg9fiQ_Bo?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:31:52.477Z Pausa 2210 ms: espera de ficha
+2026-05-22T03:31:54.805Z Pausa 3164 ms: pausa entre fichas
+2026-05-22T03:31:57.976Z Procesando 3/30
+2026-05-22T03:31:57.978Z Abriendo ficha: https://www.google.com/maps/place/Kat%C3%B3+Tasty+Caos/data=!4m7!3m6!1s0x9662cf43fd970a8b:0xc8f06bea80827d12!8m2!3d-33.4146907!4d-70.5966256!16s%2Fg%2F11mkhstszp!19sChIJiwqX_UPPYpYREn2CgOpr8Mg?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:31:58.166Z Pausa 2765 ms: espera de ficha
+2026-05-22T03:32:01.015Z Pausa 4528 ms: pausa entre fichas
+2026-05-22T03:32:05.551Z Procesando 4/30
+2026-05-22T03:32:05.552Z Abriendo ficha: https://www.google.com/maps/place/Hijo+del+Sol+Las+condes/data=!4m7!3m6!1s0x9662cf00105e07af:0x8803bd86a3a14b42!8m2!3d-33.4146584!4d-70.5968579!16s%2Fg%2F11vxm2gzdv!19sChIJrwdeEADPYpYRQkuho4a9A4g?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:05.733Z Pausa 3374 ms: espera de ficha
+2026-05-22T03:32:09.236Z Pausa 2587 ms: pausa entre fichas
+2026-05-22T03:32:11.842Z Procesando 5/30
+2026-05-22T03:32:11.843Z Abriendo ficha: https://www.google.com/maps/place/Raffaella+Cucina+Napoletana/data=!4m7!3m6!1s0x9662cff574ae6adb:0x32b078a303f2f8ec!8m2!3d-33.4063143!4d-70.5612246!16s%2Fg%2F11s1v1pqdl!19sChIJ22qudPXPYpYR7PjyA6N4sDI?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:12.050Z Pausa 2348 ms: espera de ficha
+2026-05-22T03:32:14.486Z Pausa 4115 ms: pausa entre fichas
+2026-05-22T03:32:18.606Z Procesando 6/30
+2026-05-22T03:32:18.608Z Abriendo ficha: https://www.google.com/maps/place/Lumi%C3%A9re+Bistr%C3%B3+Restaurante/data=!4m7!3m6!1s0x9662cf95117ec80d:0xc51680b1d08a9f02!8m2!3d-33.4124303!4d-70.5787114!16s%2Fg%2F11x318xkp_!19sChIJDch-EZXPYpYRAp-K0LGAFsU?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:18.824Z Pausa 4796 ms: espera de ficha
+2026-05-22T03:32:23.761Z Pausa 3995 ms: pausa entre fichas
+2026-05-22T03:32:27.757Z Procesando 7/30
+2026-05-22T03:32:27.758Z Abriendo ficha: https://www.google.com/maps/place/Restoran+Pinpilinpausha/data=!4m7!3m6!1s0x9662cf41a61d994b:0xf33a25474c22bc39!8m2!3d-33.4137939!4d-70.6017388!16s%2Fg%2F1tg7t6hy!19sChIJS5kdpkHPYpYRObwiTEclOvM?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:27.951Z Pausa 3138 ms: espera de ficha
+2026-05-22T03:32:31.180Z Pausa 2266 ms: pausa entre fichas
+2026-05-22T03:32:33.448Z Procesando 8/30
+2026-05-22T03:32:33.449Z Abriendo ficha: https://www.google.com/maps/place/Chilmex/data=!4m7!3m6!1s0x9662cf8fc31ea7a5:0x64a78c382180dc11!8m2!3d-33.4054821!4d-70.5572147!16s%2Fg%2F11fkblc7fj!19sChIJpacew4_PYpYREdyAITiMp2Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:33.644Z Pausa 3826 ms: espera de ficha
+2026-05-22T03:32:37.588Z Pausa 2048 ms: pausa entre fichas
+2026-05-22T03:32:39.641Z Procesando 9/30
+2026-05-22T03:32:39.642Z Abriendo ficha: https://www.google.com/maps/place/Piano+Gourmet+Restaurante+y+Caf%C3%A9/data=!4m7!3m6!1s0x9662cfc9db72f817:0x449f3256a68a0e89!8m2!3d-33.393639!4d-70.545679!16s%2Fg%2F11whmx2ln1!19sChIJF_hy28nPYpYRiQ6KplYyn0Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:39.825Z Pausa 3498 ms: espera de ficha
+2026-05-22T03:32:43.440Z Pausa 2147 ms: pausa entre fichas
+2026-05-22T03:32:45.593Z Procesando 10/30
+2026-05-22T03:32:45.595Z Abriendo ficha: https://www.google.com/maps/place/Toni+Lautaro/data=!4m7!3m6!1s0x9662cf59110ee7d5:0xd5f5da5ab1f5418f!8m2!3d-33.4176518!4d-70.6013263!16s%2Fg%2F11w3b3g_7j!19sChIJ1ecOEVnPYpYRj0H1sVra9dU?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:45.768Z Pausa 2908 ms: espera de ficha
+2026-05-22T03:32:48.804Z Pausa 3732 ms: pausa entre fichas
+2026-05-22T03:32:52.554Z Procesando 11/30
+2026-05-22T03:32:52.555Z Abriendo ficha: https://www.google.com/maps/place/Bali+Hai+Chile/data=!4m7!3m6!1s0x9662cee3b7afead9:0x5b5b5dfaec2585db!8m2!3d-33.4184462!4d-70.5716536!16s%2Fg%2F1hjgt49yn!19sChIJ2eqvt-POYpYR24Ul7PpdW1s?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:32:52.723Z Pausa 3689 ms: espera de ficha
+2026-05-22T03:32:56.546Z Pausa 4020 ms: pausa entre fichas
+2026-05-22T03:33:00.574Z Procesando 12/30
+2026-05-22T03:33:00.575Z Abriendo ficha: https://www.google.com/maps/place/Almuerzo+las+condes/data=!4m7!3m6!1s0x9662cfcfd3976653:0x8e38586ff678a61e!8m2!3d-33.3995587!4d-70.5622255!16s%2Fg%2F11h01flnvq!19sChIJU2aX08_PYpYRHqZ49m9YOI4?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:00.751Z Pausa 2389 ms: espera de ficha
+2026-05-22T03:33:03.251Z Pausa 3064 ms: pausa entre fichas
+2026-05-22T03:33:06.322Z Procesando 13/30
+2026-05-22T03:33:06.325Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Rita+Parque+Arauco/data=!4m7!3m6!1s0x9662cf385855f3b5:0x725ed6a2b990a40a!8m2!3d-33.4020735!4d-70.5786617!16s%2Fg%2F11mhj__345!19sChIJtfNVWDjPYpYRCqSQuaLWXnI?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:06.522Z Pausa 2989 ms: espera de ficha
+2026-05-22T03:33:09.640Z Pausa 2489 ms: pausa entre fichas
+2026-05-22T03:33:12.140Z Procesando 14/30
+2026-05-22T03:33:12.142Z Abriendo ficha: https://www.google.com/maps/place/Restorant+el+Castillo/data=!4m7!3m6!1s0x9662cec1f1885d91:0xa5a6f52ad52d8dab!8m2!3d-33.407713!4d-70.5556445!16s%2Fg%2F1tv25bnz!19sChIJkV2I8cHOYpYRq40t1Sr1pqU?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:12.337Z Pausa 3092 ms: espera de ficha
+2026-05-22T03:33:15.521Z Pausa 3744 ms: pausa entre fichas
+2026-05-22T03:33:19.291Z Procesando 15/30
+2026-05-22T03:33:19.292Z Abriendo ficha: https://www.google.com/maps/place/Koychi+Korean+Street+Food/data=!4m7!3m6!1s0x9662cfaa23f923f3:0xaaf956e9dce8757a!8m2!3d-33.402211!4d-70.5769511!16s%2Fg%2F11vkggpt__!19sChIJ8yP5I6rPYpYRenXo3OlW-ao?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:19.472Z Pausa 2771 ms: espera de ficha
+2026-05-22T03:33:22.367Z Pausa 4613 ms: pausa entre fichas
+2026-05-22T03:33:26.985Z Procesando 16/30
+2026-05-22T03:33:27.026Z Abriendo ficha: https://www.google.com/maps/place/Don+Carlos/data=!4m7!3m6!1s0x9662cf41a61379ad:0xeb84305be2c0d72e!8m2!3d-33.414149!4d-70.601774!16s%2Fg%2F1tdw027v!19sChIJrXkTpkHPYpYRLtfA4lswhOs?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:27.207Z Pausa 3188 ms: espera de ficha
+2026-05-22T03:33:30.482Z Pausa 3506 ms: pausa entre fichas
+2026-05-22T03:33:34.000Z Procesando 17/30
+2026-05-22T03:33:34.002Z Abriendo ficha: https://www.google.com/maps/place/Route+66/data=!4m7!3m6!1s0x9662cf405ad73ffb:0xee029d663f1a73e7!8m2!3d-33.4139825!4d-70.5999351!16s%2Fg%2F11dymmkn9y!19sChIJ-z_XWkDPYpYR53MaP2adAu4?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:34.182Z Pausa 4344 ms: espera de ficha
+2026-05-22T03:33:38.652Z Pausa 4056 ms: pausa entre fichas
+2026-05-22T03:33:42.720Z Procesando 18/30
+2026-05-22T03:33:42.722Z Abriendo ficha: https://www.google.com/maps/place/Chilenazo+Las+Condes/data=!4m7!3m6!1s0x9662ceddb1a2b61f:0x2405a15bc5dbaf28!8m2!3d-33.4082051!4d-70.5663157!16s%2Fg%2F1td4frpk!19sChIJH7aisd3OYpYRKK_bxVuhBSQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:42.923Z Pausa 3846 ms: espera de ficha
+2026-05-22T03:33:46.917Z Pausa 3282 ms: pausa entre fichas
+2026-05-22T03:33:50.205Z Procesando 19/30
+2026-05-22T03:33:50.206Z Abriendo ficha: https://www.google.com/maps/place/La+Flaca,+Cociner%C3%ADa+Chilena/data=!4m7!3m6!1s0x9662c53939e3eebb:0xdc2e7676299d3b56!8m2!3d-33.4177122!4d-70.6013629!16s%2Fg%2F11c3tj92p4!19sChIJu-7jOTnFYpYRVjudKXZ2Ltw?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:50.510Z Pausa 2573 ms: espera de ficha
+2026-05-22T03:33:53.194Z Pausa 4910 ms: pausa entre fichas
+2026-05-22T03:33:58.105Z Procesando 20/30
+2026-05-22T03:33:58.107Z Abriendo ficha: https://www.google.com/maps/place/Happening/data=!4m7!3m6!1s0x9662cf154a3d39f5:0x1037462ca6ea9cf5!8m2!3d-33.416711!4d-70.5976522!16s%2Fg%2F1ts_7tfh!19sChIJ9Tk9ShXPYpYR9ZzqpixGNxA?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:33:58.294Z Pausa 3661 ms: espera de ficha
+2026-05-22T03:34:02.099Z Pausa 2818 ms: pausa entre fichas
+2026-05-22T03:34:04.919Z Procesando 21/30
+2026-05-22T03:34:04.923Z Abriendo ficha: https://www.google.com/maps/place/Bar+La+Virgen+Las+Condes/data=!4m7!3m6!1s0x9662cf4a91aa2abd:0x7aa8a518252c227c!8m2!3d-33.4035449!4d-70.5749535!16s%2Fg%2F11rq41fdk4!19sChIJvSqqkUrPYpYRfCIsJRilqHo?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:05.103Z Pausa 2458 ms: espera de ficha
+2026-05-22T03:34:07.682Z Pausa 4078 ms: pausa entre fichas
+2026-05-22T03:34:11.768Z Procesando 22/30
+2026-05-22T03:34:11.769Z Abriendo ficha: https://www.google.com/maps/place/Aligot+restaurant/data=!4m7!3m6!1s0x9662cfac435bdaad:0x7ed19e2ff27dfbdf!8m2!3d-33.413808!4d-70.6019947!16s%2Fg%2F11h3swvrz_!19sChIJrdpbQ6zPYpYR3_t98i-e0X4?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:11.976Z Pausa 2818 ms: espera de ficha
+2026-05-22T03:34:14.906Z Pausa 4558 ms: pausa entre fichas
+2026-05-22T03:34:19.466Z Procesando 23/30
+2026-05-22T03:34:19.468Z Abriendo ficha: https://www.google.com/maps/place/Estr%C3%B3+Santiago/data=!4m7!3m6!1s0x9662cf157bee637f:0x73257e215251e871!8m2!3d-33.4158983!4d-70.5952355!16s%2Fg%2F11c542nyfq!19sChIJf2PuexXPYpYRcehRUiF-JXM?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:19.649Z Pausa 2770 ms: espera de ficha
+2026-05-22T03:34:22.531Z Pausa 4335 ms: pausa entre fichas
+2026-05-22T03:34:26.881Z Procesando 24/30
+2026-05-22T03:34:26.883Z Abriendo ficha: https://www.google.com/maps/place/Olivia+Trattoria/data=!4m7!3m6!1s0x9662cfffd614f85b:0x4207972b4cd99e5c!8m2!3d-33.4072818!4d-70.5685356!16s%2Fg%2F11vq56ch5q!19sChIJW_gU1v_PYpYRXJ7ZTCuXB0I?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:27.090Z Pausa 4758 ms: espera de ficha
+2026-05-22T03:34:31.962Z Pausa 2014 ms: pausa entre fichas
+2026-05-22T03:34:33.981Z Procesando 25/30
+2026-05-22T03:34:33.983Z Abriendo ficha: https://www.google.com/maps/place/Nolita+Isidora+Goyenechea/data=!4m7!3m6!1s0x9662cf3e34280745:0x7a28025c17c68eac!8m2!3d-33.41413!4d-70.5944794!16s%2Fg%2F1tfdfnys!19sChIJRQcoND7PYpYRrI7GF1wCKHo?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:34.194Z Pausa 4495 ms: espera de ficha
+2026-05-22T03:34:38.818Z Pausa 2336 ms: pausa entre fichas
+2026-05-22T03:34:41.160Z Procesando 26/30
+2026-05-22T03:34:41.161Z Abriendo ficha: https://www.google.com/maps/place/Restoran+Le+Due+Torri/data=!4m7!3m6!1s0x9662cf41ac1b626b:0x70265a35a024ff75!8m2!3d-33.4138015!4d-70.6015633!16s%2Fg%2F1th5knqk!19sChIJa2IbrEHPYpYRdf8koDVaJnA?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:41.362Z Pausa 4873 ms: espera de ficha
+2026-05-22T03:34:46.356Z Pausa 2075 ms: pausa entre fichas
+2026-05-22T03:34:48.448Z Procesando 27/30
+2026-05-22T03:34:48.450Z Abriendo ficha: https://www.google.com/maps/place/IL+Pazzo/data=!4m7!3m6!1s0x9662cf9e39fec851:0x76495c6d5c926973!8m2!3d-33.406343!4d-70.5742281!16s%2Fg%2F11m_nwrtnq!19sChIJUcj-OZ7PYpYRc2mSXG1cSXY?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:48.634Z Pausa 4937 ms: espera de ficha
+2026-05-22T03:34:53.678Z Pausa 2068 ms: pausa entre fichas
+2026-05-22T03:34:55.749Z Procesando 28/30
+2026-05-22T03:34:55.751Z Abriendo ficha: https://www.google.com/maps/place/Amandine+Bistr%C3%B3/data=!4m7!3m6!1s0x9662cf9bae04e409:0xeee3d708d13e6b6d!8m2!3d-33.415821!4d-70.5944762!16s%2Fg%2F11h10tzd0r!19sChIJCeQErpvPYpYRbWs-0QjX4-4?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:34:55.933Z Pausa 4745 ms: espera de ficha
+2026-05-22T03:35:00.800Z Pausa 2110 ms: pausa entre fichas
+2026-05-22T03:35:02.913Z Procesando 29/30
+2026-05-22T03:35:02.916Z Abriendo ficha: https://www.google.com/maps/place/Almuerzos+Nutrify+Chile+%C2%AE%EF%B8%8F/data=!4m7!3m6!1s0x9662cfee49d8ecad:0xf80fd5f61e3c0b45!8m2!3d-33.3863604!4d-70.537614!16s%2Fg%2F11r_k5s2sq!19sChIJrezYSe7PYpYRRQs8HvbVD_g?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:35:03.102Z Pausa 4478 ms: espera de ficha
+2026-05-22T03:35:07.694Z Pausa 3249 ms: pausa entre fichas
+2026-05-22T03:35:10.943Z Procesando 30/30
+2026-05-22T03:35:10.945Z Abriendo ficha: https://www.google.com/maps/place/Oporto+Salvaje/data=!4m7!3m6!1s0x9662cf3e3aee6879:0x8d84a7ac8f46ac9e!8m2!3d-33.414451!4d-70.5940387!16s%2Fg%2F11bzs4kq8x!19sChIJeWjuOj7PYpYRnqxGj6ynhI0?authuser=0&hl=es-419&rclk=1
+2026-05-22T03:35:11.164Z Pausa 4397 ms: espera de ficha
+2026-05-22T03:35:15.665Z Pausa 4913 ms: pausa entre fichas
+2026-05-22T03:35:20.590Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\las_condes_restaurantes_50.csv
+2026-05-22T03:35:20.591Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\las_condes_restaurantes_50_raw.json
+2026-05-22T03:35:20.961Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\las_condes_restaurantes_50.xlsx
+2026-05-22T03:35:20.962Z Resumen final:
+2026-05-22T03:35:20.962Z Total filas extraídas: 30
+2026-05-22T03:35:20.962Z Total restaurantes válidos: 29
+2026-05-22T03:35:20.963Z Total no válidos: 1
+2026-05-22T03:35:20.963Z Teléfonos vacíos: 0
+2026-05-22T03:35:20.963Z Direcciones vacías: 0
+2026-05-22T03:35:20.964Z Sitios web vacíos: 3
+2026-05-22T03:35:20.964Z Duplicados eliminados: 0
+2026-05-22T03:35:20.965Z Fin scraper. Filas extraídas: 30
+2026-05-22T03:43:25.122Z Inicio scraper Google Maps piloto
+2026-05-22T03:43:25.124Z Búsqueda: restaurantes en Las Condes, Región Metropolitana, Chile
+2026-05-22T03:43:25.124Z Máximo resultados: 50. Scrolls máximos: 8
+2026-05-22T03:43:25.419Z Playwright carga correctamente.
+2026-05-22T03:43:26.115Z Chrome local abre y cierra correctamente con Playwright.

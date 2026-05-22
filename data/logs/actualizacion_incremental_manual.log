@@ -1,0 +1,114 @@
+
+=== Actualizacion incremental 2026-05-22T05:12:15.571Z ===
+2026-05-22T05:12:15.572Z Inicio aplicación incremental
+2026-05-22T05:12:15.575Z Modo prueba: NO
+2026-05-22T05:12:15.575Z SQLite existente encontrado.
+2026-05-22T05:12:15.576Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe -c import sqlite3; conn=sqlite3.connect(r'''C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\restaurantes.db'''); print(conn.execute('select count(*) from restaurantes').fetchone()[0]); conn.close()
+2026-05-22T05:12:15.611Z 220
+2026-05-22T05:12:15.613Z Scraping controlado para comuna: La Florida
+2026-05-22T05:12:15.613Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe C:\Users\gabyp\Documents\SCRAPING_GOOGLE\scripts\02_scraper_google_maps_playwright.js --config C:\Users\gabyp\Documents\SCRAPING_GOOGLE\configs\runs\incremental_01_la_florida_manual.json
+2026-05-22T05:14:14.310Z 2026-05-22T05:12:15.648Z Inicio scraper Google Maps piloto
+2026-05-22T05:14:14.310Z 2026-05-22T05:12:15.649Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T05:14:14.311Z 2026-05-22T05:12:15.649Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T05:14:14.312Z 2026-05-22T05:12:16.220Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T05:14:14.312Z 2026-05-22T05:12:16.556Z Pausa 3179 ms: carga inicial
+2026-05-22T05:14:14.313Z 2026-05-22T05:12:19.817Z Resultados visibles acumulados: 7
+2026-05-22T05:14:14.313Z 2026-05-22T05:12:19.830Z Pausa 3136 ms: scroll 1
+2026-05-22T05:14:14.314Z 2026-05-22T05:12:22.978Z Resultados visibles acumulados: 7
+2026-05-22T05:14:14.314Z 2026-05-22T05:12:23.004Z Pausa 2441 ms: scroll 2
+2026-05-22T05:14:14.315Z 2026-05-22T05:12:25.462Z Resultados visibles acumulados: 14
+2026-05-22T05:14:14.316Z 2026-05-22T05:12:25.475Z Pausa 2241 ms: scroll 3
+2026-05-22T05:14:14.316Z 2026-05-22T05:12:27.729Z Resultados visibles acumulados: 14
+2026-05-22T05:14:14.316Z 2026-05-22T05:12:27.746Z Pausa 4750 ms: scroll 4
+2026-05-22T05:14:14.316Z 2026-05-22T05:12:32.513Z Resultados visibles acumulados: 15
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:32.514Z Fichas a abrir una por una: 15
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:32.514Z Procesando 1/15
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:32.515Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:32.832Z Pausa 2400 ms: espera de ficha
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:35.296Z Pausa 2701 ms: pausa entre fichas
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:38.002Z Procesando 2/15
+2026-05-22T05:14:14.317Z 2026-05-22T05:12:38.004Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:38.349Z Pausa 4593 ms: espera de ficha
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:43.013Z Pausa 2341 ms: pausa entre fichas
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:45.368Z Procesando 3/15
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:45.370Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:45.521Z Pausa 4148 ms: espera de ficha
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:49.733Z Pausa 2475 ms: pausa entre fichas
+2026-05-22T05:14:14.318Z 2026-05-22T05:12:52.216Z Procesando 4/15
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:52.218Z Abriendo ficha: https://www.google.com/maps/place/CABIMAS+TASTY+FOOD/data=!4m7!3m6!1s0x9662d1dacc48255b:0x6d53e79d90e8d33a!8m2!3d-33.5548557!4d-70.5860092!16s%2Fg%2F11vrz4mx5h!19sChIJWyVIzNrRYpYROtPokJ3nU20?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:52.379Z Pausa 2533 ms: espera de ficha
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:54.981Z Pausa 2188 ms: pausa entre fichas
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:57.170Z Procesando 5/15
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:57.171Z Abriendo ficha: https://www.google.com/maps/place/La+pic%C3%A1+de+la+cubana/data=!4m7!3m6!1s0x9662d10af3430c87:0x7291ecff6e8734a3!8m2!3d-33.560027!4d-70.5845971!16s%2Fg%2F11rn7t5jdv!19sChIJhwxD8wrRYpYRozSHbv_skXI?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.319Z 2026-05-22T05:12:57.318Z Pausa 3425 ms: espera de ficha
+2026-05-22T05:14:14.319Z 2026-05-22T05:13:00.808Z Pausa 4486 ms: pausa entre fichas
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:05.297Z Procesando 6/15
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:05.299Z Abriendo ficha: https://www.google.com/maps/place/COCINERIA+DONDE+YOYO%27S/data=!4m7!3m6!1s0x9662d1d95c833fd9:0x3c68e41dd033ed33!8m2!3d-33.5371433!4d-70.5731178!16s%2Fg%2F11p5s69mwx!19sChIJ2T-DXNnRYpYRM-0z0B3kaDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:05.457Z Pausa 4654 ms: espera de ficha
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:10.192Z Pausa 2006 ms: pausa entre fichas
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:12.200Z Procesando 7/15
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:12.202Z Abriendo ficha: https://www.google.com/maps/place/Aqu%C3%AD+E%E2%80%99/data=!4m7!3m6!1s0x9662d16caadbd913:0xf4e8696dcf47dc21!8m2!3d-33.5571101!4d-70.5864892!16s%2Fg%2F11s5b_5mdy!19sChIJE9nbqmzRYpYRIdxHz21p6PQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:12.347Z Pausa 2052 ms: espera de ficha
+2026-05-22T05:14:14.320Z 2026-05-22T05:13:14.464Z Pausa 4857 ms: pausa entre fichas
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:19.334Z Procesando 8/15
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:19.336Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Punta+Brasa+La+Florida/data=!4m7!3m6!1s0x9662cfa4d8996d17:0xff23c0d1e494ab08!8m2!3d-33.5179138!4d-70.563385!16s%2Fg%2F11s63xjxk7!19sChIJF22Z2KTPYpYRCKuU5NHAI_8?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:19.496Z Pausa 4059 ms: espera de ficha
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:23.619Z Pausa 2670 ms: pausa entre fichas
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:26.298Z Procesando 9/15
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:26.300Z Abriendo ficha: https://www.google.com/maps/place/La+Caleta+de+Don+Chuma/data=!4m7!3m6!1s0x9662d0c521288777:0x43817670a73eee44!8m2!3d-33.551873!4d-70.587242!16s%2Fg%2F11ddxvpj91!19sChIJd4coIcXQYpYRRO4-p3B2gUM?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:26.448Z Pausa 2968 ms: espera de ficha
+2026-05-22T05:14:14.321Z 2026-05-22T05:13:29.479Z Pausa 3006 ms: pausa entre fichas
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:32.500Z Procesando 10/15
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:32.501Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuely/data=!4m7!3m6!1s0x9662d0c49efb8c47:0xaab136974c576b03!8m2!3d-33.5491741!4d-70.5876885!16s%2Fg%2F11g6yz_6gb!19sChIJR4z7nsTQYpYRA2tXTJc2sao?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:32.663Z Pausa 2278 ms: espera de ficha
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:35.012Z Pausa 4161 ms: pausa entre fichas
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:39.181Z Procesando 11/15
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:39.183Z Abriendo ficha: https://www.google.com/maps/place/MEGA+AJISECO+LA+FLORIDA+8961/data=!4m7!3m6!1s0x9662d1942458681b:0x2af542540066ebdd!8m2!3d-33.5332063!4d-70.5748729!16s%2Fg%2F11tf8gq63b!19sChIJG2hYJJTRYpYR3etmAFRC9So?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:39.335Z Pausa 2660 ms: espera de ficha
+2026-05-22T05:14:14.322Z 2026-05-22T05:13:42.074Z Pausa 2272 ms: pausa entre fichas
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:44.349Z Procesando 12/15
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:44.350Z Abriendo ficha: https://www.google.com/maps/place/El+Estribo/data=!4m7!3m6!1s0x9662d133b394bd4f:0xcb13d2321151ca64!8m2!3d-33.5559548!4d-70.5917283!16s%2Fg%2F11g_y5k1md!19sChIJT72UszPRYpYRZMpRETLSE8s?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:44.493Z Pausa 3918 ms: espera de ficha
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:48.475Z Pausa 2300 ms: pausa entre fichas
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:50.781Z Procesando 13/15
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:50.783Z Abriendo ficha: https://www.google.com/maps/place/La+Cocina+de+Gaby/data=!4m7!3m6!1s0x9662d1312d6c5fb1:0xb634a6553cf6c978!8m2!3d-33.5435071!4d-70.5719253!16s%2Fg%2F11flkghtz_!19sChIJsV9sLTHRYpYReMn2PFWmNLY?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:50.932Z Pausa 4664 ms: espera de ficha
+2026-05-22T05:14:14.323Z 2026-05-22T05:13:55.689Z Pausa 3891 ms: pausa entre fichas
+2026-05-22T05:14:14.324Z 2026-05-22T05:13:59.582Z Procesando 14/15
+2026-05-22T05:14:14.324Z 2026-05-22T05:13:59.584Z Abriendo ficha: https://www.google.com/maps/place/Sabrosura/data=!4m7!3m6!1s0x9662d1007e1676b7:0x4631cc0815cc56f7!8m2!3d-33.5532399!4d-70.5861815!16s%2Fg%2F11vr289qz6!19sChIJt3YWfgDRYpYR91bMFQjMMUY?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.324Z 2026-05-22T05:13:59.739Z Pausa 3470 ms: espera de ficha
+2026-05-22T05:14:14.324Z 2026-05-22T05:14:03.262Z Pausa 2708 ms: pausa entre fichas
+2026-05-22T05:14:14.324Z 2026-05-22T05:14:05.981Z Procesando 15/15
+2026-05-22T05:14:14.324Z 2026-05-22T05:14:05.983Z Abriendo ficha: https://www.google.com/maps/place/Chinito+Dice/data=!4m7!3m6!1s0x9662d0001977171d:0x967b231f539179fd!8m2!3d-33.5518725!4d-70.5872416!16s%2Fg%2F1thw7yhn!19sChIJHRd3GQDQYpYR_XmRUx8je5Y?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:14.324Z 2026-05-22T05:14:06.138Z Pausa 4927 ms: espera de ficha
+2026-05-22T05:14:14.324Z 2026-05-22T05:14:11.138Z Pausa 2593 ms: pausa entre fichas
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.738Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.739Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.979Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.980Z Resumen final:
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.981Z Total filas extraídas: 15
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.981Z Total restaurantes válidos: 14
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.982Z Total no válidos: 1
+2026-05-22T05:14:14.325Z 2026-05-22T05:14:13.982Z Teléfonos vacíos: 1
+2026-05-22T05:14:14.326Z 2026-05-22T05:14:13.983Z Direcciones vacías: 0
+2026-05-22T05:14:14.326Z 2026-05-22T05:14:13.983Z Sitios web vacíos: 7
+2026-05-22T05:14:14.326Z 2026-05-22T05:14:13.984Z Duplicados eliminados: 0
+2026-05-22T05:14:14.326Z 2026-05-22T05:14:13.984Z Fin scraper. Filas extraídas: 15
+2026-05-22T05:14:14.326Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\gabyp\Documents\SCRAPING_GOOGLE\scripts\09_importar_base_a_sqlite.py --config C:\Users\gabyp\Documents\SCRAPING_GOOGLE\configs\actualizacion_incremental_manual.json --merge-file C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T05:14:14.635Z {
+2026-05-22T05:14:14.635Z   "encontrados": 15,
+2026-05-22T05:14:14.635Z   "insertados": 0,
+2026-05-22T05:14:14.636Z   "duplicados": 15,
+2026-05-22T05:14:14.636Z   "errores": 0,
+2026-05-22T05:14:14.637Z   "total_antes": 220,
+2026-05-22T05:14:14.637Z   "total_final": 220
+2026-05-22T05:14:14.638Z }
+2026-05-22T05:14:14.638Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\gabyp\Documents\SCRAPING_GOOGLE\scripts\09_importar_base_a_sqlite.py --config C:\Users\gabyp\Documents\SCRAPING_GOOGLE\configs\actualizacion_incremental_manual.json --export
+2026-05-22T05:14:14.922Z {
+2026-05-22T05:14:14.922Z   "Total base final": 220,
+2026-05-22T05:14:14.922Z   "Archivo Excel generado": "C:\\Users\\gabyp\\Documents\\SCRAPING_GOOGLE\\data\\base_restaurantes_actualizada.xlsx"
+2026-05-22T05:14:14.923Z }
+2026-05-22T05:14:14.923Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe -c import sqlite3; conn=sqlite3.connect(r'''C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\restaurantes.db'''); print(conn.execute('select count(*) from restaurantes').fetchone()[0]); conn.close()
+2026-05-22T05:14:14.954Z 220
+2026-05-22T05:14:14.954Z Resumen final: {"totalAntes":220,"encontrados":15,"insertados":0,"duplicados":15,"errores":0,"totalFinal":220}
+2026-05-22T05:14:14.956Z Fin aplicación incremental

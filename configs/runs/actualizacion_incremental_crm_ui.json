@@ -1,0 +1,81 @@
+{
+  "modoPrueba": false,
+  "entradaBaseExcel": "data/consolidado_restaurantes_priorizados_normalizado.xlsx",
+  "hojaBaseExcel": "Base normalizada",
+  "baseDatos": "data/restaurantes.db",
+  "excelSalida": "data/base_restaurantes_actualizada.xlsx",
+  "csvSalida": "data/base_restaurantes_actualizada.csv",
+  "log": "data/logs/actualizacion_incremental_crm_ui.log",
+  "maxNuevosObjetivo": 1,
+  "maxResultadosPorComuna": 1,
+  "maxScrollsPorComuna": 4,
+  "pausaMinMs": 2000,
+  "pausaMaxMs": 5000,
+  "detenerSiCaptchaOBloqueo": true,
+  "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "comunas": [
+    {
+      "comuna": "Chillán",
+      "region": "Ñuble",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "chillán"
+    },
+    {
+      "comuna": "Curicó",
+      "region": "Maule",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "curicó"
+    },
+    {
+      "comuna": "La Florida",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "la_florida_manual"
+    },
+    {
+      "comuna": "La Reina",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "la_reina"
+    },
+    {
+      "comuna": "Las Condes",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "las_condes"
+    },
+    {
+      "comuna": "Lo Barnechea",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "lo_barnechea"
+    },
+    {
+      "comuna": "Providencia",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "providencia"
+    },
+    {
+      "comuna": "Vitacura",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "vitacura"
+    },
+    {
+      "comuna": "Ñuñoa",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "ñuñoa"
+    }
+  ]
+}

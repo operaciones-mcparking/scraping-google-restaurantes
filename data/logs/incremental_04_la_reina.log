@@ -1,0 +1,23 @@
+2026-05-22T14:20:53.399Z Inicio scraper Google Maps piloto
+2026-05-22T14:20:53.400Z Búsqueda: restaurantes en La Reina, Región Metropolitana, Chile
+2026-05-22T14:20:53.401Z Máximo resultados: 1. Scrolls máximos: 4
+2026-05-22T14:20:53.978Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Reina%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T14:20:54.407Z Pausa 3192 ms: carga inicial
+2026-05-22T14:20:57.707Z Resultados visibles acumulados: 1
+2026-05-22T14:20:57.708Z Fichas a abrir una por una: 1
+2026-05-22T14:20:57.709Z Procesando 1/1
+2026-05-22T14:20:57.750Z Abriendo ficha: https://www.google.com/maps/place/Honua+Poke+Bar/data=!4m7!3m6!1s0x9662cf30d24d21fd:0x9717b0273fc65fdd!8m2!3d-33.404444!4d-70.557352!16s%2Fg%2F11gfp18h9k!19sChIJ_SFN0jDPYpYR3V_GPyewF5c?authuser=0&hl=es-419&rclk=1
+2026-05-22T14:20:58.420Z Pausa 2835 ms: espera de ficha
+2026-05-22T14:21:01.508Z Pausa 3902 ms: pausa entre fichas
+2026-05-22T14:21:05.421Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_04_la_reina.csv
+2026-05-22T14:21:05.422Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_04_la_reina_raw.json
+2026-05-22T14:21:05.718Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_04_la_reina.xlsx
+2026-05-22T14:21:05.719Z Resumen final:
+2026-05-22T14:21:05.720Z Total filas extraídas: 1
+2026-05-22T14:21:05.721Z Total restaurantes válidos: 1
+2026-05-22T14:21:05.722Z Total no válidos: 0
+2026-05-22T14:21:05.723Z Teléfonos vacíos: 0
+2026-05-22T14:21:05.724Z Direcciones vacías: 0
+2026-05-22T14:21:05.726Z Sitios web vacíos: 0
+2026-05-22T14:21:05.727Z Duplicados eliminados: 0
+2026-05-22T14:21:05.728Z Fin scraper. Filas extraídas: 1

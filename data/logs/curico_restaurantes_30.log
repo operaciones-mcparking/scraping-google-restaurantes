@@ -1,0 +1,131 @@
+2026-05-22T04:13:00.928Z Inicio scraper Google Maps piloto
+2026-05-22T04:13:00.933Z Búsqueda: restaurantes en Curicó, Región Maule, Chile
+2026-05-22T04:13:00.937Z Máximo resultados: 30. Scrolls máximos: 6
+2026-05-22T04:13:01.857Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Curic%C3%B3%2C%20Regi%C3%B3n%20Maule%2C%20Chile?hl=es-419
+2026-05-22T04:13:02.333Z Pausa 4442 ms: carga inicial
+2026-05-22T04:13:06.934Z Resultados visibles acumulados: 7
+2026-05-22T04:13:06.973Z Pausa 3744 ms: scroll 1
+2026-05-22T04:13:10.733Z Resultados visibles acumulados: 14
+2026-05-22T04:13:10.799Z Pausa 4655 ms: scroll 2
+2026-05-22T04:13:15.489Z Resultados visibles acumulados: 14
+2026-05-22T04:13:15.519Z Pausa 4118 ms: scroll 3
+2026-05-22T04:13:19.658Z Resultados visibles acumulados: 20
+2026-05-22T04:13:19.683Z Pausa 4802 ms: scroll 4
+2026-05-22T04:13:24.510Z Resultados visibles acumulados: 20
+2026-05-22T04:13:24.536Z Pausa 2863 ms: scroll 5
+2026-05-22T04:13:27.421Z Resultados visibles acumulados: 25
+2026-05-22T04:13:27.449Z Pausa 3283 ms: scroll 6
+2026-05-22T04:13:30.759Z Resultados visibles acumulados: 25
+2026-05-22T04:13:30.762Z Fichas a abrir una por una: 25
+2026-05-22T04:13:30.768Z Procesando 1/25
+2026-05-22T04:13:30.771Z Abriendo ficha: https://www.google.com/maps/place/Brasas+Curic%C3%B3/data=!4m7!3m6!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80!19sChIJ0Y60EgFXZJYRtgoHjp2MbqE?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:13:31.135Z Pausa 4456 ms: espera de ficha
+2026-05-22T04:13:35.727Z Pausa 2908 ms: pausa entre fichas
+2026-05-22T04:13:38.640Z Procesando 2/25
+2026-05-22T04:13:38.645Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Fuego+Bendito/data=!4m7!3m6!1s0x966457afd9136567:0xc43479034c42c4be!8m2!3d-34.9863974!4d-71.2301915!16s%2Fg%2F11c1xj9rk_!19sChIJZ2UT2a9XZJYRvsRCTAN5NMQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:13:39.103Z Pausa 2582 ms: espera de ficha
+2026-05-22T04:13:41.872Z Pausa 2400 ms: pausa entre fichas
+2026-05-22T04:13:44.300Z Procesando 3/25
+2026-05-22T04:13:44.303Z Abriendo ficha: https://www.google.com/maps/place/Bom+Burger+Chile/data=!4m7!3m6!1s0x966457da626bba87:0xfe36f8dfbdec3664!8m2!3d-34.9858465!4d-71.2334531!16s%2Fg%2F11sh5q1j7g!19sChIJh7prYtpXZJYRZDbsvd_4Nv4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:13:44.492Z Pausa 3890 ms: espera de ficha
+2026-05-22T04:13:48.501Z Pausa 2918 ms: pausa entre fichas
+2026-05-22T04:13:51.424Z Procesando 4/25
+2026-05-22T04:13:51.428Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+La+Pasta/data=!4m7!3m6!1s0x966457d4b38ed84f:0x20a5ccbbc8917921!8m2!3d-34.9851392!4d-71.231846!16s%2Fg%2F11h41w0vc3!19sChIJT9iOs9RXZJYRIXmRyLvMpSA?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:13:51.644Z Pausa 2520 ms: espera de ficha
+2026-05-22T04:13:54.261Z Pausa 4470 ms: pausa entre fichas
+2026-05-22T04:13:58.738Z Procesando 5/25
+2026-05-22T04:13:58.740Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Fuente+Curicana/data=!4m7!3m6!1s0x9664f956f788b27b:0xbc81ea1f8e364bd2!8m2!3d-34.9884756!4d-71.2225595!16s%2Fg%2F11k58cxts2!19sChIJe7KI91b5ZJYR0ks2jh_qgbw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:13:58.916Z Pausa 4189 ms: espera de ficha
+2026-05-22T04:14:03.237Z Pausa 2874 ms: pausa entre fichas
+2026-05-22T04:14:06.122Z Procesando 6/25
+2026-05-22T04:14:06.127Z Abriendo ficha: https://www.google.com/maps/place/Soler+Curic%C3%B3/data=!4m7!3m6!1s0x966457c4fef73273:0xfea3825c6c785eed!8m2!3d-34.978038!4d-71.2066912!16s%2Fg%2F11cjj6q9kb!19sChIJczL3_sRXZJYR7V54bFyCo_4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:06.340Z Pausa 2520 ms: espera de ficha
+2026-05-22T04:14:08.975Z Pausa 4344 ms: pausa entre fichas
+2026-05-22T04:14:13.322Z Procesando 7/25
+2026-05-22T04:14:13.325Z Abriendo ficha: https://www.google.com/maps/place/Milenario+Restaurante/data=!4m7!3m6!1s0x96645783fd458cbb:0x44f6dfab4b45c6d5!8m2!3d-34.9846867!4d-71.2367248!16s%2Fg%2F11vr1d1ll3!19sChIJu4xF_YNXZJYR1cZFS6vf9kQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:13.524Z Pausa 2613 ms: espera de ficha
+2026-05-22T04:14:16.277Z Pausa 3104 ms: pausa entre fichas
+2026-05-22T04:14:19.393Z Procesando 8/25
+2026-05-22T04:14:19.397Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Zhong+yi/data=!4m7!3m6!1s0x96645709f83c55c9:0x5ee599a7c239913d!8m2!3d-34.98144!4d-71.2403999!16s%2Fg%2F11c60jqq9t!19sChIJyVU8-AlXZJYRPZE5wqeZ5V4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:19.584Z Pausa 2464 ms: espera de ficha
+2026-05-22T04:14:22.177Z Pausa 3492 ms: pausa entre fichas
+2026-05-22T04:14:25.681Z Procesando 9/25
+2026-05-22T04:14:25.687Z Abriendo ficha: https://www.google.com/maps/place/Perutaly/data=!4m7!3m6!1s0x966457150240d92d:0x732072fd0c537ae4!8m2!3d-34.9861375!4d-71.23123!16s%2Fg%2F11h3lfbcb5!19sChIJLdlAAhVXZJYR5HpTDP1yIHM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:25.867Z Pausa 4113 ms: espera de ficha
+2026-05-22T04:14:30.114Z Pausa 4286 ms: pausa entre fichas
+2026-05-22T04:14:34.411Z Procesando 10/25
+2026-05-22T04:14:34.413Z Abriendo ficha: https://www.google.com/maps/place/Rinc%C3%B3n+Marino/data=!4m7!3m6!1s0x966457aa6d97bb05:0x5f6ed0c99dab5cc5!8m2!3d-34.9930934!4d-71.2391405!16s%2Fg%2F11fxvxg_yt!19sChIJBbuXbapXZJYRxVyrncnQbl8?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:34.594Z Pausa 3982 ms: espera de ficha
+2026-05-22T04:14:38.693Z Pausa 2041 ms: pausa entre fichas
+2026-05-22T04:14:40.738Z Procesando 11/25
+2026-05-22T04:14:40.741Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Inti+Pehuen+Curico/data=!4m7!3m6!1s0x966457000f16e50d:0x658865810c1db26e!8m2!3d-34.9869479!4d-71.2136668!16s%2Fg%2F11vk4l61n8!19sChIJDeUWDwBXZJYRbrIdDIFliGU?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:40.937Z Pausa 3254 ms: espera de ficha
+2026-05-22T04:14:44.331Z Pausa 2635 ms: pausa entre fichas
+2026-05-22T04:14:46.970Z Procesando 12/25
+2026-05-22T04:14:46.975Z Abriendo ficha: https://www.google.com/maps/place/Mi+Casa+Restaurante/data=!4m7!3m6!1s0x9664570989291387:0xae7191c028006b89!8m2!3d-34.9819444!4d-71.2419444!16s%2Fg%2F11f08930gz!19sChIJhxMpiQlXZJYRiWsAKMCRca4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:47.156Z Pausa 4055 ms: espera de ficha
+2026-05-22T04:14:51.341Z Pausa 4071 ms: pausa entre fichas
+2026-05-22T04:14:55.420Z Procesando 13/25
+2026-05-22T04:14:55.425Z Abriendo ficha: https://www.google.com/maps/place/Lanzas+y+Fuego/data=!4m7!3m6!1s0x96645797d6a3d403:0x261665aea47f2fe0!8m2!3d-34.9851614!4d-71.2311832!16s%2Fg%2F11kb4rl__6!19sChIJA9Sj1pdXZJYR4C9_pK5lFiY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:14:55.617Z Pausa 3854 ms: espera de ficha
+2026-05-22T04:14:59.594Z Pausa 3449 ms: pausa entre fichas
+2026-05-22T04:15:03.060Z Procesando 14/25
+2026-05-22T04:15:03.065Z Abriendo ficha: https://www.google.com/maps/place/And%C3%B6/data=!4m7!3m6!1s0x966457af5186b1c3:0xf2d4ea5007c3a253!8m2!3d-34.9861433!4d-71.2290125!16s%2Fg%2F11dxdhgzk4!19sChIJw7GGUa9XZJYRU6LDB1Dq1PI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:03.248Z Pausa 2876 ms: espera de ficha
+2026-05-22T04:15:06.275Z Pausa 2420 ms: pausa entre fichas
+2026-05-22T04:15:08.711Z Procesando 15/25
+2026-05-22T04:15:08.713Z Abriendo ficha: https://www.google.com/maps/place/HIKI+STREET+FOOD/data=!4m7!3m6!1s0x9664575bf19b8bf9:0x87934df94f146b1d!8m2!3d-34.987194!4d-71.2418365!16s%2Fg%2F11s1rtmpl9!19sChIJ-Yub8VtXZJYRHWsUT_lNk4c?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:08.914Z Pausa 4328 ms: espera de ficha
+2026-05-22T04:15:13.355Z Pausa 3924 ms: pausa entre fichas
+2026-05-22T04:15:17.286Z Procesando 16/25
+2026-05-22T04:15:17.289Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Polinesia/data=!4m7!3m6!1s0x966457711abd2c91:0x32c8d699eabb9281!8m2!3d-34.9770753!4d-71.2550231!16s%2Fg%2F11tdlbm90_!19sChIJkSy9GnFXZJYRgZK76pnWyDI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:17.464Z Pausa 3364 ms: espera de ficha
+2026-05-22T04:15:20.969Z Pausa 3440 ms: pausa entre fichas
+2026-05-22T04:15:24.428Z Procesando 17/25
+2026-05-22T04:15:24.434Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Mi+Per%C3%BA+Curic%C3%B3/data=!4m7!3m6!1s0x966457e056870285:0x37b9a0af8159ac3a!8m2!3d-34.9829755!4d-71.2404993!16s%2Fg%2F11h4lcbpfb!19sChIJhQKHVuBXZJYROqxZga-guTc?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:24.658Z Pausa 2307 ms: espera de ficha
+2026-05-22T04:15:27.083Z Pausa 4250 ms: pausa entre fichas
+2026-05-22T04:15:31.344Z Procesando 18/25
+2026-05-22T04:15:31.349Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Oveja+huasa/data=!4m7!3m6!1s0x966457e1225f383f:0x361e5e6dd7901317!8m2!3d-34.9741027!4d-71.2177091!16s%2Fg%2F11v3sv_834!19sChIJPzhfIuFXZJYRFxOQ121eHjY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:31.553Z Pausa 3402 ms: espera de ficha
+2026-05-22T04:15:35.091Z Pausa 4620 ms: pausa entre fichas
+2026-05-22T04:15:39.728Z Procesando 19/25
+2026-05-22T04:15:39.732Z Abriendo ficha: https://www.google.com/maps/place/Teno+Sandwich+%28Romeral%29/data=!4m7!3m6!1s0x9664f6f55e19d58d:0x3e9f6469045f5d1c!8m2!3d-34.9594937!4d-71.1902941!16s%2Fg%2F11bxf59sbh!19sChIJjdUZXvX2ZJYRHF1fBGlknz4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:39.908Z Pausa 3154 ms: espera de ficha
+2026-05-22T04:15:43.173Z Pausa 4789 ms: pausa entre fichas
+2026-05-22T04:15:47.986Z Procesando 20/25
+2026-05-22T04:15:47.990Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Pasion+Lime%C3%B1a/data=!4m7!3m6!1s0x96645716d1584e13:0xe23d5c70d69aec44!8m2!3d-34.9884289!4d-71.2430858!16s%2Fg%2F11j3wh0bb1!19sChIJE05Y0RZXZJYRROya1nBcPeI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:48.167Z Pausa 3955 ms: espera de ficha
+2026-05-22T04:15:52.241Z Pausa 4005 ms: pausa entre fichas
+2026-05-22T04:15:56.249Z Procesando 21/25
+2026-05-22T04:15:56.254Z Abriendo ficha: https://www.google.com/maps/place/Lungo+Restaurante+y+Cafeter%C3%ADa/data=!4m7!3m6!1s0x966457115e8eb7f7:0xde6ecfb1c763127c!8m2!3d-34.9854289!4d-71.2250875!16s%2Fg%2F11y1rvfcl4!19sChIJ97eOXhFXZJYRfBJjx7HPbt4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:15:56.431Z Pausa 4478 ms: espera de ficha
+2026-05-22T04:16:01.030Z Pausa 3116 ms: pausa entre fichas
+2026-05-22T04:16:04.149Z Procesando 22/25
+2026-05-22T04:16:04.153Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Peruvian/data=!4m7!3m6!1s0x966457235ce103cf:0x4d0344c3e7ea5eb!8m2!3d-34.9621278!4d-71.2022538!16s%2Fg%2F11nxcdmm76!19sChIJzwPhXCNXZJYR66V-Pkw00AQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:16:04.369Z Pausa 4479 ms: espera de ficha
+2026-05-22T04:16:09.004Z Pausa 2918 ms: pausa entre fichas
+2026-05-22T04:16:11.932Z Procesando 23/25
+2026-05-22T04:16:11.936Z Abriendo ficha: https://www.google.com/maps/place/La+Vizcaya+Curic%C3%B3/data=!4m7!3m6!1s0x9664576c93ab7fc7:0xd439b67218823c36!8m2!3d-34.9861526!4d-71.2283424!16s%2Fg%2F11xkwk5ydv!19sChIJx3-rk2xXZJYRNjyCGHK2OdQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:16:12.189Z Pausa 3352 ms: espera de ficha
+2026-05-22T04:16:15.650Z Pausa 3614 ms: pausa entre fichas
+2026-05-22T04:16:19.276Z Procesando 24/25
+2026-05-22T04:16:19.279Z Abriendo ficha: https://www.google.com/maps/place/Aj%C3%AD+criollo+de+Curico/data=!4m7!3m6!1s0x966457e42b683f4b:0x9056921874731942!8m2!3d-34.9852575!4d-71.2245606!16s%2Fg%2F11rr5j3jf7!19sChIJSz9oK-RXZJYRQhlzdBiSVpA?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:16:19.493Z Pausa 4874 ms: espera de ficha
+2026-05-22T04:16:24.484Z Pausa 3114 ms: pausa entre fichas
+2026-05-22T04:16:27.610Z Procesando 25/25
+2026-05-22T04:16:27.613Z Abriendo ficha: https://www.google.com/maps/place/ComoRoble+Restaurant/data=!4m7!3m6!1s0x9664f809c6e11b3d:0x887c8c479ee63490!8m2!3d-34.960998!4d-71.1910314!16s%2Fg%2F11f57s2shf!19sChIJPRvhxgn4ZJYRkDTmnkeMfIg?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:16:27.789Z Pausa 3886 ms: espera de ficha
+2026-05-22T04:16:31.781Z Pausa 3500 ms: pausa entre fichas
+2026-05-22T04:16:35.291Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\curico_restaurantes_30.csv
+2026-05-22T04:16:35.294Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\curico_restaurantes_30_raw.json
+2026-05-22T04:16:35.616Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\curico_restaurantes_30.xlsx
+2026-05-22T04:16:35.618Z Resumen final:
+2026-05-22T04:16:35.623Z Total filas extraídas: 25
+2026-05-22T04:16:35.625Z Total restaurantes válidos: 24
+2026-05-22T04:16:35.628Z Total no válidos: 1
+2026-05-22T04:16:35.631Z Teléfonos vacíos: 1
+2026-05-22T04:16:35.638Z Direcciones vacías: 0
+2026-05-22T04:16:35.641Z Sitios web vacíos: 11
+2026-05-22T04:16:35.644Z Duplicados eliminados: 0
+2026-05-22T04:16:35.647Z Fin scraper. Filas extraídas: 25

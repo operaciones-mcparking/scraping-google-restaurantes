@@ -1,0 +1,42 @@
+{
+  "1": {
+    "text": "Hola, ¿cómo estás? Te escribo porque encontré el restaurante {nombre} en {comuna} en Google y quería hacer una consulta comercial breve. ¿Con quién podría hablar?",
+    "active": true
+  },
+  "2": {
+    "text": "Hola, ¿cómo estás? Vi el restaurante {nombre} en Google y quería consultar si actualmente están trabajando con plataformas de delivery.",
+    "active": true
+  },
+  "3": {
+    "text": "Hola, ¿cómo estás? Vi que {nombre} aparece muy bien posicionado en Google y quería hacer una consulta comercial rápida. ¿Quién ve estos temas comerciales?",
+    "active": false
+  },
+  "4": {
+    "text": "Hola, ¿cómo estás? Quería conversar brevemente con el encargado de {nombre} sobre una oportunidad comercial.",
+    "active": false
+  },
+  "5": {
+    "text": "Hola, ¿cómo estás? Estoy contactando restaurantes de {comuna} y quería hacer una consulta rápida sobre {nombre}.",
+    "active": false
+  },
+  "6": {
+    "text": "Hola, ¿cómo estás? Vi {nombre} en Google y quería saber con quién puedo hablar sobre temas comerciales.",
+    "active": false
+  },
+  "7": {
+    "text": "Hola, ¿cómo estás? Quería hacer una consulta breve para {nombre}. ¿Me podrías orientar con la persona encargada?",
+    "active": false
+  },
+  "8": {
+    "text": "Hola, ¿cómo estás? Vi que {nombre} tiene presencia en Google y quería hacer una consulta comercial corta.",
+    "active": false
+  },
+  "9": {
+    "text": "Hola, ¿cómo estás? Te escribo por {nombre}; quería consultar si están evaluando nuevas opciones comerciales.",
+    "active": false
+  },
+  "10": {
+    "text": "Hola, ¿cómo estás? Quería hablar con la persona encargada de alianzas o ventas de {nombre}.",
+    "active": false
+  }
+}

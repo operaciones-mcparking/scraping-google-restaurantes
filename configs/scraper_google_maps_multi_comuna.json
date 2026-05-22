@@ -1,0 +1,78 @@
+{
+  "nombre": "santiago_oriente_la_florida_curico_chillan",
+  "busqueda": "restaurantes",
+  "maxResultados": 30,
+  "maxScrolls": 6,
+  "pausaMinMs": 2000,
+  "pausaMaxMs": 5000,
+  "headless": false,
+  "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "salidaConsolidadaExcel": "data/consolidado_restaurantes_priorizados.xlsx",
+  "salidaConsolidadaCsv": "data/consolidado_restaurantes_priorizados.csv",
+  "salidaResumenCsv": "data/resumen_restaurantes_priorizados.csv",
+  "comunas": [
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "Las Condes",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "las_condes"
+    },
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "Vitacura",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "vitacura"
+    },
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "Lo Barnechea",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "lo_barnechea"
+    },
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "Providencia",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "providencia"
+    },
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "La Reina",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "la_reina"
+    },
+    {
+      "grupo": "Santiago Oriente",
+      "comuna": "Ñuñoa",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "nunoa"
+    },
+    {
+      "grupo": "RM",
+      "comuna": "La Florida",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "slug": "la_florida"
+    },
+    {
+      "grupo": "Maule",
+      "comuna": "Curicó",
+      "region": "Maule",
+      "pais": "Chile",
+      "slug": "curico"
+    },
+    {
+      "grupo": "Ñuble",
+      "comuna": "Chillán",
+      "region": "Ñuble",
+      "pais": "Chile",
+      "slug": "chillan"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "config": {
+    "comuna": "La Florida",
+    "region": "Metropolitana",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 1,
+    "maxScrolls": 4,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_03_la_florida_manual.csv",
+    "salidaExcel": "data/incremental/incremental_03_la_florida_manual.xlsx",
+    "salidaRaw": "data/incremental/incremental_03_la_florida_manual_raw.json",
+    "log": "data/logs/incremental_03_la_florida_manual.log"
+  },
+  "searchUrl": "https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419",
+  "startedAt": "2026-05-22T14:20:42.297Z",
+  "resultUrls": [
+    "https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1"
+  ],
+  "rows": [
+    {
+      "Nombre restaurante": "Trattoria Valerio - Pizzas & Pastas",
+      "Rating": "4.7",
+      "Cantidad reviews": "79",
+      "Dirección": "Sgto. Candelaria Pérez 10661, La Florida, Región Metropolitana",
+      "Teléfono": "9 4260 8395",
+      "Sitio web": "",
+      "Categoría": "Restaurante",
+      "Google Maps URL": "https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1",
+      "Latitud": "-33.5564369",
+      "Longitud": "-70.5865183",
+      "Comuna": "La Florida",
+      "Región": "Metropolitana",
+      "País": "Chile",
+      "Fuente": "Google Maps web scraping con Playwright",
+      "Fecha extracción": "2026-05-22",
+      "Observaciones": "",
+      "Calidad dato": "Parcial",
+      "Es restaurante válido": "Sí",
+      "Instagram URL": "",
+      "Instagram Usuario": "",
+      "Facebook URL": "",
+      "TikTok URL": "",
+      "Tiene Redes": "",
+      "Calidad Redes": "",
+      "Está en Uber Eats": "",
+      "URL Uber Eats": "",
+      "Confianza Uber Eats": "",
+      "Está en PedidosYa": "",
+      "URL PedidosYa": "",
+      "Confianza PedidosYa": "",
+      "Está en Rappi": "",
+      "URL Rappi": "",
+      "Confianza Rappi": ""
+    }
+  ],
+  "finishedAt": "2026-05-22T14:20:51.906Z",
+  "rowsBeforeDedupe": 1,
+  "rowsAfterDedupe": 1,
+  "summary": {
+    "Total filas extraídas": 1,
+    "Total restaurantes válidos": 1,
+    "Total no válidos": 0,
+    "Teléfonos vacíos": 0,
+    "Direcciones vacías": 0,
+    "Sitios web vacíos": 1,
+    "Duplicados eliminados": 0
+  }
+}

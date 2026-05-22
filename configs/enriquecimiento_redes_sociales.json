@@ -1,0 +1,20 @@
+{
+  "entradaExcel": "data/consolidado_restaurantes_priorizados_normalizado.xlsx",
+  "hojaEntrada": "Base normalizada",
+  "filtroNivelComercial": "Alto potencial",
+  "maxPiloto": 10,
+  "salidaPilotoExcel": "data/social/piloto_alto_potencial_redes.xlsx",
+  "salidaPilotoCsv": "data/social/piloto_alto_potencial_redes.csv",
+  "salidaPilotoJson": "data/social/piloto_alto_potencial_redes.json",
+  "salidaCandidatosExcel": "data/social/alto_potencial_redes_candidatos.xlsx",
+  "salidaCandidatosCsv": "data/social/alto_potencial_redes_candidatos.csv",
+  "camposSociales": [
+    "Instagram URL",
+    "Instagram Usuario",
+    "Tiene Instagram",
+    "Calidad Instagram",
+    "Facebook URL",
+    "Tiene Facebook",
+    "Calidad Facebook"
+  ]
+}

@@ -1,0 +1,22 @@
+
+=== Actualizacion incremental 2026-05-22T05:01:38.819Z ===
+2026-05-22T05:01:38.820Z Inicio aplicación incremental
+2026-05-22T05:01:38.821Z Modo prueba: SI
+2026-05-22T05:01:38.821Z SQLite existente encontrado.
+2026-05-22T05:01:38.821Z Modo prueba activo: no se abrirá Google Maps ni se hará scraping.
+2026-05-22T05:01:38.821Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\gabyp\Documents\SCRAPING_GOOGLE\scripts\09_importar_base_a_sqlite.py --config C:\Users\gabyp\Documents\SCRAPING_GOOGLE\configs\actualizacion_incremental.json --test-no-scraping
+2026-05-22T05:01:39.215Z {
+2026-05-22T05:01:39.216Z   "encontrados": 10,
+2026-05-22T05:01:39.216Z   "insertados": 0,
+2026-05-22T05:01:39.216Z   "duplicados": 10,
+2026-05-22T05:01:39.216Z   "errores": 0,
+2026-05-22T05:01:39.216Z   "total_antes": 218,
+2026-05-22T05:01:39.216Z   "total_final": 218
+2026-05-22T05:01:39.217Z }
+2026-05-22T05:01:39.217Z Ejecutando: C:\Users\gabyp\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe C:\Users\gabyp\Documents\SCRAPING_GOOGLE\scripts\09_importar_base_a_sqlite.py --config C:\Users\gabyp\Documents\SCRAPING_GOOGLE\configs\actualizacion_incremental.json --export
+2026-05-22T05:01:39.541Z {
+2026-05-22T05:01:39.541Z   "Total base final": 218,
+2026-05-22T05:01:39.541Z   "Archivo Excel generado": "C:\\Users\\gabyp\\Documents\\SCRAPING_GOOGLE\\data\\base_restaurantes_actualizada.xlsx"
+2026-05-22T05:01:39.541Z }
+2026-05-22T05:01:39.542Z Resumen final: {"totalAntes":218,"encontrados":10,"insertados":0,"duplicados":10,"errores":0,"totalFinal":218}
+2026-05-22T05:01:39.542Z Fin aplicación incremental

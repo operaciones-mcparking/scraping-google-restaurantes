@@ -1,0 +1,11 @@
+{"fecha": "2026-05-22 05:39:45", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 3}
+{"fecha": "2026-05-22 05:44:17", "tipo_reset": "reset_individual", "cantidad_afectada": 0}
+{"fecha": "2026-05-22 05:44:20", "tipo_reset": "reset_individual", "cantidad_afectada": 0}
+{"fecha": "2026-05-22 05:44:31", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 1}
+{"fecha": "2026-05-22 05:44:33", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 0}
+{"fecha": "2026-05-22 10:21:38", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 1}
+{"fecha": "2026-05-22 11:24:59", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 3}
+{"fecha": "2026-05-22 12:47:12", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 8}
+{"fecha": "2026-05-22 13:02:18", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 2}
+{"fecha": "2026-05-22 14:29:17", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 5}
+{"fecha": "2026-05-22 14:42:27", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 2}

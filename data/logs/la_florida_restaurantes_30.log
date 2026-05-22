@@ -1,0 +1,119 @@
+2026-05-22T04:09:53.918Z Inicio scraper Google Maps piloto
+2026-05-22T04:09:53.922Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T04:09:53.925Z Máximo resultados: 30. Scrolls máximos: 6
+2026-05-22T04:09:54.706Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T04:09:55.200Z Pausa 3260 ms: carga inicial
+2026-05-22T04:09:58.600Z Resultados visibles acumulados: 7
+2026-05-22T04:09:58.633Z Pausa 4321 ms: scroll 1
+2026-05-22T04:10:02.978Z Resultados visibles acumulados: 7
+2026-05-22T04:10:03.013Z Pausa 2125 ms: scroll 2
+2026-05-22T04:10:05.162Z Resultados visibles acumulados: 14
+2026-05-22T04:10:05.187Z Pausa 3100 ms: scroll 3
+2026-05-22T04:10:08.305Z Resultados visibles acumulados: 14
+2026-05-22T04:10:08.335Z Pausa 2839 ms: scroll 4
+2026-05-22T04:10:11.192Z Resultados visibles acumulados: 21
+2026-05-22T04:10:11.223Z Pausa 3640 ms: scroll 5
+2026-05-22T04:10:14.886Z Resultados visibles acumulados: 21
+2026-05-22T04:10:14.916Z Pausa 2306 ms: scroll 6
+2026-05-22T04:10:17.244Z Resultados visibles acumulados: 22
+2026-05-22T04:10:17.248Z Fichas a abrir una por una: 22
+2026-05-22T04:10:17.252Z Procesando 1/22
+2026-05-22T04:10:17.255Z Abriendo ficha: https://www.google.com/maps/place/MANGIARE+PIZZER%C3%8DA/data=!4m7!3m6!1s0x9662d100060aba73:0x414e9e323b635b0c!8m2!3d-33.52863!4d-70.576936!16s%2Fg%2F11yfmrcxkm!19sChIJc7oKBgDRYpYRDFtjOzKeTkE?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:17.644Z Pausa 2974 ms: espera de ficha
+2026-05-22T04:10:20.814Z Pausa 4135 ms: pausa entre fichas
+2026-05-22T04:10:24.960Z Procesando 2/22
+2026-05-22T04:10:24.963Z Abriendo ficha: https://www.google.com/maps/place/La+Pinche+Pizza+Santa+Amalia/data=!4m7!3m6!1s0x9662d174162c590d:0x6674cdc6f6238622!8m2!3d-33.543272!4d-70.569287!16s%2Fg%2F11xyj30xqs!19sChIJDVksFnTRYpYRIoYj9sbNdGY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:25.392Z Pausa 2909 ms: espera de ficha
+2026-05-22T04:10:28.379Z Pausa 4791 ms: pausa entre fichas
+2026-05-22T04:10:33.186Z Procesando 3/22
+2026-05-22T04:10:33.187Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:33.353Z Pausa 4056 ms: espera de ficha
+2026-05-22T04:10:37.522Z Pausa 4876 ms: pausa entre fichas
+2026-05-22T04:10:42.400Z Procesando 4/22
+2026-05-22T04:10:42.404Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:42.582Z Pausa 2078 ms: espera de ficha
+2026-05-22T04:10:44.770Z Pausa 3171 ms: pausa entre fichas
+2026-05-22T04:10:47.950Z Procesando 5/22
+2026-05-22T04:10:47.951Z Abriendo ficha: https://www.google.com/maps/place/CABIMAS+TASTY+FOOD/data=!4m7!3m6!1s0x9662d1dacc48255b:0x6d53e79d90e8d33a!8m2!3d-33.5548557!4d-70.5860092!16s%2Fg%2F11vrz4mx5h!19sChIJWyVIzNrRYpYROtPokJ3nU20?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:48.168Z Pausa 2827 ms: espera de ficha
+2026-05-22T04:10:51.100Z Pausa 2428 ms: pausa entre fichas
+2026-05-22T04:10:53.534Z Procesando 6/22
+2026-05-22T04:10:53.538Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:53.710Z Pausa 2363 ms: espera de ficha
+2026-05-22T04:10:56.207Z Pausa 2755 ms: pausa entre fichas
+2026-05-22T04:10:58.974Z Procesando 7/22
+2026-05-22T04:10:58.978Z Abriendo ficha: https://www.google.com/maps/place/La+pic%C3%A1+de+la+cubana/data=!4m7!3m6!1s0x9662d10af3430c87:0x7291ecff6e8734a3!8m2!3d-33.560027!4d-70.5845971!16s%2Fg%2F11rn7t5jdv!19sChIJhwxD8wrRYpYRozSHbv_skXI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:10:59.172Z Pausa 3506 ms: espera de ficha
+2026-05-22T04:11:02.766Z Pausa 4364 ms: pausa entre fichas
+2026-05-22T04:11:07.142Z Procesando 8/22
+2026-05-22T04:11:07.146Z Abriendo ficha: https://www.google.com/maps/place/COCINERIA+DONDE+YOYO%27S/data=!4m7!3m6!1s0x9662d1d95c833fd9:0x3c68e41dd033ed33!8m2!3d-33.5371433!4d-70.5731178!16s%2Fg%2F11p5s69mwx!19sChIJ2T-DXNnRYpYRM-0z0B3kaDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:07.378Z Pausa 3293 ms: espera de ficha
+2026-05-22T04:11:10.797Z Pausa 3969 ms: pausa entre fichas
+2026-05-22T04:11:14.775Z Procesando 9/22
+2026-05-22T04:11:14.779Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Punta+Brasa+La+Florida/data=!4m7!3m6!1s0x9662cfa4d8996d17:0xff23c0d1e494ab08!8m2!3d-33.5179138!4d-70.563385!16s%2Fg%2F11s63xjxk7!19sChIJF22Z2KTPYpYRCKuU5NHAI_8?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:15.010Z Pausa 4667 ms: espera de ficha
+2026-05-22T04:11:19.786Z Pausa 3520 ms: pausa entre fichas
+2026-05-22T04:11:23.315Z Procesando 10/22
+2026-05-22T04:11:23.320Z Abriendo ficha: https://www.google.com/maps/place/Aqu%C3%AD+E%E2%80%99/data=!4m7!3m6!1s0x9662d16caadbd913:0xf4e8696dcf47dc21!8m2!3d-33.5571101!4d-70.5864892!16s%2Fg%2F11s5b_5mdy!19sChIJE9nbqmzRYpYRIdxHz21p6PQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:23.548Z Pausa 3644 ms: espera de ficha
+2026-05-22T04:11:27.353Z Pausa 2163 ms: pausa entre fichas
+2026-05-22T04:11:29.523Z Procesando 11/22
+2026-05-22T04:11:29.528Z Abriendo ficha: https://www.google.com/maps/place/La+Caleta+de+Don+Chuma/data=!4m7!3m6!1s0x9662d0c521288777:0x43817670a73eee44!8m2!3d-33.551873!4d-70.587242!16s%2Fg%2F11ddxvpj91!19sChIJd4coIcXQYpYRRO4-p3B2gUM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:29.713Z Pausa 3468 ms: espera de ficha
+2026-05-22T04:11:33.311Z Pausa 4348 ms: pausa entre fichas
+2026-05-22T04:11:37.668Z Procesando 12/22
+2026-05-22T04:11:37.672Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuely/data=!4m7!3m6!1s0x9662d0c49efb8c47:0xaab136974c576b03!8m2!3d-33.5491741!4d-70.5876885!16s%2Fg%2F11g6yz_6gb!19sChIJR4z7nsTQYpYRA2tXTJc2sao?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:37.883Z Pausa 3704 ms: espera de ficha
+2026-05-22T04:11:41.682Z Pausa 3661 ms: pausa entre fichas
+2026-05-22T04:11:45.357Z Procesando 13/22
+2026-05-22T04:11:45.362Z Abriendo ficha: https://www.google.com/maps/place/MEGA+AJISECO+LA+FLORIDA+8961/data=!4m7!3m6!1s0x9662d1942458681b:0x2af542540066ebdd!8m2!3d-33.5332063!4d-70.5748729!16s%2Fg%2F11tf8gq63b!19sChIJG2hYJJTRYpYR3etmAFRC9So?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:45.549Z Pausa 3720 ms: espera de ficha
+2026-05-22T04:11:49.386Z Pausa 2648 ms: pausa entre fichas
+2026-05-22T04:11:52.050Z Procesando 14/22
+2026-05-22T04:11:52.053Z Abriendo ficha: https://www.google.com/maps/place/El+Estribo/data=!4m7!3m6!1s0x9662d133b394bd4f:0xcb13d2321151ca64!8m2!3d-33.5559548!4d-70.5917283!16s%2Fg%2F11g_y5k1md!19sChIJT72UszPRYpYRZMpRETLSE8s?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:11:52.221Z Pausa 4171 ms: espera de ficha
+2026-05-22T04:11:56.479Z Pausa 4714 ms: pausa entre fichas
+2026-05-22T04:12:01.195Z Procesando 15/22
+2026-05-22T04:12:01.199Z Abriendo ficha: https://www.google.com/maps/place/La+Cocina+de+Gaby/data=!4m7!3m6!1s0x9662d1312d6c5fb1:0xb634a6553cf6c978!8m2!3d-33.5435071!4d-70.5719253!16s%2Fg%2F11flkghtz_!19sChIJsV9sLTHRYpYReMn2PFWmNLY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:01.402Z Pausa 4667 ms: espera de ficha
+2026-05-22T04:12:06.190Z Pausa 3909 ms: pausa entre fichas
+2026-05-22T04:12:10.104Z Procesando 16/22
+2026-05-22T04:12:10.108Z Abriendo ficha: https://www.google.com/maps/place/Sabrosura/data=!4m7!3m6!1s0x9662d1007e1676b7:0x4631cc0815cc56f7!8m2!3d-33.5532399!4d-70.5861815!16s%2Fg%2F11vr289qz6!19sChIJt3YWfgDRYpYR91bMFQjMMUY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:10.284Z Pausa 3687 ms: espera de ficha
+2026-05-22T04:12:14.056Z Pausa 3922 ms: pausa entre fichas
+2026-05-22T04:12:17.987Z Procesando 17/22
+2026-05-22T04:12:17.991Z Abriendo ficha: https://www.google.com/maps/place/Chinito+Dice/data=!4m7!3m6!1s0x9662d0001977171d:0x967b231f539179fd!8m2!3d-33.5518725!4d-70.5872416!16s%2Fg%2F1thw7yhn!19sChIJHRd3GQDQYpYR_XmRUx8je5Y?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:18.200Z Pausa 2628 ms: espera de ficha
+2026-05-22T04:12:20.934Z Pausa 2157 ms: pausa entre fichas
+2026-05-22T04:12:23.101Z Procesando 18/22
+2026-05-22T04:12:23.104Z Abriendo ficha: https://www.google.com/maps/place/El+Z%C3%B3calo+Cocina+Mexicana+-+La+Florida/data=!4m7!3m6!1s0x9662d1be294a7d55:0xaab20e8c6b122a8c!8m2!3d-33.5400067!4d-70.5596077!16s%2Fg%2F11rpczx24q!19sChIJVX1KKb7RYpYRjCoSa4wOsqo?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:23.316Z Pausa 4336 ms: espera de ficha
+2026-05-22T04:12:27.739Z Pausa 3164 ms: pausa entre fichas
+2026-05-22T04:12:30.912Z Procesando 19/22
+2026-05-22T04:12:30.917Z Abriendo ficha: https://www.google.com/maps/place/Sabor+X2+La+Florida/data=!4m7!3m6!1s0x9662d1eb98d949d3:0xed7775e8b16f208!8m2!3d-33.5205823!4d-70.5995334!16s%2Fg%2F11vlxfg6nt!19sChIJ00nZmOvRYpYRCPIWi1531w4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:31.099Z Pausa 2120 ms: espera de ficha
+2026-05-22T04:12:33.316Z Pausa 2022 ms: pausa entre fichas
+2026-05-22T04:12:35.346Z Procesando 20/22
+2026-05-22T04:12:35.349Z Abriendo ficha: https://www.google.com/maps/place/12+Food,+La+Florida/data=!4m7!3m6!1s0x9662d109cd97fa03:0x2c1e122440b54e76!8m2!3d-33.5486896!4d-70.5831831!16s%2Fg%2F11rwmftnj8!19sChIJA_qXzQnRYpYRdk61QCQSHiw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:35.553Z Pausa 2416 ms: espera de ficha
+2026-05-22T04:12:38.056Z Pausa 4403 ms: pausa entre fichas
+2026-05-22T04:12:42.473Z Procesando 21/22
+2026-05-22T04:12:42.477Z Abriendo ficha: https://www.google.com/maps/place/El+Hoyo/data=!4m7!3m6!1s0x9662d1cf3385455d:0xe395a204c2c76415!8m2!3d-33.5171712!4d-70.5972765!16s%2Fg%2F11sv720cml!19sChIJXUWFM8_RYpYRFWTHwgSileM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:42.673Z Pausa 3690 ms: espera de ficha
+2026-05-22T04:12:46.475Z Pausa 4324 ms: pausa entre fichas
+2026-05-22T04:12:50.803Z Procesando 22/22
+2026-05-22T04:12:50.807Z Abriendo ficha: https://www.google.com/maps/place/Nagai+Sushi+La+Florida/data=!4m7!3m6!1s0x9662d0d1d48d902d:0x1e19b02ad00dc61a!8m2!3d-33.556756!4d-70.5856981!16s%2Fg%2F11c37lv_gl!19sChIJLZCN1NHQYpYRGsYN0CqwGR4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:12:51.128Z Pausa 4209 ms: espera de ficha
+2026-05-22T04:12:55.539Z Pausa 4131 ms: pausa entre fichas
+2026-05-22T04:12:59.693Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_florida_restaurantes_30.csv
+2026-05-22T04:12:59.698Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_florida_restaurantes_30_raw.json
+2026-05-22T04:13:00.068Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_florida_restaurantes_30.xlsx
+2026-05-22T04:13:00.071Z Resumen final:
+2026-05-22T04:13:00.075Z Total filas extraídas: 22
+2026-05-22T04:13:00.079Z Total restaurantes válidos: 21
+2026-05-22T04:13:00.084Z Total no válidos: 1
+2026-05-22T04:13:00.088Z Teléfonos vacíos: 1
+2026-05-22T04:13:00.089Z Direcciones vacías: 0
+2026-05-22T04:13:00.093Z Sitios web vacíos: 9
+2026-05-22T04:13:00.095Z Duplicados eliminados: 0
+2026-05-22T04:13:00.097Z Fin scraper. Filas extraídas: 22

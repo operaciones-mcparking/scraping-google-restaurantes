@@ -1,0 +1,72 @@
+{
+  "config": {
+    "comuna": "Curicó",
+    "region": "Maule",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 1,
+    "maxScrolls": 4,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_02_curicó.csv",
+    "salidaExcel": "data/incremental/incremental_02_curicó.xlsx",
+    "salidaRaw": "data/incremental/incremental_02_curicó_raw.json",
+    "log": "data/logs/incremental_02_curicó.log"
+  },
+  "searchUrl": "https://www.google.com/maps/search/restaurantes%20en%20Curic%C3%B3%2C%20Regi%C3%B3n%20Maule%2C%20Chile?hl=es-419",
+  "startedAt": "2026-05-22T14:20:27.938Z",
+  "resultUrls": [
+    "https://www.google.com/maps/place/Brasas+Curic%C3%B3/data=!4m7!3m6!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80!19sChIJ0Y60EgFXZJYRtgoHjp2MbqE?authuser=0&hl=es-419&rclk=1"
+  ],
+  "rows": [
+    {
+      "Nombre restaurante": "Brasas Curicó",
+      "Rating": "4.5",
+      "Cantidad reviews": "449",
+      "Dirección": "A Zapallar 4, Kilometro 0, Curicó, Maule",
+      "Teléfono": "9 4267 3356",
+      "Sitio web": "http://www.brasascurico.cl/",
+      "Categoría": "Restaurante",
+      "Google Maps URL": "https://www.google.com/maps/place/Brasas+Curic%C3%B3/@-34.9867054,-71.2130128,17z/data=!3m1!4b1!4m6!3m5!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80?authuser=0&hl=es-419&entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D",
+      "Latitud": "-34.9867054",
+      "Longitud": "-71.2130128",
+      "Comuna": "Curicó",
+      "Región": "Maule",
+      "País": "Chile",
+      "Fuente": "Google Maps web scraping con Playwright",
+      "Fecha extracción": "2026-05-22",
+      "Observaciones": "",
+      "Calidad dato": "Completo",
+      "Es restaurante válido": "Sí",
+      "Instagram URL": "",
+      "Instagram Usuario": "",
+      "Facebook URL": "",
+      "TikTok URL": "",
+      "Tiene Redes": "",
+      "Calidad Redes": "",
+      "Está en Uber Eats": "",
+      "URL Uber Eats": "",
+      "Confianza Uber Eats": "",
+      "Está en PedidosYa": "",
+      "URL PedidosYa": "",
+      "Confianza PedidosYa": "",
+      "Está en Rappi": "",
+      "URL Rappi": "",
+      "Confianza Rappi": ""
+    }
+  ],
+  "finishedAt": "2026-05-22T14:20:40.359Z",
+  "rowsBeforeDedupe": 1,
+  "rowsAfterDedupe": 1,
+  "summary": {
+    "Total filas extraídas": 1,
+    "Total restaurantes válidos": 1,
+    "Total no válidos": 0,
+    "Teléfonos vacíos": 0,
+    "Direcciones vacías": 0,
+    "Sitios web vacíos": 0,
+    "Duplicados eliminados": 0
+  }
+}

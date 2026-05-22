@@ -1,0 +1,18 @@
+{
+  "piloto": {
+    "comuna": "Las Condes",
+    "region": "Metropolitana",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 10,
+    "maxScrolls": 3,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/piloto_las_condes_restaurantes.csv",
+    "salidaExcel": "data/piloto_las_condes_restaurantes.xlsx",
+    "salidaRaw": "data/piloto_las_condes_restaurantes_raw.json",
+    "log": "data/logs/piloto_las_condes_restaurantes.log"
+  }
+}

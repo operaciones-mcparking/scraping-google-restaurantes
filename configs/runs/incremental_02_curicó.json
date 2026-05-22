@@ -1,0 +1,18 @@
+{
+  "piloto": {
+    "comuna": "Curicó",
+    "region": "Maule",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 1,
+    "maxScrolls": 4,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_02_curicó.csv",
+    "salidaExcel": "data/incremental/incremental_02_curicó.xlsx",
+    "salidaRaw": "data/incremental/incremental_02_curicó_raw.json",
+    "log": "data/logs/incremental_02_curicó.log"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "entradaExcelPreferida": "data/social/alto_potencial_redes_candidatos.xlsx",
+  "entradaExcelFallback": "data/social/alto_potencial_redes_candidatos.xlsx",
+  "hojaEntrada": "Restaurantes",
+  "maxRestaurantes": 99,
+  "timeoutSegundos": 20,
+  "pausaSegundos": 2,
+  "salidaExcel": "data/alto_potencial_redes_enriquecido.xlsx",
+  "salidaCsv": "data/alto_potencial_redes_enriquecido.csv",
+  "salidaJson": "data/alto_potencial_redes_enriquecido.json",
+  "log": "data/logs/alto_potencial_redes_enriquecido.log"
+}

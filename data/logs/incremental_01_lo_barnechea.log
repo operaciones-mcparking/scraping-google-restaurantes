@@ -1,0 +1,87 @@
+2026-05-22T06:16:50.383Z Inicio scraper Google Maps piloto
+2026-05-22T06:16:50.384Z Búsqueda: restaurantes en Lo Barnechea, Región Metropolitana, Chile
+2026-05-22T06:16:50.384Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T06:16:50.966Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Lo%20Barnechea%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T06:16:51.299Z Pausa 4780 ms: carga inicial
+2026-05-22T06:16:56.160Z Resultados visibles acumulados: 7
+2026-05-22T06:16:56.176Z Pausa 3391 ms: scroll 1
+2026-05-22T06:16:59.582Z Resultados visibles acumulados: 7
+2026-05-22T06:16:59.601Z Pausa 3258 ms: scroll 2
+2026-05-22T06:17:02.883Z Resultados visibles acumulados: 14
+2026-05-22T06:17:02.900Z Pausa 2684 ms: scroll 3
+2026-05-22T06:17:05.598Z Resultados visibles acumulados: 14
+2026-05-22T06:17:05.617Z Pausa 3374 ms: scroll 4
+2026-05-22T06:17:09.017Z Resultados visibles acumulados: 15
+2026-05-22T06:17:09.018Z Fichas a abrir una por una: 15
+2026-05-22T06:17:09.019Z Procesando 1/15
+2026-05-22T06:17:09.021Z Abriendo ficha: https://www.google.com/maps/place/El+Mes%C3%B3n+de+la+Patagonia/data=!4m7!3m6!1s0x9662cbeb09419aab:0x4447846d929df05b!8m2!3d-33.3574868!4d-70.506569!16s%2Fg%2F1tgf4dy7!19sChIJq5pBCevLYpYRW_Cdkm2ER0Q?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:09.437Z Pausa 3780 ms: espera de ficha
+2026-05-22T06:17:13.300Z Pausa 3385 ms: pausa entre fichas
+2026-05-22T06:17:16.688Z Procesando 2/15
+2026-05-22T06:17:16.690Z Abriendo ficha: https://www.google.com/maps/place/Tanaka+La+Dehesa/data=!4m7!3m6!1s0x9662cbec0d115fa7:0xf24a8d6cb42a156c!8m2!3d-33.3522299!4d-70.517146!16s%2Fg%2F11gy7ylyxb!19sChIJp18RDezLYpYRbBUqtGyNSvI?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:17.020Z Pausa 4295 ms: espera de ficha
+2026-05-22T06:17:21.403Z Pausa 4508 ms: pausa entre fichas
+2026-05-22T06:17:25.921Z Procesando 3/15
+2026-05-22T06:17:25.923Z Abriendo ficha: https://www.google.com/maps/place/UDON+Portal+La+Dehesa/data=!4m7!3m6!1s0x9662cb5ba46928af:0x14c5dc5b672f2604!8m2!3d-33.3573513!4d-70.5151516!16s%2Fg%2F11yqb6qxky!19sChIJryhppFvLYpYRBCYvZ1vcxRQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:26.062Z Pausa 2852 ms: espera de ficha
+2026-05-22T06:17:28.979Z Pausa 2700 ms: pausa entre fichas
+2026-05-22T06:17:31.687Z Procesando 4/15
+2026-05-22T06:17:31.689Z Abriendo ficha: https://www.google.com/maps/place/La+Fabbrica+-+La+Dehesa/data=!4m7!3m6!1s0x9662cb28fc851d5d:0x75c5011bd73c3896!8m2!3d-33.3521845!4d-70.5200252!16s%2Fg%2F11kc0_lbb1!19sChIJXR2F_CjLYpYRljg81xsBxXU?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:31.825Z Pausa 4924 ms: espera de ficha
+2026-05-22T06:17:36.819Z Pausa 2407 ms: pausa entre fichas
+2026-05-22T06:17:39.237Z Procesando 5/15
+2026-05-22T06:17:39.239Z Abriendo ficha: https://www.google.com/maps/place/Barrica+94/data=!4m7!3m6!1s0x9662c59ac22dc56b:0x1403cd9464826478!8m2!3d-33.3567819!4d-70.5400355!16s%2Fg%2F11bwh9wr9_!19sChIJa8UtwprFYpYReGSCZJTNAxQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:39.400Z Pausa 2761 ms: espera de ficha
+2026-05-22T06:17:42.232Z Pausa 4735 ms: pausa entre fichas
+2026-05-22T06:17:46.970Z Procesando 6/15
+2026-05-22T06:17:46.972Z Abriendo ficha: https://www.google.com/maps/place/Delfina+Bistro/data=!4m7!3m6!1s0x9662cb0044df1c5d:0xcb72375c0611c704!8m2!3d-33.36034!4d-70.5148406!16s%2Fg%2F11xp4kcj0w!19sChIJXRzfRADLYpYRBMcRBlw3css?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:47.141Z Pausa 3375 ms: espera de ficha
+2026-05-22T06:17:50.575Z Pausa 2721 ms: pausa entre fichas
+2026-05-22T06:17:53.311Z Procesando 7/15
+2026-05-22T06:17:53.313Z Abriendo ficha: https://www.google.com/maps/place/Do%C3%B1a+Tina/data=!4m7!3m6!1s0x9662cb90b5ce7e15:0xd77184d3077867ff!8m2!3d-33.3610734!4d-70.4920546!16s%2Fg%2F1hjgq14dc!19sChIJFX7OtZDLYpYR_2d4B9OEcdc?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:17:53.518Z Pausa 4413 ms: espera de ficha
+2026-05-22T06:17:58.009Z Pausa 4077 ms: pausa entre fichas
+2026-05-22T06:18:02.093Z Procesando 8/15
+2026-05-22T06:18:02.095Z Abriendo ficha: https://www.google.com/maps/place/La+Divina+Comida/data=!4m7!3m6!1s0x9662cf05717c5b7b:0x4d119a3b0367fb!8m2!3d-33.3593793!4d-70.5072727!16s%2Fg%2F12lv_2r91!19sChIJe1t8cQXPYpYR-2cDO5oRTQA?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:02.277Z Pausa 4079 ms: espera de ficha
+2026-05-22T06:18:06.418Z Pausa 3071 ms: pausa entre fichas
+2026-05-22T06:18:09.493Z Procesando 9/15
+2026-05-22T06:18:09.495Z Abriendo ficha: https://www.google.com/maps/place/Aleman+Experto+La+Dehesa/data=!4m7!3m6!1s0x9662cbdd07f40b67:0x915b5dbe49b78295!8m2!3d-33.3573537!4d-70.5176429!16s%2Fg%2F11g8ygtnln!19sChIJZwv0B93LYpYRlYK3Sb5dW5E?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:09.676Z Pausa 3308 ms: espera de ficha
+2026-05-22T06:18:13.050Z Pausa 3638 ms: pausa entre fichas
+2026-05-22T06:18:16.693Z Procesando 10/15
+2026-05-22T06:18:16.695Z Abriendo ficha: https://www.google.com/maps/place/Margo+la+Dehesa/data=!4m7!3m6!1s0x9662c96a2dfd1409:0x725f7a3109c9c0e1!8m2!3d-33.3614438!4d-70.5450202!16s%2Fg%2F11bvvyh5n_!19sChIJCRT9LWrJYpYR4cDJCTF6X3I?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:16.853Z Pausa 4113 ms: espera de ficha
+2026-05-22T06:18:21.033Z Pausa 2990 ms: pausa entre fichas
+2026-05-22T06:18:24.035Z Procesando 11/15
+2026-05-22T06:18:24.037Z Abriendo ficha: https://www.google.com/maps/place/Z%C3%8DA+Bistr%C3%B3+%26+Caf%C3%A9/data=!4m7!3m6!1s0x9662cb0bb59653bf:0x621cf567cf02bc40!8m2!3d-33.3519791!4d-70.5121117!16s%2Fg%2F11lv74fdpq!19sChIJv1OWtQvLYpYRQLwCz2f1HGI?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:24.194Z Pausa 4401 ms: espera de ficha
+2026-05-22T06:18:28.886Z Pausa 3591 ms: pausa entre fichas
+2026-05-22T06:18:32.480Z Procesando 12/15
+2026-05-22T06:18:32.481Z Abriendo ficha: https://www.google.com/maps/place/Rishtedar+La+Dehesa/data=!4m7!3m6!1s0x9662cbe6c5693217:0x1785539e3974932c!8m2!3d-33.3524375!4d-70.5196951!16s%2Fg%2F11xtxwszz2!19sChIJFzJpxebLYpYRLJN0OZ5ThRc?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:32.687Z Pausa 2615 ms: espera de ficha
+2026-05-22T06:18:35.368Z Pausa 2564 ms: pausa entre fichas
+2026-05-22T06:18:37.940Z Procesando 13/15
+2026-05-22T06:18:37.942Z Abriendo ficha: https://www.google.com/maps/place/Fiamma/data=!4m7!3m6!1s0x9662cb0026674221:0xadb31afc1247a4da!8m2!3d-33.3585606!4d-70.5158902!16s%2Fg%2F11yczhp7tn!19sChIJIUJnJgDLYpYR2qRHEvwas60?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:38.107Z Pausa 2288 ms: espera de ficha
+2026-05-22T06:18:40.587Z Pausa 2887 ms: pausa entre fichas
+2026-05-22T06:18:43.475Z Procesando 14/15
+2026-05-22T06:18:43.477Z Abriendo ficha: https://www.google.com/maps/place/El+Japon%C3%A9s+-+Portal+La+Dehesa/data=!4m7!3m6!1s0x9662cb005123129b:0x55f574911866195d!8m2!3d-33.3587407!4d-70.5158683!16s%2Fg%2F11x0mhfd8d!19sChIJmxIjUQDLYpYRXRlmGJF09VU?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:43.611Z Pausa 4442 ms: espera de ficha
+2026-05-22T06:18:48.127Z Pausa 2919 ms: pausa entre fichas
+2026-05-22T06:18:51.067Z Procesando 15/15
+2026-05-22T06:18:51.069Z Abriendo ficha: https://www.google.com/maps/place/Nel%C3%AD+Portal+La+Dehesa/data=!4m7!3m6!1s0x9662cb76dd6c75a1:0xef4c811b5d84772f!8m2!3d-33.3573513!4d-70.5151516!16s%2Fg%2F11ww0wwdnp!19sChIJoXVs3XbLYpYRL3eEXRuBTO8?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:18:51.230Z Pausa 3603 ms: espera de ficha
+2026-05-22T06:18:54.897Z Pausa 4548 ms: pausa entre fichas
+2026-05-22T06:18:59.457Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_lo_barnechea.csv
+2026-05-22T06:18:59.457Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_lo_barnechea_raw.json
+2026-05-22T06:18:59.681Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_lo_barnechea.xlsx
+2026-05-22T06:18:59.682Z Resumen final:
+2026-05-22T06:18:59.682Z Total filas extraídas: 15
+2026-05-22T06:18:59.683Z Total restaurantes válidos: 14
+2026-05-22T06:18:59.684Z Total no válidos: 1
+2026-05-22T06:18:59.685Z Teléfonos vacíos: 3
+2026-05-22T06:18:59.686Z Direcciones vacías: 0
+2026-05-22T06:18:59.686Z Sitios web vacíos: 0
+2026-05-22T06:18:59.686Z Duplicados eliminados: 0
+2026-05-22T06:18:59.687Z Fin scraper. Filas extraídas: 15

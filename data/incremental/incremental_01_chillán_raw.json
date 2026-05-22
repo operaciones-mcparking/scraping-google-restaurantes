@@ -1,0 +1,72 @@
+{
+  "config": {
+    "comuna": "Chillán",
+    "region": "Ñuble",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 1,
+    "maxScrolls": 4,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_01_chillán.csv",
+    "salidaExcel": "data/incremental/incremental_01_chillán.xlsx",
+    "salidaRaw": "data/incremental/incremental_01_chillán_raw.json",
+    "log": "data/logs/incremental_01_chillán.log"
+  },
+  "searchUrl": "https://www.google.com/maps/search/restaurantes%20en%20Chill%C3%A1n%2C%20Regi%C3%B3n%20%C3%91uble%2C%20Chile?hl=es-419",
+  "startedAt": "2026-05-22T14:20:05.706Z",
+  "resultUrls": [
+    "https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1"
+  ],
+  "rows": [
+    {
+      "Nombre restaurante": "Secretos de la Nona Chillán Casa Matriz Tienda 1",
+      "Rating": "4.7",
+      "Cantidad reviews": "716",
+      "Dirección": "Arauco 937, 3800926 Chillán, Ñuble",
+      "Teléfono": "9 8573 2009",
+      "Sitio web": "https://secretosdelanona.cl/",
+      "Categoría": "Restaurante",
+      "Google Maps URL": "https://www.google.com/maps/place/Secretos+de+la+Nona+Chill%C3%A1n+Casa+Matriz+Tienda+1/data=!4m7!3m6!1s0x96692828f5997465:0x8416716d711296f7!8m2!3d-36.6116984!4d-72.1043029!16s%2Fg%2F11bwqg83gz!19sChIJZXSZ9SgoaZYR95YScW1xFoQ?authuser=0&hl=es-419&rclk=1",
+      "Latitud": "-36.6116984",
+      "Longitud": "-72.1043029",
+      "Comuna": "Chillán",
+      "Región": "Ñuble",
+      "País": "Chile",
+      "Fuente": "Google Maps web scraping con Playwright",
+      "Fecha extracción": "2026-05-22",
+      "Observaciones": "",
+      "Calidad dato": "Completo",
+      "Es restaurante válido": "Sí",
+      "Instagram URL": "",
+      "Instagram Usuario": "",
+      "Facebook URL": "",
+      "TikTok URL": "",
+      "Tiene Redes": "",
+      "Calidad Redes": "",
+      "Está en Uber Eats": "",
+      "URL Uber Eats": "",
+      "Confianza Uber Eats": "",
+      "Está en PedidosYa": "",
+      "URL PedidosYa": "",
+      "Confianza PedidosYa": "",
+      "Está en Rappi": "",
+      "URL Rappi": "",
+      "Confianza Rappi": ""
+    }
+  ],
+  "finishedAt": "2026-05-22T14:20:25.873Z",
+  "rowsBeforeDedupe": 1,
+  "rowsAfterDedupe": 1,
+  "summary": {
+    "Total filas extraídas": 1,
+    "Total restaurantes válidos": 1,
+    "Total no válidos": 0,
+    "Teléfonos vacíos": 0,
+    "Direcciones vacías": 0,
+    "Sitios web vacíos": 0,
+    "Duplicados eliminados": 0
+  }
+}

@@ -1,0 +1,89 @@
+2026-05-22T07:15:50.352Z Inicio scraper Google Maps piloto
+2026-05-22T07:15:50.353Z Búsqueda: restaurantes en Curicó, Región Maule, Chile
+2026-05-22T07:15:50.354Z Máximo resultados: 4. Scrolls máximos: 4
+2026-05-22T07:15:50.974Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Curic%C3%B3%2C%20Regi%C3%B3n%20Maule%2C%20Chile?hl=es-419
+2026-05-22T07:15:51.345Z Pausa 3227 ms: carga inicial
+2026-05-22T07:15:54.651Z Resultados visibles acumulados: 4
+2026-05-22T07:15:54.652Z Fichas a abrir una por una: 4
+2026-05-22T07:15:54.652Z Procesando 1/4
+2026-05-22T07:15:54.658Z Abriendo ficha: https://www.google.com/maps/place/Brasas+Curic%C3%B3/data=!4m7!3m6!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80!19sChIJ0Y60EgFXZJYRtgoHjp2MbqE?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:15:54.954Z Pausa 2138 ms: espera de ficha
+2026-05-22T07:15:57.166Z Pausa 3972 ms: pausa entre fichas
+2026-05-22T07:16:01.148Z Procesando 2/4
+2026-05-22T07:16:01.150Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Fuego+Bendito/data=!4m7!3m6!1s0x966457afd9136567:0xc43479034c42c4be!8m2!3d-34.9863974!4d-71.2301915!16s%2Fg%2F11c1xj9rk_!19sChIJZ2UT2a9XZJYRvsRCTAN5NMQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:16:01.626Z Pausa 2991 ms: espera de ficha
+2026-05-22T07:16:04.683Z Pausa 4347 ms: pausa entre fichas
+2026-05-22T07:16:09.034Z Procesando 3/4
+2026-05-22T07:16:09.035Z Abriendo ficha: https://www.google.com/maps/place/Bom+Burger+Chile/data=!4m7!3m6!1s0x966457da626bba87:0xfe36f8dfbdec3664!8m2!3d-34.9858465!4d-71.2334531!16s%2Fg%2F11sh5q1j7g!19sChIJh7prYtpXZJYRZDbsvd_4Nv4?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:16:09.210Z Pausa 2949 ms: espera de ficha
+2026-05-22T07:16:12.227Z Pausa 4243 ms: pausa entre fichas
+2026-05-22T07:16:16.479Z Procesando 4/4
+2026-05-22T07:16:16.480Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+La+Pasta/data=!4m7!3m6!1s0x966457d4b38ed84f:0x20a5ccbbc8917921!8m2!3d-34.9851392!4d-71.231846!16s%2Fg%2F11h41w0vc3!19sChIJT9iOs9RXZJYRIXmRyLvMpSA?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:16:16.665Z Pausa 4777 ms: espera de ficha
+2026-05-22T07:16:21.508Z Pausa 2369 ms: pausa entre fichas
+2026-05-22T07:16:23.886Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó.csv
+2026-05-22T07:16:23.887Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó_raw.json
+2026-05-22T07:16:24.109Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curic�.xlsx
+2026-05-22T07:16:24.110Z Resumen final:
+2026-05-22T07:16:24.111Z Total filas extraídas: 4
+2026-05-22T07:16:24.112Z Total restaurantes válidos: 4
+2026-05-22T07:16:24.113Z Total no válidos: 0
+2026-05-22T07:16:24.114Z Teléfonos vacíos: 0
+2026-05-22T07:16:24.115Z Direcciones vacías: 0
+2026-05-22T07:16:24.115Z Sitios web vacíos: 1
+2026-05-22T07:16:24.115Z Duplicados eliminados: 0
+2026-05-22T07:16:24.116Z Fin scraper. Filas extraídas: 4
+2026-05-22T07:52:19.464Z Inicio scraper Google Maps piloto
+2026-05-22T07:52:19.466Z Búsqueda: restaurantes en Curicó, Región Maule, Chile
+2026-05-22T07:52:19.467Z Máximo resultados: 3. Scrolls máximos: 8
+2026-05-22T07:52:20.276Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Curic%C3%B3%2C%20Regi%C3%B3n%20Maule%2C%20Chile?hl=es-419
+2026-05-22T07:52:20.700Z Pausa 4454 ms: carga inicial
+2026-05-22T07:52:25.262Z Resultados visibles acumulados: 3
+2026-05-22T07:52:25.263Z Fichas a abrir una por una: 3
+2026-05-22T07:52:25.264Z Procesando 1/3
+2026-05-22T07:52:25.265Z Abriendo ficha: https://www.google.com/maps/place/Brasas+Curic%C3%B3/data=!4m7!3m6!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80!19sChIJ0Y60EgFXZJYRtgoHjp2MbqE?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:52:25.619Z Pausa 3561 ms: espera de ficha
+2026-05-22T07:52:29.330Z Pausa 3391 ms: pausa entre fichas
+2026-05-22T07:52:32.726Z Procesando 2/3
+2026-05-22T07:52:32.727Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Fuego+Bendito/data=!4m7!3m6!1s0x966457afd9136567:0xc43479034c42c4be!8m2!3d-34.9863974!4d-71.2301915!16s%2Fg%2F11c1xj9rk_!19sChIJZ2UT2a9XZJYRvsRCTAN5NMQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:52:33.594Z Pausa 4395 ms: espera de ficha
+2026-05-22T07:52:38.108Z Pausa 4114 ms: pausa entre fichas
+2026-05-22T07:52:42.236Z Procesando 3/3
+2026-05-22T07:52:42.238Z Abriendo ficha: https://www.google.com/maps/place/Bom+Burger+Chile/data=!4m7!3m6!1s0x966457da626bba87:0xfe36f8dfbdec3664!8m2!3d-34.9858465!4d-71.2334531!16s%2Fg%2F11sh5q1j7g!19sChIJh7prYtpXZJYRZDbsvd_4Nv4?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:52:42.501Z Pausa 3717 ms: espera de ficha
+2026-05-22T07:52:46.844Z Pausa 4955 ms: pausa entre fichas
+2026-05-22T07:52:51.821Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó.csv
+2026-05-22T07:52:51.822Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó_raw.json
+2026-05-22T07:52:52.092Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curic�.xlsx
+2026-05-22T07:52:52.093Z Resumen final:
+2026-05-22T07:52:52.094Z Total filas extraídas: 3
+2026-05-22T07:52:52.095Z Total restaurantes válidos: 3
+2026-05-22T07:52:52.096Z Total no válidos: 0
+2026-05-22T07:52:52.096Z Teléfonos vacíos: 0
+2026-05-22T07:52:52.098Z Direcciones vacías: 0
+2026-05-22T07:52:52.099Z Sitios web vacíos: 1
+2026-05-22T07:52:52.100Z Duplicados eliminados: 0
+2026-05-22T07:52:52.100Z Fin scraper. Filas extraídas: 3
+2026-05-22T14:20:27.395Z Inicio scraper Google Maps piloto
+2026-05-22T14:20:27.398Z Búsqueda: restaurantes en Curicó, Región Maule, Chile
+2026-05-22T14:20:27.398Z Máximo resultados: 1. Scrolls máximos: 4
+2026-05-22T14:20:27.938Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20Curic%C3%B3%2C%20Regi%C3%B3n%20Maule%2C%20Chile?hl=es-419
+2026-05-22T14:20:28.338Z Pausa 2489 ms: carga inicial
+2026-05-22T14:20:30.919Z Resultados visibles acumulados: 1
+2026-05-22T14:20:30.920Z Fichas a abrir una por una: 1
+2026-05-22T14:20:30.921Z Procesando 1/1
+2026-05-22T14:20:30.921Z Abriendo ficha: https://www.google.com/maps/place/Brasas+Curic%C3%B3/data=!4m7!3m6!1s0x9664570112b48ed1:0xa16e8c9d8e070ab6!8m2!3d-34.9867054!4d-71.2130128!16s%2Fg%2F11s0w28p80!19sChIJ0Y60EgFXZJYRtgoHjp2MbqE?authuser=0&hl=es-419&rclk=1
+2026-05-22T14:20:31.295Z Pausa 4407 ms: espera de ficha
+2026-05-22T14:20:35.858Z Pausa 4486 ms: pausa entre fichas
+2026-05-22T14:20:40.365Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó.csv
+2026-05-22T14:20:40.366Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curicó_raw.json
+2026-05-22T14:20:40.641Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_02_curic�.xlsx
+2026-05-22T14:20:40.642Z Resumen final:
+2026-05-22T14:20:40.643Z Total filas extraídas: 1
+2026-05-22T14:20:40.644Z Total restaurantes válidos: 1
+2026-05-22T14:20:40.645Z Total no válidos: 0
+2026-05-22T14:20:40.646Z Teléfonos vacíos: 0
+2026-05-22T14:20:40.647Z Direcciones vacías: 0
+2026-05-22T14:20:40.648Z Sitios web vacíos: 0
+2026-05-22T14:20:40.649Z Duplicados eliminados: 0
+2026-05-22T14:20:40.650Z Fin scraper. Filas extraídas: 1

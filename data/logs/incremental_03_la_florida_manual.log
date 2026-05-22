@@ -1,0 +1,23 @@
+2026-05-22T14:20:41.723Z Inicio scraper Google Maps piloto
+2026-05-22T14:20:41.725Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T14:20:41.725Z Máximo resultados: 1. Scrolls máximos: 4
+2026-05-22T14:20:42.297Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T14:20:42.671Z Pausa 2135 ms: carga inicial
+2026-05-22T14:20:44.885Z Resultados visibles acumulados: 1
+2026-05-22T14:20:44.886Z Fichas a abrir una por una: 1
+2026-05-22T14:20:44.928Z Procesando 1/1
+2026-05-22T14:20:44.929Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T14:20:45.472Z Pausa 3357 ms: espera de ficha
+2026-05-22T14:20:48.985Z Pausa 2911 ms: pausa entre fichas
+2026-05-22T14:20:51.951Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_03_la_florida_manual.csv
+2026-05-22T14:20:51.952Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_03_la_florida_manual_raw.json
+2026-05-22T14:20:52.230Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_03_la_florida_manual.xlsx
+2026-05-22T14:20:52.231Z Resumen final:
+2026-05-22T14:20:52.232Z Total filas extraídas: 1
+2026-05-22T14:20:52.233Z Total restaurantes válidos: 1
+2026-05-22T14:20:52.234Z Total no válidos: 0
+2026-05-22T14:20:52.235Z Teléfonos vacíos: 0
+2026-05-22T14:20:52.236Z Direcciones vacías: 0
+2026-05-22T14:20:52.237Z Sitios web vacíos: 1
+2026-05-22T14:20:52.238Z Duplicados eliminados: 0
+2026-05-22T14:20:52.238Z Fin scraper. Filas extraídas: 1

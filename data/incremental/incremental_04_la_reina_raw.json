@@ -1,0 +1,72 @@
+{
+  "config": {
+    "comuna": "La Reina",
+    "region": "Metropolitana",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 1,
+    "maxScrolls": 4,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_04_la_reina.csv",
+    "salidaExcel": "data/incremental/incremental_04_la_reina.xlsx",
+    "salidaRaw": "data/incremental/incremental_04_la_reina_raw.json",
+    "log": "data/logs/incremental_04_la_reina.log"
+  },
+  "searchUrl": "https://www.google.com/maps/search/restaurantes%20en%20La%20Reina%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419",
+  "startedAt": "2026-05-22T14:20:53.978Z",
+  "resultUrls": [
+    "https://www.google.com/maps/place/Honua+Poke+Bar/data=!4m7!3m6!1s0x9662cf30d24d21fd:0x9717b0273fc65fdd!8m2!3d-33.404444!4d-70.557352!16s%2Fg%2F11gfp18h9k!19sChIJ_SFN0jDPYpYR3V_GPyewF5c?authuser=0&hl=es-419&rclk=1"
+  ],
+  "rows": [
+    {
+      "Nombre restaurante": "Honua Poke Bar",
+      "Rating": "4.6",
+      "Cantidad reviews": "139",
+      "Dirección": "Av. Las Condes 7134, 7560678 Las Condes, Región Metropolitana",
+      "Teléfono": "(2) 2884 1768",
+      "Sitio web": "https://honuapoke.cl/",
+      "Categoría": "Restaurante hawaiano",
+      "Google Maps URL": "https://www.google.com/maps/place/Honua+Poke+Bar/data=!4m7!3m6!1s0x9662cf30d24d21fd:0x9717b0273fc65fdd!8m2!3d-33.404444!4d-70.557352!16s%2Fg%2F11gfp18h9k!19sChIJ_SFN0jDPYpYR3V_GPyewF5c?authuser=0&hl=es-419&rclk=1",
+      "Latitud": "-33.404444",
+      "Longitud": "-70.557352",
+      "Comuna": "La Reina",
+      "Región": "Metropolitana",
+      "País": "Chile",
+      "Fuente": "Google Maps web scraping con Playwright",
+      "Fecha extracción": "2026-05-22",
+      "Observaciones": "",
+      "Calidad dato": "Completo",
+      "Es restaurante válido": "Sí",
+      "Instagram URL": "",
+      "Instagram Usuario": "",
+      "Facebook URL": "",
+      "TikTok URL": "",
+      "Tiene Redes": "",
+      "Calidad Redes": "",
+      "Está en Uber Eats": "",
+      "URL Uber Eats": "",
+      "Confianza Uber Eats": "",
+      "Está en PedidosYa": "",
+      "URL PedidosYa": "",
+      "Confianza PedidosYa": "",
+      "Está en Rappi": "",
+      "URL Rappi": "",
+      "Confianza Rappi": ""
+    }
+  ],
+  "finishedAt": "2026-05-22T14:21:05.416Z",
+  "rowsBeforeDedupe": 1,
+  "rowsAfterDedupe": 1,
+  "summary": {
+    "Total filas extraídas": 1,
+    "Total restaurantes válidos": 1,
+    "Total no válidos": 0,
+    "Teléfonos vacíos": 0,
+    "Direcciones vacías": 0,
+    "Sitios web vacíos": 0,
+    "Duplicados eliminados": 0
+  }
+}

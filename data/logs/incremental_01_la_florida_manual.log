@@ -1,0 +1,297 @@
+2026-05-22T05:12:15.648Z Inicio scraper Google Maps piloto
+2026-05-22T05:12:15.649Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T05:12:15.649Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T05:12:16.220Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T05:12:16.556Z Pausa 3179 ms: carga inicial
+2026-05-22T05:12:19.817Z Resultados visibles acumulados: 7
+2026-05-22T05:12:19.830Z Pausa 3136 ms: scroll 1
+2026-05-22T05:12:22.978Z Resultados visibles acumulados: 7
+2026-05-22T05:12:23.004Z Pausa 2441 ms: scroll 2
+2026-05-22T05:12:25.462Z Resultados visibles acumulados: 14
+2026-05-22T05:12:25.475Z Pausa 2241 ms: scroll 3
+2026-05-22T05:12:27.729Z Resultados visibles acumulados: 14
+2026-05-22T05:12:27.746Z Pausa 4750 ms: scroll 4
+2026-05-22T05:12:32.513Z Resultados visibles acumulados: 15
+2026-05-22T05:12:32.514Z Fichas a abrir una por una: 15
+2026-05-22T05:12:32.514Z Procesando 1/15
+2026-05-22T05:12:32.515Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:12:32.832Z Pausa 2400 ms: espera de ficha
+2026-05-22T05:12:35.296Z Pausa 2701 ms: pausa entre fichas
+2026-05-22T05:12:38.002Z Procesando 2/15
+2026-05-22T05:12:38.004Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:12:38.349Z Pausa 4593 ms: espera de ficha
+2026-05-22T05:12:43.013Z Pausa 2341 ms: pausa entre fichas
+2026-05-22T05:12:45.368Z Procesando 3/15
+2026-05-22T05:12:45.370Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:12:45.521Z Pausa 4148 ms: espera de ficha
+2026-05-22T05:12:49.733Z Pausa 2475 ms: pausa entre fichas
+2026-05-22T05:12:52.216Z Procesando 4/15
+2026-05-22T05:12:52.218Z Abriendo ficha: https://www.google.com/maps/place/CABIMAS+TASTY+FOOD/data=!4m7!3m6!1s0x9662d1dacc48255b:0x6d53e79d90e8d33a!8m2!3d-33.5548557!4d-70.5860092!16s%2Fg%2F11vrz4mx5h!19sChIJWyVIzNrRYpYROtPokJ3nU20?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:12:52.379Z Pausa 2533 ms: espera de ficha
+2026-05-22T05:12:54.981Z Pausa 2188 ms: pausa entre fichas
+2026-05-22T05:12:57.170Z Procesando 5/15
+2026-05-22T05:12:57.171Z Abriendo ficha: https://www.google.com/maps/place/La+pic%C3%A1+de+la+cubana/data=!4m7!3m6!1s0x9662d10af3430c87:0x7291ecff6e8734a3!8m2!3d-33.560027!4d-70.5845971!16s%2Fg%2F11rn7t5jdv!19sChIJhwxD8wrRYpYRozSHbv_skXI?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:12:57.318Z Pausa 3425 ms: espera de ficha
+2026-05-22T05:13:00.808Z Pausa 4486 ms: pausa entre fichas
+2026-05-22T05:13:05.297Z Procesando 6/15
+2026-05-22T05:13:05.299Z Abriendo ficha: https://www.google.com/maps/place/COCINERIA+DONDE+YOYO%27S/data=!4m7!3m6!1s0x9662d1d95c833fd9:0x3c68e41dd033ed33!8m2!3d-33.5371433!4d-70.5731178!16s%2Fg%2F11p5s69mwx!19sChIJ2T-DXNnRYpYRM-0z0B3kaDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:05.457Z Pausa 4654 ms: espera de ficha
+2026-05-22T05:13:10.192Z Pausa 2006 ms: pausa entre fichas
+2026-05-22T05:13:12.200Z Procesando 7/15
+2026-05-22T05:13:12.202Z Abriendo ficha: https://www.google.com/maps/place/Aqu%C3%AD+E%E2%80%99/data=!4m7!3m6!1s0x9662d16caadbd913:0xf4e8696dcf47dc21!8m2!3d-33.5571101!4d-70.5864892!16s%2Fg%2F11s5b_5mdy!19sChIJE9nbqmzRYpYRIdxHz21p6PQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:12.347Z Pausa 2052 ms: espera de ficha
+2026-05-22T05:13:14.464Z Pausa 4857 ms: pausa entre fichas
+2026-05-22T05:13:19.334Z Procesando 8/15
+2026-05-22T05:13:19.336Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Punta+Brasa+La+Florida/data=!4m7!3m6!1s0x9662cfa4d8996d17:0xff23c0d1e494ab08!8m2!3d-33.5179138!4d-70.563385!16s%2Fg%2F11s63xjxk7!19sChIJF22Z2KTPYpYRCKuU5NHAI_8?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:19.496Z Pausa 4059 ms: espera de ficha
+2026-05-22T05:13:23.619Z Pausa 2670 ms: pausa entre fichas
+2026-05-22T05:13:26.298Z Procesando 9/15
+2026-05-22T05:13:26.300Z Abriendo ficha: https://www.google.com/maps/place/La+Caleta+de+Don+Chuma/data=!4m7!3m6!1s0x9662d0c521288777:0x43817670a73eee44!8m2!3d-33.551873!4d-70.587242!16s%2Fg%2F11ddxvpj91!19sChIJd4coIcXQYpYRRO4-p3B2gUM?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:26.448Z Pausa 2968 ms: espera de ficha
+2026-05-22T05:13:29.479Z Pausa 3006 ms: pausa entre fichas
+2026-05-22T05:13:32.500Z Procesando 10/15
+2026-05-22T05:13:32.501Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuely/data=!4m7!3m6!1s0x9662d0c49efb8c47:0xaab136974c576b03!8m2!3d-33.5491741!4d-70.5876885!16s%2Fg%2F11g6yz_6gb!19sChIJR4z7nsTQYpYRA2tXTJc2sao?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:32.663Z Pausa 2278 ms: espera de ficha
+2026-05-22T05:13:35.012Z Pausa 4161 ms: pausa entre fichas
+2026-05-22T05:13:39.181Z Procesando 11/15
+2026-05-22T05:13:39.183Z Abriendo ficha: https://www.google.com/maps/place/MEGA+AJISECO+LA+FLORIDA+8961/data=!4m7!3m6!1s0x9662d1942458681b:0x2af542540066ebdd!8m2!3d-33.5332063!4d-70.5748729!16s%2Fg%2F11tf8gq63b!19sChIJG2hYJJTRYpYR3etmAFRC9So?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:39.335Z Pausa 2660 ms: espera de ficha
+2026-05-22T05:13:42.074Z Pausa 2272 ms: pausa entre fichas
+2026-05-22T05:13:44.349Z Procesando 12/15
+2026-05-22T05:13:44.350Z Abriendo ficha: https://www.google.com/maps/place/El+Estribo/data=!4m7!3m6!1s0x9662d133b394bd4f:0xcb13d2321151ca64!8m2!3d-33.5559548!4d-70.5917283!16s%2Fg%2F11g_y5k1md!19sChIJT72UszPRYpYRZMpRETLSE8s?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:44.493Z Pausa 3918 ms: espera de ficha
+2026-05-22T05:13:48.475Z Pausa 2300 ms: pausa entre fichas
+2026-05-22T05:13:50.781Z Procesando 13/15
+2026-05-22T05:13:50.783Z Abriendo ficha: https://www.google.com/maps/place/La+Cocina+de+Gaby/data=!4m7!3m6!1s0x9662d1312d6c5fb1:0xb634a6553cf6c978!8m2!3d-33.5435071!4d-70.5719253!16s%2Fg%2F11flkghtz_!19sChIJsV9sLTHRYpYReMn2PFWmNLY?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:50.932Z Pausa 4664 ms: espera de ficha
+2026-05-22T05:13:55.689Z Pausa 3891 ms: pausa entre fichas
+2026-05-22T05:13:59.582Z Procesando 14/15
+2026-05-22T05:13:59.584Z Abriendo ficha: https://www.google.com/maps/place/Sabrosura/data=!4m7!3m6!1s0x9662d1007e1676b7:0x4631cc0815cc56f7!8m2!3d-33.5532399!4d-70.5861815!16s%2Fg%2F11vr289qz6!19sChIJt3YWfgDRYpYR91bMFQjMMUY?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:13:59.739Z Pausa 3470 ms: espera de ficha
+2026-05-22T05:14:03.262Z Pausa 2708 ms: pausa entre fichas
+2026-05-22T05:14:05.981Z Procesando 15/15
+2026-05-22T05:14:05.983Z Abriendo ficha: https://www.google.com/maps/place/Chinito+Dice/data=!4m7!3m6!1s0x9662d0001977171d:0x967b231f539179fd!8m2!3d-33.5518725!4d-70.5872416!16s%2Fg%2F1thw7yhn!19sChIJHRd3GQDQYpYR_XmRUx8je5Y?authuser=0&hl=es-419&rclk=1
+2026-05-22T05:14:06.138Z Pausa 4927 ms: espera de ficha
+2026-05-22T05:14:11.138Z Pausa 2593 ms: pausa entre fichas
+2026-05-22T05:14:13.738Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T05:14:13.739Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T05:14:13.979Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T05:14:13.980Z Resumen final:
+2026-05-22T05:14:13.981Z Total filas extraídas: 15
+2026-05-22T05:14:13.981Z Total restaurantes válidos: 14
+2026-05-22T05:14:13.982Z Total no válidos: 1
+2026-05-22T05:14:13.982Z Teléfonos vacíos: 1
+2026-05-22T05:14:13.983Z Direcciones vacías: 0
+2026-05-22T05:14:13.983Z Sitios web vacíos: 7
+2026-05-22T05:14:13.984Z Duplicados eliminados: 0
+2026-05-22T05:14:13.984Z Fin scraper. Filas extraídas: 15
+2026-05-22T06:15:33.245Z Inicio scraper Google Maps piloto
+2026-05-22T06:15:33.246Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T06:15:33.247Z Máximo resultados: 3. Scrolls máximos: 4
+2026-05-22T06:15:33.814Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T06:15:34.176Z Pausa 4581 ms: carga inicial
+2026-05-22T06:15:38.844Z Resultados visibles acumulados: 3
+2026-05-22T06:15:38.845Z Fichas a abrir una por una: 3
+2026-05-22T06:15:38.846Z Procesando 1/3
+2026-05-22T06:15:38.846Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:15:39.155Z Pausa 2641 ms: espera de ficha
+2026-05-22T06:15:41.879Z Pausa 4588 ms: pausa entre fichas
+2026-05-22T06:15:46.471Z Procesando 2/3
+2026-05-22T06:15:46.472Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:15:46.838Z Pausa 2697 ms: espera de ficha
+2026-05-22T06:15:49.611Z Pausa 3031 ms: pausa entre fichas
+2026-05-22T06:15:52.654Z Procesando 3/3
+2026-05-22T06:15:52.655Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:15:52.790Z Pausa 2877 ms: espera de ficha
+2026-05-22T06:15:55.750Z Pausa 3869 ms: pausa entre fichas
+2026-05-22T06:15:59.626Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T06:15:59.627Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T06:15:59.859Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T06:15:59.860Z Resumen final:
+2026-05-22T06:15:59.861Z Total filas extraídas: 3
+2026-05-22T06:15:59.861Z Total restaurantes válidos: 3
+2026-05-22T06:15:59.862Z Total no válidos: 0
+2026-05-22T06:15:59.863Z Teléfonos vacíos: 0
+2026-05-22T06:15:59.863Z Direcciones vacías: 0
+2026-05-22T06:15:59.864Z Sitios web vacíos: 1
+2026-05-22T06:15:59.865Z Duplicados eliminados: 0
+2026-05-22T06:15:59.865Z Fin scraper. Filas extraídas: 3
+2026-05-22T06:19:28.566Z Inicio scraper Google Maps piloto
+2026-05-22T06:19:28.568Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T06:19:28.568Z Máximo resultados: 7. Scrolls máximos: 4
+2026-05-22T06:19:29.101Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T06:19:29.444Z Pausa 3149 ms: carga inicial
+2026-05-22T06:19:32.659Z Resultados visibles acumulados: 7
+2026-05-22T06:19:32.659Z Fichas a abrir una por una: 7
+2026-05-22T06:19:32.660Z Procesando 1/7
+2026-05-22T06:19:32.660Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:19:32.953Z Pausa 4314 ms: espera de ficha
+2026-05-22T06:19:37.388Z Pausa 4897 ms: pausa entre fichas
+2026-05-22T06:19:42.298Z Procesando 2/7
+2026-05-22T06:19:42.299Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:19:42.673Z Pausa 3040 ms: espera de ficha
+2026-05-22T06:19:45.782Z Pausa 3779 ms: pausa entre fichas
+2026-05-22T06:19:49.563Z Procesando 3/7
+2026-05-22T06:19:49.564Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:19:49.720Z Pausa 3995 ms: espera de ficha
+2026-05-22T06:19:53.792Z Pausa 3976 ms: pausa entre fichas
+2026-05-22T06:19:57.778Z Procesando 4/7
+2026-05-22T06:19:57.778Z Abriendo ficha: https://www.google.com/maps/place/CABIMAS+TASTY+FOOD/data=!4m7!3m6!1s0x9662d1dacc48255b:0x6d53e79d90e8d33a!8m2!3d-33.5548557!4d-70.5860092!16s%2Fg%2F11vrz4mx5h!19sChIJWyVIzNrRYpYROtPokJ3nU20?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:19:57.919Z Pausa 3370 ms: espera de ficha
+2026-05-22T06:20:01.373Z Pausa 4269 ms: pausa entre fichas
+2026-05-22T06:20:05.645Z Procesando 5/7
+2026-05-22T06:20:05.647Z Abriendo ficha: https://www.google.com/maps/place/La+pic%C3%A1+de+la+cubana/data=!4m7!3m6!1s0x9662d10af3430c87:0x7291ecff6e8734a3!8m2!3d-33.560027!4d-70.5845971!16s%2Fg%2F11rn7t5jdv!19sChIJhwxD8wrRYpYRozSHbv_skXI?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:20:05.800Z Pausa 4854 ms: espera de ficha
+2026-05-22T06:20:10.728Z Pausa 3429 ms: pausa entre fichas
+2026-05-22T06:20:14.162Z Procesando 6/7
+2026-05-22T06:20:14.163Z Abriendo ficha: https://www.google.com/maps/place/Aqu%C3%AD+E%E2%80%99/data=!4m7!3m6!1s0x9662d16caadbd913:0xf4e8696dcf47dc21!8m2!3d-33.5571101!4d-70.5864892!16s%2Fg%2F11s5b_5mdy!19sChIJE9nbqmzRYpYRIdxHz21p6PQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:20:14.297Z Pausa 4453 ms: espera de ficha
+2026-05-22T06:20:18.848Z Pausa 2162 ms: pausa entre fichas
+2026-05-22T06:20:21.013Z Procesando 7/7
+2026-05-22T06:20:21.014Z Abriendo ficha: https://www.google.com/maps/place/COCINERIA+DONDE+YOYO%27S/data=!4m7!3m6!1s0x9662d1d95c833fd9:0x3c68e41dd033ed33!8m2!3d-33.5371433!4d-70.5731178!16s%2Fg%2F11p5s69mwx!19sChIJ2T-DXNnRYpYRM-0z0B3kaDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T06:20:21.148Z Pausa 2569 ms: espera de ficha
+2026-05-22T06:20:23.793Z Pausa 4464 ms: pausa entre fichas
+2026-05-22T06:20:28.263Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T06:20:28.263Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T06:20:28.481Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T06:20:28.481Z Resumen final:
+2026-05-22T06:20:28.482Z Total filas extraídas: 7
+2026-05-22T06:20:28.482Z Total restaurantes válidos: 7
+2026-05-22T06:20:28.483Z Total no válidos: 0
+2026-05-22T06:20:28.484Z Teléfonos vacíos: 0
+2026-05-22T06:20:28.484Z Direcciones vacías: 0
+2026-05-22T06:20:28.485Z Sitios web vacíos: 3
+2026-05-22T06:20:28.485Z Duplicados eliminados: 0
+2026-05-22T06:20:28.486Z Fin scraper. Filas extraídas: 7
+2026-05-22T07:42:01.060Z Inicio scraper Google Maps piloto
+2026-05-22T07:42:01.061Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T07:42:01.061Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T07:42:01.660Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T07:42:02.034Z Pausa 4357 ms: carga inicial
+2026-05-22T07:42:06.478Z Resultados visibles acumulados: 7
+2026-05-22T07:42:06.491Z Pausa 2830 ms: scroll 1
+2026-05-22T07:42:07.327Z Inicio scraper Google Maps piloto
+2026-05-22T07:42:07.328Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T07:42:07.328Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T07:42:07.931Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T07:42:08.319Z Pausa 4390 ms: carga inicial
+2026-05-22T07:42:09.339Z Resultados visibles acumulados: 7
+2026-05-22T07:42:09.361Z Pausa 4345 ms: scroll 2
+2026-05-22T07:42:12.717Z Resultados visibles acumulados: 0
+2026-05-22T07:42:13.720Z Resultados visibles acumulados: 7
+2026-05-22T07:49:27.899Z Inicio scraper Google Maps piloto
+2026-05-22T07:49:27.901Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T07:49:27.901Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T07:49:28.797Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T07:49:29.651Z Pausa 4954 ms: carga inicial
+2026-05-22T07:49:34.760Z Resultados visibles acumulados: 7
+2026-05-22T07:49:34.790Z Pausa 4446 ms: scroll 1
+2026-05-22T07:53:33.931Z Inicio scraper Google Maps piloto
+2026-05-22T07:53:33.933Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T07:53:33.933Z Máximo resultados: 12. Scrolls máximos: 7
+2026-05-22T07:53:34.732Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T07:53:35.264Z Pausa 3958 ms: carga inicial
+2026-05-22T07:53:39.367Z Resultados visibles acumulados: 7
+2026-05-22T07:53:39.393Z Pausa 3994 ms: scroll 1
+2026-05-22T07:53:43.398Z Resultados visibles acumulados: 7
+2026-05-22T07:53:43.420Z Pausa 3834 ms: scroll 2
+2026-05-22T07:53:47.279Z Resultados visibles acumulados: 12
+2026-05-22T07:53:47.280Z Fichas a abrir una por una: 12
+2026-05-22T07:53:47.281Z Procesando 1/12
+2026-05-22T07:53:47.283Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:53:47.677Z Pausa 3060 ms: espera de ficha
+2026-05-22T07:53:50.860Z Pausa 3344 ms: pausa entre fichas
+2026-05-22T07:53:54.223Z Procesando 2/12
+2026-05-22T07:53:54.224Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:53:55.046Z Pausa 2026 ms: espera de ficha
+2026-05-22T07:53:57.189Z Pausa 2086 ms: pausa entre fichas
+2026-05-22T07:53:59.282Z Procesando 3/12
+2026-05-22T07:53:59.284Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:53:59.573Z Pausa 4466 ms: espera de ficha
+2026-05-22T07:54:04.155Z Pausa 3312 ms: pausa entre fichas
+2026-05-22T07:54:07.468Z Procesando 4/12
+2026-05-22T07:54:07.470Z Abriendo ficha: https://www.google.com/maps/place/CABIMAS+TASTY+FOOD/data=!4m7!3m6!1s0x9662d1dacc48255b:0x6d53e79d90e8d33a!8m2!3d-33.5548557!4d-70.5860092!16s%2Fg%2F11vrz4mx5h!19sChIJWyVIzNrRYpYROtPokJ3nU20?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:07.744Z Pausa 2218 ms: espera de ficha
+2026-05-22T07:54:10.093Z Pausa 2750 ms: pausa entre fichas
+2026-05-22T07:54:12.844Z Procesando 5/12
+2026-05-22T07:54:12.845Z Abriendo ficha: https://www.google.com/maps/place/La+pic%C3%A1+de+la+cubana/data=!4m7!3m6!1s0x9662d10af3430c87:0x7291ecff6e8734a3!8m2!3d-33.560027!4d-70.5845971!16s%2Fg%2F11rn7t5jdv!19sChIJhwxD8wrRYpYRozSHbv_skXI?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:13.106Z Pausa 4864 ms: espera de ficha
+2026-05-22T07:54:18.084Z Pausa 2579 ms: pausa entre fichas
+2026-05-22T07:54:20.668Z Procesando 6/12
+2026-05-22T07:54:20.670Z Abriendo ficha: https://www.google.com/maps/place/Aqu%C3%AD+E%E2%80%99/data=!4m7!3m6!1s0x9662d16caadbd913:0xf4e8696dcf47dc21!8m2!3d-33.5571101!4d-70.5864892!16s%2Fg%2F11s5b_5mdy!19sChIJE9nbqmzRYpYRIdxHz21p6PQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:20.984Z Pausa 4871 ms: espera de ficha
+2026-05-22T07:54:25.974Z Pausa 4804 ms: pausa entre fichas
+2026-05-22T07:54:30.782Z Procesando 7/12
+2026-05-22T07:54:30.784Z Abriendo ficha: https://www.google.com/maps/place/COCINERIA+DONDE+YOYO%27S/data=!4m7!3m6!1s0x9662d1d95c833fd9:0x3c68e41dd033ed33!8m2!3d-33.5371433!4d-70.5731178!16s%2Fg%2F11p5s69mwx!19sChIJ2T-DXNnRYpYRM-0z0B3kaDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:31.065Z Pausa 2045 ms: espera de ficha
+2026-05-22T07:54:33.276Z Pausa 4875 ms: pausa entre fichas
+2026-05-22T07:54:38.160Z Procesando 8/12
+2026-05-22T07:54:38.162Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Punta+Brasa+La+Florida/data=!4m7!3m6!1s0x9662cfa4d8996d17:0xff23c0d1e494ab08!8m2!3d-33.5179138!4d-70.563385!16s%2Fg%2F11s63xjxk7!19sChIJF22Z2KTPYpYRCKuU5NHAI_8?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:38.441Z Pausa 2874 ms: espera de ficha
+2026-05-22T07:54:41.963Z Pausa 2577 ms: pausa entre fichas
+2026-05-22T07:54:44.546Z Procesando 9/12
+2026-05-22T07:54:44.548Z Abriendo ficha: https://www.google.com/maps/place/La+Caleta+de+Don+Chuma/data=!4m7!3m6!1s0x9662d0c521288777:0x43817670a73eee44!8m2!3d-33.551873!4d-70.587242!16s%2Fg%2F11ddxvpj91!19sChIJd4coIcXQYpYRRO4-p3B2gUM?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:44.826Z Pausa 2893 ms: espera de ficha
+2026-05-22T07:54:48.061Z Pausa 3734 ms: pausa entre fichas
+2026-05-22T07:54:51.809Z Procesando 10/12
+2026-05-22T07:54:51.811Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+La+Abuely/data=!4m7!3m6!1s0x9662d0c49efb8c47:0xaab136974c576b03!8m2!3d-33.5491741!4d-70.5876885!16s%2Fg%2F11g6yz_6gb!19sChIJR4z7nsTQYpYRA2tXTJc2sao?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:52.088Z Pausa 2625 ms: espera de ficha
+2026-05-22T07:54:55.287Z Pausa 3338 ms: pausa entre fichas
+2026-05-22T07:54:58.627Z Procesando 11/12
+2026-05-22T07:54:58.628Z Abriendo ficha: https://www.google.com/maps/place/El+Estribo/data=!4m7!3m6!1s0x9662d133b394bd4f:0xcb13d2321151ca64!8m2!3d-33.5559548!4d-70.5917283!16s%2Fg%2F11g_y5k1md!19sChIJT72UszPRYpYRZMpRETLSE8s?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:54:58.897Z Pausa 2342 ms: espera de ficha
+2026-05-22T07:55:01.350Z Pausa 3391 ms: pausa entre fichas
+2026-05-22T07:55:04.748Z Procesando 12/12
+2026-05-22T07:55:04.750Z Abriendo ficha: https://www.google.com/maps/place/MEGA+AJISECO+LA+FLORIDA+8961/data=!4m7!3m6!1s0x9662d1942458681b:0x2af542540066ebdd!8m2!3d-33.5332063!4d-70.5748729!16s%2Fg%2F11tf8gq63b!19sChIJG2hYJJTRYpYR3etmAFRC9So?authuser=0&hl=es-419&rclk=1
+2026-05-22T07:55:05.017Z Pausa 4680 ms: espera de ficha
+2026-05-22T07:55:09.807Z Pausa 4802 ms: pausa entre fichas
+2026-05-22T07:55:14.615Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T07:55:14.617Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T07:55:14.926Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T07:55:14.927Z Resumen final:
+2026-05-22T07:55:14.928Z Total filas extraídas: 12
+2026-05-22T07:55:14.929Z Total restaurantes válidos: 12
+2026-05-22T07:55:14.930Z Total no válidos: 0
+2026-05-22T07:55:14.931Z Teléfonos vacíos: 0
+2026-05-22T07:55:14.933Z Direcciones vacías: 0
+2026-05-22T07:55:14.934Z Sitios web vacíos: 6
+2026-05-22T07:55:14.935Z Duplicados eliminados: 0
+2026-05-22T07:55:14.936Z Fin scraper. Filas extraídas: 12
+2026-05-22T08:00:02.295Z Inicio scraper Google Maps piloto
+2026-05-22T08:00:02.297Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T08:00:02.298Z Máximo resultados: 15. Scrolls máximos: 4
+2026-05-22T08:00:03.220Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T08:00:03.679Z Pausa 2105 ms: carga inicial
+2026-05-22T08:00:05.885Z Resultados visibles acumulados: 7
+2026-05-22T08:00:05.932Z Pausa 2967 ms: scroll 1
+2026-05-22T08:00:22.590Z Inicio scraper Google Maps piloto
+2026-05-22T08:00:22.592Z Búsqueda: restaurantes en La Florida, Región Metropolitana, Chile
+2026-05-22T08:00:22.592Z Máximo resultados: 3. Scrolls máximos: 10
+2026-05-22T08:00:23.457Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Florida%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T08:00:23.881Z Pausa 2221 ms: carga inicial
+2026-05-22T08:00:26.195Z Resultados visibles acumulados: 3
+2026-05-22T08:00:26.196Z Fichas a abrir una por una: 3
+2026-05-22T08:00:26.197Z Procesando 1/3
+2026-05-22T08:00:26.198Z Abriendo ficha: https://www.google.com/maps/place/Trattoria+Valerio+-+Pizzas+%26+Pastas/data=!4m7!3m6!1s0x9662d1b23d025fb7:0x7dbdf26df96b5f4a!8m2!3d-33.5564369!4d-70.5865183!16s%2Fg%2F11h3kchwvb!19sChIJt18CPbLRYpYRSl9r-W3yvX0?authuser=0&hl=es-419&rclk=1
+2026-05-22T08:00:26.574Z Pausa 4946 ms: espera de ficha
+2026-05-22T08:00:31.649Z Pausa 4040 ms: pausa entre fichas
+2026-05-22T08:00:35.693Z Procesando 2/3
+2026-05-22T08:00:35.694Z Abriendo ficha: https://www.google.com/maps/place/PITUCOPE+RESTAURANT+PERUANO/data=!4m7!3m6!1s0x9662d1f3ea9802bd:0xb96e888d0cfe64f!8m2!3d-33.54853!4d-70.5868698!16s%2Fg%2F11txb626fm!19sChIJvQKY6vPRYpYRT-bP0Ijolgs?authuser=0&hl=es-419&rclk=1
+2026-05-22T08:00:36.116Z Pausa 2345 ms: espera de ficha
+2026-05-22T08:00:38.545Z Pausa 2921 ms: pausa entre fichas
+2026-05-22T08:00:41.472Z Procesando 3/3
+2026-05-22T08:00:41.473Z Abriendo ficha: https://www.google.com/maps/place/El+Nomade+Cevicheria/data=!4m7!3m6!1s0x9662d12a163492e5:0xa48e479f19d80dcf!8m2!3d-33.5534033!4d-70.5832872!16s%2Fg%2F11s8c5t1wk!19sChIJ5ZI0FirRYpYRzw3YGZ9HjqQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T08:00:41.748Z Pausa 4895 ms: espera de ficha
+2026-05-22T08:00:46.721Z Pausa 2473 ms: pausa entre fichas
+2026-05-22T08:00:49.204Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.csv
+2026-05-22T08:00:49.205Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual_raw.json
+2026-05-22T08:00:49.489Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\incremental\incremental_01_la_florida_manual.xlsx
+2026-05-22T08:00:49.490Z Resumen final:
+2026-05-22T08:00:49.491Z Total filas extraídas: 3
+2026-05-22T08:00:49.492Z Total restaurantes válidos: 1
+2026-05-22T08:00:49.493Z Total no válidos: 2
+2026-05-22T08:00:49.494Z Teléfonos vacíos: 2
+2026-05-22T08:00:49.495Z Direcciones vacías: 2
+2026-05-22T08:00:49.496Z Sitios web vacíos: 3
+2026-05-22T08:00:49.497Z Duplicados eliminados: 0
+2026-05-22T08:00:49.498Z Fin scraper. Filas extraídas: 3

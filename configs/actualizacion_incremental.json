@@ -1,0 +1,39 @@
+{
+  "modoPrueba": true,
+  "entradaBaseExcel": "data/consolidado_restaurantes_priorizados_normalizado.xlsx",
+  "hojaBaseExcel": "Base normalizada",
+  "baseDatos": "data/restaurantes.db",
+  "excelSalida": "data/base_restaurantes_actualizada.xlsx",
+  "csvSalida": "data/base_restaurantes_actualizada.csv",
+  "log": "data/logs/actualizacion_incremental.log",
+  "maxNuevosObjetivo": 100,
+  "maxResultadosPorComuna": 30,
+  "maxScrollsPorComuna": 6,
+  "pausaMinMs": 2000,
+  "pausaMaxMs": 5000,
+  "detenerSiCaptchaOBloqueo": true,
+  "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "comunas": [
+    {
+      "comuna": "Las Condes",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "las_condes"
+    },
+    {
+      "comuna": "Vitacura",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "vitacura"
+    },
+    {
+      "comuna": "Providencia",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "providencia"
+    }
+  ]
+}

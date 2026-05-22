@@ -1,0 +1,127 @@
+2026-05-22T04:03:21.003Z Inicio scraper Google Maps piloto
+2026-05-22T04:03:21.008Z Búsqueda: restaurantes en La Reina, Región Metropolitana, Chile
+2026-05-22T04:03:21.010Z Máximo resultados: 30. Scrolls máximos: 6
+2026-05-22T04:03:21.831Z Abriendo Google Maps: https://www.google.com/maps/search/restaurantes%20en%20La%20Reina%2C%20Regi%C3%B3n%20Metropolitana%2C%20Chile?hl=es-419
+2026-05-22T04:03:22.222Z Pausa 3951 ms: carga inicial
+2026-05-22T04:03:26.319Z Resultados visibles acumulados: 7
+2026-05-22T04:03:26.349Z Pausa 4414 ms: scroll 1
+2026-05-22T04:03:30.785Z Resultados visibles acumulados: 7
+2026-05-22T04:03:30.853Z Pausa 3176 ms: scroll 2
+2026-05-22T04:03:34.044Z Resultados visibles acumulados: 14
+2026-05-22T04:03:34.089Z Pausa 4289 ms: scroll 3
+2026-05-22T04:03:38.403Z Resultados visibles acumulados: 14
+2026-05-22T04:03:38.429Z Pausa 3147 ms: scroll 4
+2026-05-22T04:03:41.601Z Resultados visibles acumulados: 20
+2026-05-22T04:03:41.627Z Pausa 2435 ms: scroll 5
+2026-05-22T04:03:44.076Z Resultados visibles acumulados: 20
+2026-05-22T04:03:44.107Z Pausa 2688 ms: scroll 6
+2026-05-22T04:03:46.818Z Resultados visibles acumulados: 24
+2026-05-22T04:03:46.820Z Fichas a abrir una por una: 24
+2026-05-22T04:03:46.825Z Procesando 1/24
+2026-05-22T04:03:46.829Z Abriendo ficha: https://www.google.com/maps/place/Nativo+La+Reina/data=!4m7!3m6!1s0x9662cf98005e3acf:0xb38e80ec60c96241!8m2!3d-33.4399398!4d-70.5352481!16s%2Fg%2F11jsy_22np!19sChIJzzpeAJjPYpYRQWLJYOyAjrM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:03:47.205Z Pausa 3357 ms: espera de ficha
+2026-05-22T04:03:50.682Z Pausa 3175 ms: pausa entre fichas
+2026-05-22T04:03:53.866Z Procesando 2/24
+2026-05-22T04:03:53.869Z Abriendo ficha: https://www.google.com/maps/place/Rishtedar+La+Reina/data=!4m7!3m6!1s0x9662cfef049c5a59:0x62d7e0cee1a1dfbe!8m2!3d-33.4381564!4d-70.5647696!16s%2Fg%2F11mpclnd94!19sChIJWVqcBO_PYpYRvt-h4c7g12I?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:03:54.300Z Pausa 4068 ms: espera de ficha
+2026-05-22T04:03:58.485Z Pausa 2271 ms: pausa entre fichas
+2026-05-22T04:04:00.764Z Procesando 3/24
+2026-05-22T04:04:00.767Z Abriendo ficha: https://www.google.com/maps/place/MANTO+Restaurant/data=!4m7!3m6!1s0x9662cfcbb11141c9:0x35a4bac8a7ee582a!8m2!3d-33.4519618!4d-70.538348!16s%2Fg%2F11srb13rs3!19sChIJyUERscvPYpYRKljup8i6pDU?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:00.958Z Pausa 4323 ms: espera de ficha
+2026-05-22T04:04:05.362Z Pausa 2385 ms: pausa entre fichas
+2026-05-22T04:04:07.757Z Procesando 4/24
+2026-05-22T04:04:07.761Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Peruano+Mar+Azul+-+La+Reina/data=!4m7!3m6!1s0x9662cfd6a982ad4f:0x3ef9442dc655264c!8m2!3d-33.4318791!4d-70.574902!16s%2Fg%2F11rz4qssd2!19sChIJT62CqdbPYpYRTCZVxi1E-T4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:07.954Z Pausa 2515 ms: espera de ficha
+2026-05-22T04:04:10.606Z Pausa 4928 ms: pausa entre fichas
+2026-05-22T04:04:15.541Z Procesando 5/24
+2026-05-22T04:04:15.545Z Abriendo ficha: https://www.google.com/maps/place/Majka+bistro/data=!4m7!3m6!1s0x9662cf0998558ffb:0xa642f0ef4fafcc28!8m2!3d-33.4386378!4d-70.5580849!16s%2Fg%2F11tj6jsqrx!19sChIJ-49VmAnPYpYRKMyvT-_wQqY?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:15.732Z Pausa 2671 ms: espera de ficha
+2026-05-22T04:04:18.482Z Pausa 4152 ms: pausa entre fichas
+2026-05-22T04:04:22.643Z Procesando 6/24
+2026-05-22T04:04:22.649Z Abriendo ficha: https://www.google.com/maps/place/Restaurante+Criollo+Internacional+%7C+El+Patio+Eche%C3%B1ique+%7C+Lounge+Bar/data=!4m7!3m6!1s0x9662cfe8e5c3ded5:0x4bb76a377dd89198!8m2!3d-33.4450936!4d-70.5660145!16s%2Fg%2F11tcv3fwx0!19sChIJ1d7D5ejPYpYRmJHYfTdqt0s?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:22.842Z Pausa 4231 ms: espera de ficha
+2026-05-22T04:04:27.193Z Pausa 3050 ms: pausa entre fichas
+2026-05-22T04:04:30.257Z Procesando 7/24
+2026-05-22T04:04:30.262Z Abriendo ficha: https://www.google.com/maps/place/La+Fuente+Reina/data=!4m7!3m6!1s0x9662ce6ee23a6d41:0x428d73a4f02fff8b!8m2!3d-33.4416745!4d-70.5430468!16s%2Fg%2F11b8_pfyv2!19sChIJQW064m7OYpYRi_8v8KRzjUI?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:30.486Z Pausa 2166 ms: espera de ficha
+2026-05-22T04:04:32.773Z Pausa 2916 ms: pausa entre fichas
+2026-05-22T04:04:35.699Z Procesando 8/24
+2026-05-22T04:04:35.702Z Abriendo ficha: https://www.google.com/maps/place/Mir%C3%A1+Vos+-+La+Reina/data=!4m7!3m6!1s0x9662cf74d37d9353:0x64bc36c209e55d0a!8m2!3d-33.4494895!4d-70.5434544!16s%2Fg%2F11v3_77_yz!19sChIJU5N903TPYpYRCl3lCcI2vGQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:35.927Z Pausa 3402 ms: espera de ficha
+2026-05-22T04:04:39.409Z Pausa 4823 ms: pausa entre fichas
+2026-05-22T04:04:44.243Z Procesando 9/24
+2026-05-22T04:04:44.247Z Abriendo ficha: https://www.google.com/maps/place/Caleta+La+Reina/data=!4m7!3m6!1s0x9662ce70da1a5c9b:0x8953fc9ad2c0866e!8m2!3d-33.4399483!4d-70.5333349!16s%2Fg%2F11dxq2tymz!19sChIJm1wa2nDOYpYRbobA0pr8U4k?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:44.458Z Pausa 3605 ms: espera de ficha
+2026-05-22T04:04:48.140Z Pausa 2589 ms: pausa entre fichas
+2026-05-22T04:04:50.742Z Procesando 10/24
+2026-05-22T04:04:50.747Z Abriendo ficha: https://www.google.com/maps/place/El+Fog%C3%B3n+del+Gaucho/data=!4m7!3m6!1s0x9662ce7185a04db3:0x4b8ad831d51e6612!8m2!3d-33.4448001!4d-70.5645338!16s%2Fg%2F1vv2tfr7!19sChIJs02ghXHOYpYREmYe1THYiks?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:50.932Z Pausa 3639 ms: espera de ficha
+2026-05-22T04:04:54.657Z Pausa 2194 ms: pausa entre fichas
+2026-05-22T04:04:56.858Z Procesando 11/24
+2026-05-22T04:04:56.862Z Abriendo ficha: https://www.google.com/maps/place/La+Fuente+Carrera/data=!4m7!3m6!1s0x9662cfeb359d9aed:0x3ca0a354368ab903!8m2!3d-33.4533085!4d-70.5668294!16s%2Fg%2F11jj4zp3qz!19sChIJ7ZqdNevPYpYRA7mKNlSjoDw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:04:57.087Z Pausa 4116 ms: espera de ficha
+2026-05-22T04:05:01.331Z Pausa 4621 ms: pausa entre fichas
+2026-05-22T04:05:05.958Z Procesando 12/24
+2026-05-22T04:05:05.962Z Abriendo ficha: https://www.google.com/maps/place/Vecchia+Casa+restobar/data=!4m7!3m6!1s0x9662ce49f124307b:0x59b109a9939ed6bc!8m2!3d-33.4531048!4d-70.5676562!16s%2Fg%2F11bvt187pp!19sChIJezAk8UnOYpYRvNaek6kJsVk?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:06.152Z Pausa 4485 ms: espera de ficha
+2026-05-22T04:05:10.735Z Pausa 4032 ms: pausa entre fichas
+2026-05-22T04:05:14.776Z Procesando 13/24
+2026-05-22T04:05:14.779Z Abriendo ficha: https://www.google.com/maps/place/La+Fonda+Paisa+Terraza+Bar/data=!4m7!3m6!1s0x9662cf5e15dd6799:0xfd6686523076d5a1!8m2!3d-33.4514878!4d-70.5428287!16s%2Fg%2F11ppjntz69!19sChIJmWfdFV7PYpYRodV2MFKGZv0?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:14.968Z Pausa 4412 ms: espera de ficha
+2026-05-22T04:05:19.493Z Pausa 3138 ms: pausa entre fichas
+2026-05-22T04:05:22.639Z Procesando 14/24
+2026-05-22T04:05:22.640Z Abriendo ficha: https://www.google.com/maps/place/Restaurant+Nan+Fang+La+reina/data=!4m7!3m6!1s0x9662ce5b153ede8d:0x4587872a3c76776a!8m2!3d-33.4402615!4d-70.5572938!16s%2Fg%2F1tykwlnf!19sChIJjd4-FVvOYpYRand2PCqHh0U?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:22.819Z Pausa 2348 ms: espera de ficha
+2026-05-22T04:05:25.277Z Pausa 3570 ms: pausa entre fichas
+2026-05-22T04:05:28.853Z Procesando 15/24
+2026-05-22T04:05:28.859Z Abriendo ficha: https://www.google.com/maps/place/Alem%C3%A1n+Experto+La+Reina/data=!4m7!3m6!1s0x9662cf3cb647e3db:0x9eade190733dd480!8m2!3d-33.4476738!4d-70.5712117!16s%2Fg%2F11l72v5qy1!19sChIJ2-NHtjzPYpYRgNQ9c5DhrZ4?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:29.045Z Pausa 4181 ms: espera de ficha
+2026-05-22T04:05:33.340Z Pausa 2770 ms: pausa entre fichas
+2026-05-22T04:05:36.120Z Procesando 16/24
+2026-05-22T04:05:36.125Z Abriendo ficha: https://www.google.com/maps/place/El+DUO/data=!4m7!3m6!1s0x9662ce483b4a011b:0x1321b75deaa90219!8m2!3d-33.4530421!4d-70.5639659!16s%2Fg%2F11cns8g5z6!19sChIJGwFKO0jOYpYRGQKp6l23IRM?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:36.337Z Pausa 4263 ms: espera de ficha
+2026-05-22T04:05:40.697Z Pausa 3035 ms: pausa entre fichas
+2026-05-22T04:05:43.737Z Procesando 17/24
+2026-05-22T04:05:43.742Z Abriendo ficha: https://www.google.com/maps/place/Casa+Valerio+Restaurant/data=!4m7!3m6!1s0x9662c5ad21577f41:0xba98ab0e8dbffc96!8m2!3d-33.4522001!4d-70.5618285!16s%2Fg%2F11b_2njgy4!19sChIJQX9XIa3FYpYRlvy_jQ6rmLo?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:43.921Z Pausa 2228 ms: espera de ficha
+2026-05-22T04:05:46.271Z Pausa 2484 ms: pausa entre fichas
+2026-05-22T04:05:48.760Z Procesando 18/24
+2026-05-22T04:05:48.764Z Abriendo ficha: https://www.google.com/maps/place/Lima+Lim%C3%B3n+La+Reina/data=!4m7!3m6!1s0x9662ce5b7f2954d1:0xe7f1362d3d2bd41b!8m2!3d-33.4386034!4d-70.5572379!16s%2Fg%2F11c0vldmsf!19sChIJ0VQpf1vOYpYRG9QrPS028ec?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:48.948Z Pausa 2795 ms: espera de ficha
+2026-05-22T04:05:51.866Z Pausa 3192 ms: pausa entre fichas
+2026-05-22T04:05:55.071Z Procesando 19/24
+2026-05-22T04:05:55.074Z Abriendo ficha: https://www.google.com/maps/place/Casa+Pacifico/data=!4m7!3m6!1s0x9662cf480e4ced61:0x505493b78ac03af!8m2!3d-33.4408983!4d-70.5334422!16s%2Fg%2F11md3pvkwt!19sChIJYe1MDkjPYpYRrwOseDtJBQU?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:05:55.269Z Pausa 3794 ms: espera de ficha
+2026-05-22T04:05:59.176Z Pausa 4332 ms: pausa entre fichas
+2026-05-22T04:06:03.517Z Procesando 20/24
+2026-05-22T04:06:03.523Z Abriendo ficha: https://www.google.com/maps/place/Rossie+La+Loca+-+La+Reina/data=!4m7!3m6!1s0x9662cfea2a83a653:0xe5457febea8db8cc!8m2!3d-33.4391642!4d-70.5568456!16s%2Fg%2F11wbdssxp8!19sChIJU6aDKurPYpYRzLiN6ut_ReU?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:06:03.785Z Pausa 2549 ms: espera de ficha
+2026-05-22T04:06:06.446Z Pausa 4955 ms: pausa entre fichas
+2026-05-22T04:06:11.421Z Procesando 21/24
+2026-05-22T04:06:11.426Z Abriendo ficha: https://www.google.com/maps/place/Mister+Fish+La+Reina/data=!4m7!3m6!1s0x9662cfc0eace1ae3:0xdac4b383858abb36!8m2!3d-33.4314761!4d-70.578257!16s%2Fg%2F11ls_nm_xd!19sChIJ4xrO6sDPYpYRNruKhYOzxNo?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:06:11.626Z Pausa 2650 ms: espera de ficha
+2026-05-22T04:06:14.400Z Pausa 3482 ms: pausa entre fichas
+2026-05-22T04:06:17.892Z Procesando 22/24
+2026-05-22T04:06:17.896Z Abriendo ficha: https://www.google.com/maps/place/El+Japon%C3%A9s+-+MallPlaza+Ega%C3%B1a/data=!4m7!3m6!1s0x9662cf85bf55bc7d:0xdc8042e989203a0b!8m2!3d-33.4524377!4d-70.5694704!16s%2Fg%2F11shx7yg7v!19sChIJfbxVv4XPYpYRCzogielCgNw?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:06:18.088Z Pausa 2186 ms: espera de ficha
+2026-05-22T04:06:20.368Z Pausa 3725 ms: pausa entre fichas
+2026-05-22T04:06:24.105Z Procesando 23/24
+2026-05-22T04:06:24.110Z Abriendo ficha: https://www.google.com/maps/place/La+Cabrera+Al+Paso+Ega%C3%B1a/data=!4m7!3m6!1s0x9662cf00018543bd:0xa745b446141cd7d0!8m2!3d-33.4522161!4d-70.5691478!16s%2Fg%2F11lydt55qj!19sChIJvUOFAQDPYpYR0NccFEa0Rac?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:06:24.295Z Pausa 2197 ms: espera de ficha
+2026-05-22T04:06:26.570Z Pausa 2748 ms: pausa entre fichas
+2026-05-22T04:06:29.335Z Procesando 24/24
+2026-05-22T04:06:29.339Z Abriendo ficha: https://www.google.com/maps/place/Mattarello/data=!4m7!3m6!1s0x9662ce50c17b5211:0x7401100e212ac2cd!8m2!3d-33.4383135!4d-70.5641203!16s%2Fg%2F11gfdv9jck!19sChIJEVJ7wVDOYpYRzcIqIQ4QAXQ?authuser=0&hl=es-419&rclk=1
+2026-05-22T04:06:29.520Z Pausa 2140 ms: espera de ficha
+2026-05-22T04:06:31.739Z Pausa 3239 ms: pausa entre fichas
+2026-05-22T04:06:34.995Z CSV creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_reina_restaurantes_30.csv
+2026-05-22T04:06:34.998Z RAW JSON creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_reina_restaurantes_30_raw.json
+2026-05-22T04:06:35.351Z XLSX creado: C:\Users\gabyp\Documents\SCRAPING_GOOGLE\data\comunas\la_reina_restaurantes_30.xlsx
+2026-05-22T04:06:35.354Z Resumen final:
+2026-05-22T04:06:35.358Z Total filas extraídas: 24
+2026-05-22T04:06:35.362Z Total restaurantes válidos: 23
+2026-05-22T04:06:35.365Z Total no válidos: 1
+2026-05-22T04:06:35.368Z Teléfonos vacíos: 1
+2026-05-22T04:06:35.371Z Direcciones vacías: 0
+2026-05-22T04:06:35.377Z Sitios web vacíos: 3
+2026-05-22T04:06:35.382Z Duplicados eliminados: 0
+2026-05-22T04:06:35.386Z Fin scraper. Filas extraídas: 24
