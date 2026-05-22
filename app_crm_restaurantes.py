@@ -16,7 +16,7 @@ import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
-from auth import auth_config, current_user_email, is_authenticated, login, logout
+from auth import auth_config, current_user_email, is_authenticated, last_auth_error, last_auth_error_detail, login, logout
 from data_source import (
     get_data_mode,
     insert_historial_evento as ds_insert_historial_evento,
@@ -180,9 +180,78 @@ def inject_styles() -> None:
             --crm-line: #e3e7eb;
             --crm-card: #ffffff;
             --crm-shadow: 0 8px 22px rgba(31, 41, 51, 0.055);
+            color-scheme: light;
+        }
+        html,
+        body,
+        .stApp,
+        [data-testid="stAppViewContainer"],
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            color-scheme: light !important;
         }
         .stApp {
             background: #f7f8fa;
+        }
+        input,
+        textarea,
+        select,
+        div[data-baseweb="input"],
+        div[data-baseweb="input"] > div,
+        div[data-baseweb="textarea"],
+        div[data-baseweb="textarea"] > div,
+        div[data-baseweb="textarea"] textarea,
+        div[data-baseweb="select"],
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="popover"] div,
+        div[data-testid="stTextInput"] input,
+        div[data-testid="stTextArea"] textarea,
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
+        div[data-testid="stNumberInput"] input,
+        div[data-testid="stDateInput"] input {
+            background-color: #FFFFFF !important;
+            color: #1F2937 !important;
+            border-color: #E5E7EB !important;
+            color-scheme: light !important;
+            -webkit-text-fill-color: #1F2937 !important;
+            caret-color: #1F2937 !important;
+        }
+        input::placeholder,
+        textarea::placeholder,
+        div[data-baseweb="input"] input::placeholder,
+        div[data-baseweb="textarea"] textarea::placeholder {
+            color: #6B7280 !important;
+            -webkit-text-fill-color: #6B7280 !important;
+            opacity: 1 !important;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset !important;
+            -webkit-text-fill-color: #1F2937 !important;
+            caret-color: #1F2937 !important;
+            transition: background-color 9999s ease-in-out 0s !important;
+        }
+        div[data-baseweb="select"] span,
+        div[data-baseweb="select"] input,
+        div[data-baseweb="select"] svg,
+        div[data-testid="stSelectbox"] span,
+        div[data-testid="stMultiSelect"] span {
+            color: #1F2937 !important;
+            fill: #1F2937 !important;
+            -webkit-text-fill-color: #1F2937 !important;
+        }
+        div[data-baseweb="tag"] {
+            background-color: #F3F4F6 !important;
+            color: #1F2937 !important;
+            border-color: #E5E7EB !important;
+        }
+        div[data-baseweb="tag"] span {
+            color: #1F2937 !important;
+            -webkit-text-fill-color: #1F2937 !important;
         }
         .block-container {
             width: 100%;
@@ -540,6 +609,136 @@ def inject_styles() -> None:
             box-shadow: var(--crm-shadow);
             max-width: 100%;
         }
+        .skeleton-shell {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .skeleton-card {
+            border: 1px solid #e8ebef;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 14px;
+            box-sizing: border-box;
+        }
+        .skeleton-line,
+        .skeleton-pill,
+        .skeleton-button,
+        .skeleton-textarea,
+        .skeleton-table-cell,
+        .skeleton-dot {
+            position: relative;
+            overflow: hidden;
+            background: #eef1f4;
+        }
+        .skeleton-line::after,
+        .skeleton-pill::after,
+        .skeleton-button::after,
+        .skeleton-textarea::after,
+        .skeleton-table-cell::after,
+        .skeleton-dot::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.68), transparent);
+            animation: skeleton-shimmer 1.45s ease-in-out infinite;
+        }
+        @keyframes skeleton-shimmer {
+            100% { transform: translateX(100%); }
+        }
+        .skeleton-line {
+            height: 12px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+        .skeleton-title {
+            height: 22px;
+            max-width: 68%;
+        }
+        .skeleton-subtitle {
+            height: 13px;
+            max-width: 42%;
+        }
+        .skeleton-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 16px;
+        }
+        .skeleton-pill {
+            width: 78px;
+            height: 24px;
+            border-radius: 999px;
+        }
+        .skeleton-button-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .skeleton-button {
+            height: 40px;
+            border-radius: 10px;
+        }
+        .skeleton-textarea {
+            height: 130px;
+            border-radius: 10px;
+            margin: 10px 0 12px;
+        }
+        .skeleton-table {
+            border: 1px solid #e8ebef;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+        }
+        .skeleton-table-row {
+            display: grid;
+            grid-template-columns: 42px minmax(140px, 1fr) 82px;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 10px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        .skeleton-table-row:last-child {
+            border-bottom: 0;
+        }
+        .skeleton-table-cell {
+            height: 13px;
+            border-radius: 999px;
+        }
+        .skeleton-timeline {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(130px, 1fr));
+            gap: 16px;
+            align-items: center;
+            overflow: hidden;
+            padding-top: 10px;
+        }
+        .skeleton-event {
+            display: grid;
+            gap: 8px;
+            justify-items: center;
+        }
+        .skeleton-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+        }
+        @media (max-width: 768px) {
+            .skeleton-table-row {
+                grid-template-columns: 34px minmax(120px, 1fr);
+            }
+            .skeleton-table-row .skeleton-table-cell:nth-child(3) {
+                display: none;
+            }
+            .skeleton-button-row {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-timeline {
+                grid-template-columns: repeat(3, minmax(120px, 1fr));
+                overflow-x: auto;
+            }
+        }
         @media (min-width: 1600px) {
             .block-container {
                 padding-left: 3.25rem;
@@ -565,9 +764,32 @@ def inject_styles() -> None:
                 max-width: 100%;
             }
         }
-        @media (max-width: 760px) {
+        @media (max-width: 768px) {
             .block-container {
                 padding: 0.65rem 0.75rem 1.2rem 0.75rem;
+            }
+            input,
+            textarea,
+            select,
+            div[data-baseweb="input"],
+            div[data-baseweb="input"] > div,
+            div[data-baseweb="textarea"],
+            div[data-baseweb="textarea"] > div,
+            div[data-baseweb="textarea"] textarea,
+            div[data-baseweb="select"],
+            div[data-baseweb="select"] > div,
+            div[data-testid="stTextInput"] input,
+            div[data-testid="stTextArea"] textarea,
+            div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+            div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
+            div[data-testid="stNumberInput"] input,
+            div[data-testid="stDateInput"] input {
+                background-color: #FFFFFF !important;
+                color: #1F2937 !important;
+                border-color: #E5E7EB !important;
+                color-scheme: light !important;
+                -webkit-text-fill-color: #1F2937 !important;
+                caret-color: #1F2937 !important;
             }
             .crm-topbar {
                 align-items: flex-start;
@@ -1230,6 +1452,10 @@ def inject_styles() -> None:
         div[data-testid="stNumberInput"] input,
         div[data-testid="stDateInput"] input,
         textarea {
+            background-color: #FFFFFF !important;
+            color: #1F2937 !important;
+            border-color: #E5E7EB !important;
+            color-scheme: light !important;
             min-height: 40px !important;
             border-radius: var(--crm-control-radius) !important;
             font-size: 15px !important;
@@ -1367,6 +1593,143 @@ def clean_text(value: object) -> str:
         return ""
     text = str(value)
     return "" if text.lower() == "nan" else text.strip()
+
+
+def skeleton_line(width: str = "100%", class_name: str = "") -> str:
+    classes = f"skeleton-line {class_name}".strip()
+    return f'<div class="{classes}" style="width:{width};"></div>'
+
+
+def render_skeleton_restaurant_rows(rows: int = 12) -> None:
+    row_html = "".join(
+        """
+        <div class="skeleton-table-row">
+            <div class="skeleton-table-cell" style="width:28px;"></div>
+            <div class="skeleton-table-cell" style="width:92%;"></div>
+            <div class="skeleton-table-cell" style="width:66px;"></div>
+        </div>
+        """
+        for _ in range(rows)
+    )
+    st.markdown(
+        f"""
+        <div class="skeleton-shell">
+            {skeleton_line("46%", "skeleton-title")}
+            {skeleton_line("34%", "skeleton-subtitle")}
+            <div class="skeleton-table">{row_html}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_selected_lead() -> None:
+    st.markdown(
+        f"""
+        <div class="skeleton-shell">
+            {skeleton_line("70%", "skeleton-title")}
+            <div class="skeleton-pill-row">
+                <div class="skeleton-pill"></div>
+                <div class="skeleton-pill"></div>
+                <div class="skeleton-pill"></div>
+                <div class="skeleton-pill"></div>
+            </div>
+            {skeleton_line("48%")}
+            <div class="skeleton-button-row">
+                <div class="skeleton-button"></div>
+                <div class="skeleton-button"></div>
+            </div>
+            <div class="skeleton-textarea"></div>
+            <div class="skeleton-button"></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_whatsapp() -> None:
+    st.markdown(
+        f"""
+        <div class="skeleton-shell">
+            {skeleton_line("56%", "skeleton-title")}
+            <div class="skeleton-pill-row">
+                <div class="skeleton-pill"></div>
+                <div class="skeleton-pill"></div>
+            </div>
+            {skeleton_line("84%")}
+            <div class="skeleton-textarea"></div>
+            <div class="skeleton-button-row">
+                <div class="skeleton-button"></div>
+                <div class="skeleton-button"></div>
+            </div>
+            {skeleton_line("58%")}
+            {skeleton_line("72%")}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_history_rows(rows: int = 6) -> None:
+    row_html = "".join(
+        """
+        <div class="skeleton-table-row" style="grid-template-columns:minmax(140px,1.2fr) 78px 94px minmax(160px,1fr);">
+            <div class="skeleton-table-cell" style="width:90%;"></div>
+            <div class="skeleton-table-cell" style="width:64px;"></div>
+            <div class="skeleton-table-cell" style="width:78px;"></div>
+            <div class="skeleton-table-cell" style="width:86%;"></div>
+        </div>
+        """
+        for _ in range(rows)
+    )
+    st.markdown(
+        f"""
+        <div class="skeleton-shell">
+            {skeleton_line("38%", "skeleton-title")}
+            <div class="skeleton-table">{row_html}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_timeline() -> None:
+    events = "".join(
+        """
+        <div class="skeleton-event">
+            <div class="skeleton-line" style="width:96px;"></div>
+            <div class="skeleton-line" style="width:124px;"></div>
+            <div class="skeleton-dot"></div>
+            <div class="skeleton-line" style="width:68px;"></div>
+        </div>
+        """
+        for _ in range(5)
+    )
+    st.markdown(
+        f"""
+        <div class="skeleton-card">
+            {skeleton_line("28%", "skeleton-title")}
+            {skeleton_line("22%", "skeleton-subtitle")}
+            <div class="skeleton-timeline">{events}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_workspace() -> None:
+    cols = st.columns([0.38, 0.30, 0.32], gap="large")
+    with cols[0]:
+        with st.container(border=True, height=650):
+            render_skeleton_restaurant_rows(12)
+    with cols[1]:
+        with st.container(border=True, height=650):
+            render_skeleton_selected_lead()
+    with cols[2]:
+        with st.container(border=True, height=650):
+            render_skeleton_whatsapp()
+    render_panel_grid_spacer()
+    render_skeleton_timeline()
 
 
 def find_column(df: pd.DataFrame, candidates: list[str]) -> str | None:
@@ -2412,6 +2775,41 @@ def render_header() -> None:
             st.rerun()
 
 
+def inject_login_mobile_autocomplete() -> None:
+    components.html(
+        """
+        <script>
+        const applyLoginAutocomplete = () => {
+          const doc = window.parent.document;
+          const email = doc.querySelector('input[aria-label="Correo electrónico"]');
+          const password = doc.querySelector('input[aria-label="Contraseña"]');
+
+          if (email) {
+            email.setAttribute("autocomplete", "email");
+            email.setAttribute("inputmode", "email");
+            email.setAttribute("autocapitalize", "none");
+            email.setAttribute("autocorrect", "off");
+            email.setAttribute("spellcheck", "false");
+          }
+
+          if (password) {
+            password.setAttribute("autocomplete", "current-password");
+            password.setAttribute("autocapitalize", "none");
+            password.setAttribute("autocorrect", "off");
+            password.setAttribute("spellcheck", "false");
+          }
+        };
+
+        applyLoginAutocomplete();
+        window.setTimeout(applyLoginAutocomplete, 250);
+        window.setTimeout(applyLoginAutocomplete, 1000);
+        </script>
+        """,
+        height=0,
+        width=0,
+    )
+
+
 def render_login_screen() -> bool:
     st.markdown('<div class="login-top-space"></div>', unsafe_allow_html=True)
     _, login_col, _ = st.columns([1, 1.1, 1], gap="large")
@@ -2438,20 +2836,30 @@ def render_login_screen() -> bool:
             email = st.text_input(
                 "Correo electrónico",
                 key="login_email",
-                placeholder="Ingresa tu correo",
+                placeholder="correo@empresa.com",
             )
             password = st.text_input(
                 "Contraseña",
                 type="password",
                 key="login_password",
-                placeholder="Ingresa tu contraseña",
+                placeholder="Contraseña actual",
             )
+            if "login_remember_session" not in st.session_state:
+                st.session_state["login_remember_session"] = bool(st.session_state.get("auth_remember_session", True))
+            remember_session = st.checkbox(
+                "Mantener sesión iniciada",
+                key="login_remember_session",
+            )
+            inject_login_mobile_autocomplete()
             if st.button("Ingresar", type="primary", use_container_width=True, key="login_submit"):
                 try:
-                    if login(email, password):
+                    if login(email, password, remember_session=remember_session):
                         st.rerun()
                     else:
-                        st.error("Correo electrónico o contraseña incorrectos")
+                        st.error(last_auth_error() or "No se pudo iniciar sesión.")
+                        detail = last_auth_error_detail()
+                        if detail:
+                            st.caption(detail)
                 except RuntimeError as exc:
                     st.error(str(exc))
     return False
@@ -4534,13 +4942,25 @@ def render_lead_workspace_fragment(df: pd.DataFrame, filtered: pd.DataFrame) -> 
     panel_height = 650
     with table_col:
         with st.container(border=True, height=panel_height):
-            selected_index = render_restaurant_table_modern(filtered, len(df))
+            table_placeholder = st.empty()
+            with table_placeholder.container():
+                render_skeleton_restaurant_rows()
+            with table_placeholder.container():
+                selected_index = render_restaurant_table_modern(filtered, len(df))
     with detail_col:
         with st.container(border=True, height=panel_height):
-            render_selected_lead_panel(df, filtered, selected_index)
+            detail_placeholder = st.empty()
+            with detail_placeholder.container():
+                render_skeleton_selected_lead()
+            with detail_placeholder.container():
+                render_selected_lead_panel(df, filtered, selected_index)
     with whatsapp_col:
         with st.container(border=True, height=panel_height):
-            render_whatsapp_column_panel(df, filtered, selected_index)
+            whatsapp_placeholder = st.empty()
+            with whatsapp_placeholder.container():
+                render_skeleton_whatsapp()
+            with whatsapp_placeholder.container():
+                render_whatsapp_column_panel(df, filtered, selected_index)
 
     render_lead_timeline(df, filtered)
 
@@ -4555,7 +4975,11 @@ def render_lead_timeline(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
     crm_id = clean_text(row.get("CRM ID", ""))
     name_col = find_column(df, ["Nombre restaurante"]) or "Nombre restaurante"
     lead_name = clean_text(row.get(name_col, "")) or "Restaurante seleccionado"
+    timeline_placeholder = st.empty()
+    with timeline_placeholder.container():
+        render_skeleton_timeline()
     history = contact_history_for_crm_id(crm_id)
+    timeline_placeholder.empty()
     if history.empty:
         components.html(
             f"""
@@ -4906,7 +5330,11 @@ def format_mtime_like_text(value: object) -> str:
 
 def render_message_results(df: pd.DataFrame) -> None:
     st.markdown('<div class="section-title">Historial de contactos</div>', unsafe_allow_html=True)
+    history_placeholder = st.empty()
+    with history_placeholder.container():
+        render_skeleton_history_rows()
     table = build_contact_history_table(df)
+    history_placeholder.empty()
     if table.empty:
         st.info("No hay contactos registrados para los filtros actuales.")
         return
@@ -5256,8 +5684,12 @@ def main() -> None:
         return
     render_header()
 
+    loading_placeholder = st.empty()
+    with loading_placeholder.container():
+        render_skeleton_workspace()
     base = load_base()
     if base.empty:
+        loading_placeholder.empty()
         st.error(f"No se encontró la base principal: {BASE_XLSX}")
         return
 
@@ -5265,6 +5697,7 @@ def main() -> None:
     if auto_transition_pending_contacts(base, crm):
         crm = load_crm_state()
     df = merge_crm(base, crm)
+    loading_placeholder.empty()
     added_events = generate_restaurant_added_events(df)
     alert_count = generate_no_response_alerts(df)
     if alert_count:
