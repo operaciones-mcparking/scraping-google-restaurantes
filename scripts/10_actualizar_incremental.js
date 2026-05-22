@@ -8,6 +8,7 @@ const NODE = "C:\\Users\\gabyp\\.cache\\codex-runtimes\\codex-primary-runtime\\d
 const PYTHON = "C:\\Users\\gabyp\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe";
 const IMPORTER = path.join(ROOT, "scripts", "09_importar_base_a_sqlite.py");
 const SCRAPER = path.join(ROOT, "scripts", "02_scraper_google_maps_playwright.js");
+const SUPABASE_SYNC = path.join(ROOT, "scripts", "sincronizar_incremental_supabase.py");
 
 function projectPath(value) {
   return path.isAbsolute(value) ? value : path.join(ROOT, value);
@@ -52,6 +53,18 @@ function run(command, args, log) {
     throw new Error(`Comando falló con código ${result.status}`);
   }
   return result.stdout || "";
+}
+
+function runSoft(command, args, log) {
+  log(`Ejecutando: ${command} ${args.join(" ")}`);
+  const result = spawnSync(command, args, { cwd: ROOT, encoding: "utf8" });
+  if (result.stdout) {
+    for (const line of result.stdout.trim().split(/\r?\n/).filter(Boolean)) log(line);
+  }
+  if (result.stderr) {
+    for (const line of result.stderr.trim().split(/\r?\n/).filter(Boolean)) log(`ERR: ${line}`);
+  }
+  return { ok: result.status === 0, stdout: result.stdout || "", status: result.status };
 }
 
 function parseLastJson(stdout) {
@@ -109,9 +122,28 @@ function printSummary(summary, config) {
   console.log(`nuevos insertados: ${summary.insertados}`);
   console.log(`duplicados ignorados: ${summary.duplicados}`);
   console.log(`errores: ${summary.errores}`);
+  console.log(`nuevos subidos a Supabase: ${summary.nuevosSupabase || 0}`);
+  console.log(`duplicados Supabase ignorados: ${summary.duplicadosSupabase || 0}`);
+  console.log(`errores Supabase: ${summary.erroresSupabase || 0}`);
   console.log(`total base final: ${summary.totalFinal}`);
   console.log(`archivo Excel generado: ${projectPath(config.excelSalida)}`);
   console.log("");
+}
+
+function syncSupabase(config, args, log, dryRun = false) {
+  if (config.sincronizarSupabase === false) {
+    log("Sincronizacion Supabase desactivada por configuracion.");
+    return { nuevos_supabase: 0, duplicados_supabase: 0, errores_supabase: 0 };
+  }
+  const syncArgs = [SUPABASE_SYNC, "--config", args.config];
+  if (dryRun) syncArgs.push("--dry-run");
+  const result = runSoft(PYTHON, syncArgs, log);
+  const summary = parseLastJson(result.stdout);
+  if (!result.ok) {
+    log(`Error sincronizando Supabase. Codigo: ${result.status}`);
+    return { ...summary, errores_supabase: (summary.errores_supabase || 0) + 1 };
+  }
+  return summary;
 }
 
 function main() {
@@ -136,6 +168,9 @@ function main() {
   let insertados = 0;
   let duplicados = 0;
   let errores = 0;
+  let nuevosSupabase = 0;
+  let duplicadosSupabase = 0;
+  let erroresSupabase = 0;
 
   if (config.modoPrueba) {
     log("Modo prueba activo: no se abrirá Google Maps ni se hará scraping.");
@@ -148,6 +183,10 @@ function main() {
     duplicados = summary.duplicados || 0;
     errores = summary.errores || 0;
     run(PYTHON, [IMPORTER, "--config", args.config, "--export"], log);
+    const supabaseSummary = syncSupabase(config, args, log, true);
+    nuevosSupabase += supabaseSummary.nuevos_supabase || 0;
+    duplicadosSupabase += supabaseSummary.duplicados_supabase || 0;
+    erroresSupabase += supabaseSummary.errores_supabase || 0;
   } else {
     totalAntes = readDbCount(config, log);
     for (let i = 0; i < config.comunas.length; i += 1) {
@@ -174,9 +213,13 @@ function main() {
     }
     run(PYTHON, [IMPORTER, "--config", args.config, "--export"], log);
     totalFinal = readDbCount(config, log);
+    const supabaseSummary = syncSupabase(config, args, log, false);
+    nuevosSupabase += supabaseSummary.nuevos_supabase || 0;
+    duplicadosSupabase += supabaseSummary.duplicados_supabase || 0;
+    erroresSupabase += supabaseSummary.errores_supabase || 0;
   }
 
-  const finalSummary = { totalAntes, encontrados, insertados, duplicados, errores, totalFinal };
+  const finalSummary = { totalAntes, encontrados, insertados, duplicados, errores, totalFinal, nuevosSupabase, duplicadosSupabase, erroresSupabase };
   log(`Resumen final: ${JSON.stringify(finalSummary)}`);
   printSummary(finalSummary, config);
   log("Fin aplicación incremental");

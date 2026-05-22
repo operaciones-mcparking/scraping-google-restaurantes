@@ -2632,7 +2632,7 @@ def restore_commercial_filters_from_query(
         if should_restore and value in {"Todos", "Si", "No"}:
             st.session_state[session_key] = value
         elif session_key not in st.session_state:
-            st.session_state[session_key] = "Todos"
+            st.session_state[session_key] = "Si" if session_key == "crm_top_whatsapp" else "Todos"
 
     if should_restore:
         st.session_state["last_restored_filter_selection_key"] = selection_key
@@ -4542,11 +4542,11 @@ def render_lead_workspace_fragment(df: pd.DataFrame, filtered: pd.DataFrame) -> 
         with st.container(border=True, height=panel_height):
             render_whatsapp_column_panel(df, filtered, selected_index)
 
-    render_lead_timeline(df, filtered)
-
     render_panel_grid_spacer()
     with st.container(border=True):
         render_message_results(filtered)
+
+    render_lead_timeline(df, filtered)
 
 def render_lead_timeline(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
     row = selected_lead_row(df, filtered, resolve_visible_selected_index(filtered) if not filtered.empty else None)
@@ -5147,10 +5147,6 @@ def render_crm_comercial_unified(df: pd.DataFrame) -> None:
 
     render_panel_grid_spacer()
     with st.container(border=True):
-        render_testing_tools()
-
-    render_panel_grid_spacer()
-    with st.container(border=True):
         filtered = apply_crm_filters_compact(df)
 
     render_lead_workspace_fragment(df, filtered)
@@ -5158,6 +5154,10 @@ def render_crm_comercial_unified(df: pd.DataFrame) -> None:
     render_panel_grid_spacer()
     with st.expander("Reglas CRM", expanded=False):
         render_crm_rules()
+
+    render_panel_grid_spacer()
+    with st.container(border=True):
+        render_testing_tools()
 
 
 def render_update_base_unified(base: pd.DataFrame) -> None:

@@ -6,6 +6,7 @@
   "excelSalida": "data/base_restaurantes_actualizada.xlsx",
   "csvSalida": "data/base_restaurantes_actualizada.csv",
   "log": "data/logs/actualizacion_incremental.log",
+  "sincronizarSupabase": true,
   "maxNuevosObjetivo": 100,
   "maxResultadosPorComuna": 30,
   "maxScrollsPorComuna": 6,
