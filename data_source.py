@@ -328,3 +328,43 @@ def save_call_event(
             "Mensaje enviado": "Llamada iniciada desde CRM",
         }
     )
+
+
+def clear_contact_history_for_leads(crm_ids: set[str] | list[str]) -> dict[str, int | str]:
+    stats: dict[str, int | str] = {
+        "data_mode": get_data_mode(),
+        "total_before": 0,
+        "target_before": 0,
+        "kept_initial": 0,
+        "deleted": 0,
+        "total_after": 0,
+    }
+    if get_data_mode() != "supabase":
+        return stats
+    ids = {str(value).strip() for value in crm_ids if str(value).strip()}
+    if not ids:
+        return stats
+    raw_rows = _supabase_rows("historial_contactos")
+    stats["total_before"] = len(raw_rows)
+
+    def is_initial(row: dict[str, Any]) -> bool:
+        return (
+            str(row.get("accion", "")).strip() == "Restaurante agregado"
+            or str(row.get("mensaje_enviado", "")).strip() == "Lead ingresado a la base"
+        )
+
+    target_rows = [row for row in raw_rows if str(row.get("crm_id", "")).strip() in ids]
+    stats["target_before"] = len(target_rows)
+    stats["kept_initial"] = sum(1 for row in target_rows if is_initial(row))
+    keys = [row.get("event_key") for row in target_rows if not is_initial(row) and row.get("event_key")]
+    if not keys:
+        stats["total_after"] = len(raw_rows)
+        return stats
+    client = get_supabase_client()
+    for start in range(0, len(keys), 100):
+        batch = keys[start : start + 100]
+        if batch:
+            client.table("historial_contactos").delete().in_("event_key", batch).execute()
+            stats["deleted"] = int(stats["deleted"]) + len(batch)
+    stats["total_after"] = len(_supabase_rows("historial_contactos"))
+    return stats

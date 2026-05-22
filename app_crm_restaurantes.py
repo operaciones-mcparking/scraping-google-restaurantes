@@ -23,6 +23,7 @@ from data_source import (
     load_historial_contactos as ds_load_historial_contactos,
     load_mensajes as ds_load_mensajes,
     load_restaurantes as ds_load_restaurantes,
+    clear_contact_history_for_leads as ds_clear_contact_history_for_leads,
     save_call_event as ds_save_call_event,
     save_crm_estado as ds_save_crm_estado,
     save_whatsapp_event as ds_save_whatsapp_event,
@@ -2098,36 +2099,125 @@ def reset_lead_values(row: dict) -> dict:
     return updated
 
 
-def log_crm_reset(reset_type: str, count: int) -> None:
+def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0) -> None:
     CRM_RESET_LOG.parent.mkdir(parents=True, exist_ok=True)
     event = {
         "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "tipo_reset": reset_type,
         "cantidad_afectada": int(count),
+        "eventos_contacto_eliminados": int(cleaned_events),
     }
     with CRM_RESET_LOG.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(event, ensure_ascii=False) + "\n")
 
 
-def reset_crm_rows(mask: pd.Series, reset_type: str) -> int:
+def empty_reset_history_stats() -> dict[str, int | str]:
+    return {
+        "data_mode": get_data_mode(),
+        "total_before": 0,
+        "target_before": 0,
+        "kept_initial": 0,
+        "deleted": 0,
+        "total_after": 0,
+    }
+
+
+def initial_contact_history_mask(history: pd.DataFrame) -> pd.Series:
+    if history.empty:
+        return pd.Series(dtype=bool)
+    action_col = "Acción" if "Acción" in history.columns else "Accion"
+    actions = history[action_col].fillna("").astype(str).str.strip() if action_col in history.columns else pd.Series("", index=history.index)
+    messages = history["Mensaje enviado"].fillna("").astype(str).str.strip() if "Mensaje enviado" in history.columns else pd.Series("", index=history.index)
+    return actions.eq("Restaurante agregado") | messages.eq("Lead ingresado a la base")
+
+
+def non_initial_history_ids() -> set[str]:
+    history = load_contact_history()
+    if history.empty or "CRM ID" not in history.columns:
+        return set()
+    initial_mask = initial_contact_history_mask(history)
+    return set(history.loc[~initial_mask, "CRM ID"].fillna("").astype(str).str.strip().replace("", pd.NA).dropna())
+
+
+def contacted_history_ids() -> set[str]:
+    history = load_contact_history()
+    if history.empty or "CRM ID" not in history.columns:
+        return set()
+    non_initial = ~initial_contact_history_mask(history)
+    contact_events = history["Canal"].fillna("").astype(str).isin(["WhatsApp", "Llamada"]) | history["Acción"].fillna("").astype(str).isin(
+        ["WhatsApp abierto", "Llamada iniciada"]
+    )
+    return set(history.loc[non_initial & contact_events, "CRM ID"].fillna("").astype(str).str.strip().replace("", pd.NA).dropna())
+
+
+
+def clean_contact_history_after_reset(crm_ids: set[str]) -> dict[str, int | str]:
+    ids = {clean_text(value) for value in crm_ids if clean_text(value)}
+    stats = empty_reset_history_stats()
+    if not ids:
+        return stats
+    if get_data_mode() == "supabase":
+        stats = ds_clear_contact_history_for_leads(ids)
+        st.cache_data.clear()
+        st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
+        return stats
+
+    history = load_contact_history()
+    if history.empty:
+        return stats
+    stats["total_before"] = len(history)
+    target_mask = history["CRM ID"].fillna("").astype(str).isin(ids)
+    initial_mask = initial_contact_history_mask(history)
+    delete_mask = target_mask & ~initial_mask
+    stats["target_before"] = int(target_mask.sum())
+    stats["kept_initial"] = int((target_mask & initial_mask).sum())
+    stats["deleted"] = int(delete_mask.sum())
+    if stats["deleted"]:
+        save_contact_history(history.loc[~delete_mask].copy())
+        st.cache_data.clear()
+    stats["total_after"] = int(stats["total_before"]) - int(stats["deleted"])
+    st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
+    return stats
+
+
+def reset_crm_ids(affected_ids: set[str], reset_type: str) -> int:
     crm = load_crm_state()
-    if crm.empty or not mask.any():
+    ids = {clean_text(value) for value in affected_ids if clean_text(value)}
+    if not ids:
         log_crm_reset(reset_type, 0)
+        st.session_state["reset_cleaned_events"] = 0
+        st.session_state["last_reset_stats"] = empty_reset_history_stats()
         return 0
     crm = crm.copy()
-    affected_ids = set(crm.loc[mask, "CRM ID"])
     updated_rows = []
     for _, row in crm.iterrows():
-        if row["CRM ID"] in affected_ids:
+        row_id = clean_text(row.get("CRM ID", ""))
+        if row_id in ids:
             new_row = reset_lead_values(row.to_dict())
-            new_row["CRM ID"] = row["CRM ID"]
+            new_row["CRM ID"] = row_id
             updated_rows.append(new_row)
         else:
             updated_rows.append(row.to_dict())
+    existing_ids = {clean_text(row.get("CRM ID", "")) for row in updated_rows}
+    for missing_id in sorted(ids - existing_ids):
+        new_row = reset_lead_values({})
+        new_row["CRM ID"] = missing_id
+        updated_rows.append(new_row)
     save_crm_state(pd.DataFrame(updated_rows))
-    log_crm_reset(reset_type, len(affected_ids))
+    stats = clean_contact_history_after_reset(ids)
+    cleaned_events = int(stats.get("deleted", 0))
+    st.session_state["reset_cleaned_events"] = cleaned_events
+    st.session_state["last_reset_stats"] = stats
+    log_crm_reset(reset_type, len(ids), cleaned_events)
     st.cache_data.clear()
-    return len(affected_ids)
+    return len(ids)
+
+
+def reset_crm_rows(mask: pd.Series, reset_type: str) -> int:
+    crm = load_crm_state()
+    if crm.empty or not mask.any():
+        return reset_crm_ids(set(), reset_type)
+    return reset_crm_ids(set(crm.loc[mask, "CRM ID"]), reset_type)
 
 
 def reset_single_lead(crm_id: str) -> int:
@@ -2138,13 +2228,17 @@ def reset_single_lead(crm_id: str) -> int:
 
 def reset_massive_leads(option: str) -> int:
     crm = load_crm_state()
+    history_ids = non_initial_history_ids()
     if crm.empty:
-        return 0
+        if option == "contactados":
+            return reset_crm_ids(contacted_history_ids(), "reset_masivo_contactados")
+        return reset_crm_ids(history_ids if option == "todos" else set(), f"reset_masivo_{option}")
     estado = crm["Estado CRM"].fillna("").astype(str)
     estado_wa = crm["Estado WhatsApp"].fillna("").astype(str)
     if option == "contactados":
         mask = estado.isin(CONTACTED_STATES) | estado_wa.ne("No contactado")
-        return reset_crm_rows(mask, "reset_masivo_contactados")
+        ids = set(crm.loc[mask, "CRM ID"]) | contacted_history_ids()
+        return reset_crm_ids(ids, "reset_masivo_contactados")
     if option == "respondidos":
         mask = (crm["Respondio"].fillna("").astype(str) == "Si") | estado_wa.eq("Respondio")
         return reset_crm_rows(mask, "reset_masivo_respondidos")
@@ -2161,7 +2255,8 @@ def reset_massive_leads(option: str) -> int:
         | yes_no_has_value(crm["Resultado comercial"])
         | yes_no_has_value(crm["Resultado seguimiento"])
     )
-    return reset_crm_rows(interaction_mask, "reset_masivo_todos_prueba")
+    ids = set(crm.loc[interaction_mask, "CRM ID"]) | history_ids
+    return reset_crm_ids(ids, "reset_masivo_todos_prueba")
 
 
 def yes_no_has_value(series: pd.Series) -> pd.Series:
@@ -3555,7 +3650,11 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     confirm_reset = st.checkbox("¿Seguro que deseas reiniciar este lead?", key=f"confirm_reset_{row['CRM ID']}")
     if st.button("Reiniciar lead", type="secondary", use_container_width=True, disabled=not confirm_reset, key=f"reset_lead_{row['CRM ID']}"):
         affected = reset_single_lead(row["CRM ID"])
-        st.success(f"Lead reiniciado. Registros afectados: {affected}.")
+        cleaned = int(st.session_state.get("reset_cleaned_events", 0))
+        st.session_state["reset_feedback_message"] = (
+            "Se reiniciaron estados y se limpiaron eventos de contacto, manteniendo el evento inicial del lead. "
+            f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+        )
         st.rerun()
 
 
@@ -4786,6 +4885,19 @@ def render_crm_rules() -> None:
 def render_testing_tools() -> None:
     st.markdown('<div class="section-title">Herramientas de testing</div>', unsafe_allow_html=True)
     st.caption("Estas acciones no borran restaurantes ni datos de scraping. Solo reinician estados CRM/WhatsApp.")
+    feedback = clean_text(st.session_state.get("reset_feedback_message", ""))
+    stats = st.session_state.get("last_reset_stats", {})
+    if feedback:
+        st.success(feedback)
+    if isinstance(stats, dict) and stats:
+        st.caption(
+            "Último reset: "
+            f"modo datos = {stats.get('data_mode', get_data_mode())} · "
+            f"eventos antes = {stats.get('total_before', 0)} · "
+            f"eventos eliminados = {stats.get('deleted', 0)} · "
+            f"eventos iniciales conservados = {stats.get('kept_initial', 0)} · "
+            f"eventos después = {stats.get('total_after', 0)}"
+        )
     options = {
         "Reiniciar leads Contactados": "contactados",
         "Reiniciar leads Respondidos": "respondidos",
@@ -4795,7 +4907,11 @@ def render_testing_tools() -> None:
     confirm = st.checkbox("Confirmo que solo quiero reiniciar estados comerciales.", key="testing_reset_confirm")
     if st.button("Ejecutar reset", type="secondary", use_container_width=True, disabled=not confirm, key="testing_reset_run"):
         affected = reset_massive_leads(options[selected_label])
-        st.success(f"Reset ejecutado. Leads afectados: {affected}.")
+        cleaned = int(st.session_state.get("reset_cleaned_events", 0))
+        st.session_state["reset_feedback_message"] = (
+            "Se reiniciaron estados y se limpiaron eventos de contacto, manteniendo el evento inicial del lead. "
+            f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+        )
         st.rerun()
 
 
