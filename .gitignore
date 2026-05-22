@@ -1,0 +1,12 @@
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+
+data/logs/
+data/archive_excels/
+
+*.tmp
+*.log
+
+.streamlit/secrets.toml
