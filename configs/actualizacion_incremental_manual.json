@@ -7,20 +7,76 @@
   "csvSalida": "data/base_restaurantes_actualizada.csv",
   "log": "data/logs/actualizacion_incremental_manual.log",
   "sincronizarSupabase": true,
-  "maxNuevosObjetivo": 30,
-  "maxResultadosPorComuna": 15,
-  "maxScrollsPorComuna": 4,
+  "maxNuevosObjetivo": 200,
+  "maxResultadosPorComuna": 30,
+  "maxScrollsPorComuna": 6,
   "pausaMinMs": 2000,
   "pausaMaxMs": 5000,
   "detenerSiCaptchaOBloqueo": true,
   "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "comunas": [
     {
+      "comuna": "Las Condes",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "las_condes_manual"
+    },
+    {
+      "comuna": "Vitacura",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "vitacura_manual"
+    },
+    {
+      "comuna": "Lo Barnechea",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "lo_barnechea_manual"
+    },
+    {
+      "comuna": "Providencia",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "providencia_manual"
+    },
+    {
+      "comuna": "La Reina",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "la_reina_manual"
+    },
+    {
+      "comuna": "Ñuñoa",
+      "region": "Metropolitana",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "nunoa_manual"
+    },
+    {
       "comuna": "La Florida",
       "region": "Metropolitana",
       "pais": "Chile",
       "busqueda": "restaurantes",
       "slug": "la_florida_manual"
+    },
+    {
+      "comuna": "Curicó",
+      "region": "Maule",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "curico_manual"
+    },
+    {
+      "comuna": "Chillán",
+      "region": "Ñuble",
+      "pais": "Chile",
+      "busqueda": "restaurantes",
+      "slug": "chillan_manual"
     }
   ]
 }

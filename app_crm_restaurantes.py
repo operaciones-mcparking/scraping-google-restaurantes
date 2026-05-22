@@ -4542,11 +4542,11 @@ def render_lead_workspace_fragment(df: pd.DataFrame, filtered: pd.DataFrame) -> 
         with st.container(border=True, height=panel_height):
             render_whatsapp_column_panel(df, filtered, selected_index)
 
+    render_lead_timeline(df, filtered)
+
     render_panel_grid_spacer()
     with st.container(border=True):
         render_message_results(filtered)
-
-    render_lead_timeline(df, filtered)
 
 def render_lead_timeline(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
     row = selected_lead_row(df, filtered, resolve_visible_selected_index(filtered) if not filtered.empty else None)

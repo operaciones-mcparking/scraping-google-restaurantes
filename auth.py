@@ -1,12 +1,30 @@
 from __future__ import annotations
 
 import time
+import json
+from datetime import datetime, timedelta
 
 import streamlit as st
 from supabase import create_client
 from supabase import Client
 
 from supabase_client import SupabaseConfigError, load_supabase_secrets, normalize_supabase_url
+
+
+AUTH_COOKIE_NAME = "rappi_leads_auth"
+AUTH_COOKIE_DAYS = 30
+
+
+@st.cache_resource(show_spinner=False)
+def cookie_manager():
+    try:
+        import extra_streamlit_components as stx
+    except Exception:
+        return None
+    try:
+        return stx.CookieManager()
+    except Exception:
+        return None
 
 
 def auth_config() -> tuple[str, str]:
@@ -42,6 +60,65 @@ def _user_value(user: object, name: str, default: str = "") -> str:
     return str(getattr(user, name, default) or default)
 
 
+def _session_payload() -> dict[str, object]:
+    return {
+        "access_token": str(st.session_state.get("auth_access_token", "") or ""),
+        "refresh_token": str(st.session_state.get("auth_refresh_token", "") or ""),
+        "user_email": str(st.session_state.get("auth_user_email", "") or ""),
+        "user_id": str(st.session_state.get("auth_user_id", "") or ""),
+        "expires_at": st.session_state.get("auth_expires_at", "") or "",
+    }
+
+
+def _save_session_cookie() -> None:
+    manager = cookie_manager()
+    if manager is None:
+        return
+    payload = _session_payload()
+    if not payload["access_token"] or not payload["refresh_token"]:
+        return
+    try:
+        manager.set(
+            AUTH_COOKIE_NAME,
+            json.dumps(payload),
+            expires_at=datetime.now() + timedelta(days=AUTH_COOKIE_DAYS),
+        )
+    except Exception:
+        pass
+
+
+def _read_session_cookie() -> dict[str, object]:
+    manager = cookie_manager()
+    if manager is None:
+        return {}
+    try:
+        value = ""
+        if hasattr(manager, "get"):
+            value = manager.get(AUTH_COOKIE_NAME) or ""
+        if not value and hasattr(manager, "get_all"):
+            cookies = manager.get_all() or {}
+            value = cookies.get(AUTH_COOKIE_NAME, "") if isinstance(cookies, dict) else ""
+        if not value:
+            return {}
+        payload = json.loads(value)
+        return payload if isinstance(payload, dict) else {}
+    except Exception:
+        return {}
+
+
+def _delete_session_cookie() -> None:
+    manager = cookie_manager()
+    if manager is None:
+        return
+    try:
+        manager.delete(AUTH_COOKIE_NAME)
+    except Exception:
+        try:
+            manager.set(AUTH_COOKIE_NAME, "", expires_at=datetime.now() - timedelta(days=1))
+        except Exception:
+            pass
+
+
 def _store_session(session: object, user: object | None = None) -> bool:
     access_token = str(_session_value(session, "access_token", "") or "")
     refresh_token = str(_session_value(session, "refresh_token", "") or "")
@@ -67,6 +144,7 @@ def _store_session(session: object, user: object | None = None) -> bool:
         st.session_state["auth_user_id"] = _user_value(user, "id")
 
     st.session_state.pop("login_password", None)
+    _save_session_cookie()
     return True
 
 
@@ -92,6 +170,26 @@ def _clear_session_state() -> None:
         "login_password",
     ]:
         st.session_state.pop(key, None)
+
+
+def restore_session_from_cookie() -> bool:
+    payload = _read_session_cookie()
+    access_token = str(payload.get("access_token", "") or "")
+    refresh_token = str(payload.get("refresh_token", "") or "")
+    if not access_token or not refresh_token:
+        return False
+
+    st.session_state["authenticated"] = True
+    st.session_state["auth_access_token"] = access_token
+    st.session_state["auth_refresh_token"] = refresh_token
+    st.session_state["auth_user_email"] = str(payload.get("user_email", "") or "")
+    st.session_state["auth_user_id"] = str(payload.get("user_id", "") or "")
+    st.session_state["auth_expires_at"] = payload.get("expires_at", "") or ""
+
+    if validate_current_session():
+        return True
+    _delete_session_cookie()
+    return False
 
 
 def refresh_current_session() -> bool:
@@ -140,7 +238,9 @@ def validate_current_session() -> bool:
 
 
 def is_authenticated() -> bool:
-    if not st.session_state.get("authenticated", False):
+    if not st.session_state.get("authenticated", False) or not st.session_state.get("auth_access_token"):
+        if restore_session_from_cookie():
+            return True
         return False
     return validate_current_session()
 
@@ -181,3 +281,4 @@ def logout() -> None:
         except Exception:
             pass
     _clear_session_state()
+    _delete_session_cookie()

@@ -9,13 +9,21 @@ El CRM usa Supabase Auth para permitir acceso solo a usuarios creados en Supabas
 3. Si Supabase responde correctamente, el CRM guarda la sesion en `st.session_state`.
 4. Mientras el token siga valido, el usuario puede usar el CRM sin volver a entrar.
 5. Si el token expira, el CRM intenta renovar la sesion usando `refresh_token`.
-6. Al presionar `Cerrar sesion`, se llama a `sign_out` y se borra la sesion local.
+6. Para mantener el login entre recargas, el CRM guarda la sesion en una cookie del navegador.
+7. Al presionar `Cerrar sesion`, se llama a `sign_out` y se borra la sesion local y la cookie.
 
 ## Persistencia de sesion
 
-La sesion se mantiene durante la sesion activa del navegador/Streamlit.
+La sesion se mantiene en una cookie del navegador por hasta 30 dias o hasta que Supabase invalide el token.
 
-Por seguridad, los tokens no se guardan en archivos locales ni en Git. Si el navegador, Streamlit Cloud o el servidor reinician completamente la sesion, el usuario podria tener que ingresar nuevamente.
+Por seguridad, los tokens no se guardan en archivos locales ni en Git.
+
+Limitaciones:
+
+- Si el usuario presiona `Cerrar sesion`, debe ingresar nuevamente.
+- Si se limpian cookies del navegador, debe ingresar nuevamente.
+- Si Supabase invalida el refresh token, debe ingresar nuevamente.
+- Si se cambia de navegador o dispositivo, debe ingresar nuevamente.
 
 ## Secrets requeridos
 

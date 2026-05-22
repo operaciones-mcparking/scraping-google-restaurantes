@@ -77,6 +77,8 @@ SUPABASE_KEY = "tu-key-de-supabase"
 
 No agregar `[auth]`. El login usa Supabase Auth con email y contrasena.
 
+La sesion se mantiene en una cookie del navegador para no pedir login en cada recarga. El boton `Cerrar sesion` borra la cookie y cierra la sesion en Supabase.
+
 ## 6. Crear usuarios en Supabase Auth
 
 1. Entrar al proyecto en Supabase.

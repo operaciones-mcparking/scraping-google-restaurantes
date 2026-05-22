@@ -30,6 +30,41 @@ function ensureDir(filePath) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
 }
 
+function lockPathFor(config) {
+  return `${projectPath(config.log)}.lock`;
+}
+
+function acquireLock(config) {
+  const lockPath = lockPathFor(config);
+  ensureDir(lockPath);
+  if (fs.existsSync(lockPath)) {
+    try {
+      const payload = JSON.parse(fs.readFileSync(lockPath, "utf8"));
+      const startedAt = payload.startedAt ? Date.parse(payload.startedAt) : 0;
+      const ageMs = startedAt ? Date.now() - startedAt : 0;
+      if (ageMs > 0 && ageMs < 6 * 60 * 60 * 1000) {
+        throw new Error(
+          `Ya hay una actualizacion en curso desde ${payload.startedAt}. ` +
+          "Espera a que termine o cierra la ventana anterior antes de ejecutar otra."
+        );
+      }
+    } catch (error) {
+      if (String(error.message || error).includes("Ya hay una actualizacion")) throw error;
+    }
+  }
+  fs.writeFileSync(lockPath, JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }, null, 2), "utf8");
+  return lockPath;
+}
+
+function releaseLock(lockPath) {
+  if (lockPath && fs.existsSync(lockPath)) {
+    fs.unlinkSync(lockPath);
+  }
+}
+
+let activeLockPath = "";
+process.on("exit", () => releaseLock(activeLockPath));
+
 function makeLogger(logPath) {
   ensureDir(logPath);
   fs.writeFileSync(logPath, `\n=== Actualizacion incremental ${new Date().toISOString()} ===\n`, { flag: "a", encoding: "utf8" });
@@ -149,6 +184,7 @@ function syncSupabase(config, args, log, dryRun = false) {
 function main() {
   const args = parseArgs();
   const config = JSON.parse(fs.readFileSync(args.config, "utf8"));
+  activeLockPath = acquireLock(config);
   const log = makeLogger(projectPath(config.log));
   const dbPath = projectPath(config.baseDatos);
 
@@ -222,6 +258,8 @@ function main() {
   const finalSummary = { totalAntes, encontrados, insertados, duplicados, errores, totalFinal, nuevosSupabase, duplicadosSupabase, erroresSupabase };
   log(`Resumen final: ${JSON.stringify(finalSummary)}`);
   printSummary(finalSummary, config);
+  releaseLock(activeLockPath);
+  activeLockPath = "";
   log("Fin aplicación incremental");
 }
 
