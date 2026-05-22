@@ -1,52 +1,30 @@
-# Deploy en Streamlit Cloud
+# Deploy en Streamlit Community Cloud
 
-Esta guia prepara el CRM para correr online usando Supabase como backend y Supabase Auth para proteger el acceso.
+Esta guia deja el CRM online usando GitHub, Streamlit Community Cloud y Supabase.
 
-## Secrets necesarios
+## 1. Antes de subir a GitHub
 
-En Streamlit Cloud, abrir la app y configurar los secrets con este formato:
-
-```toml
-SUPABASE_URL = "https://tu-proyecto.supabase.co"
-SUPABASE_KEY = "tu-key-de-supabase"
-```
-
-No guardar estos valores dentro del codigo ni subir `.streamlit/secrets.toml` a GitHub.
-
-## Login con Supabase Auth
-
-El CRM usa usuarios reales creados en Supabase Auth:
-
-- El login pide email y contrasena.
-- Si Supabase valida el usuario, se abre el CRM.
-- La sesion se guarda en `st.session_state`.
-- Si el token expira, el CRM intenta renovarlo con `refresh_token`.
-- Si las credenciales son incorrectas, muestra `Correo electronico o contrasena incorrectos`.
-- El boton `Cerrar sesion` llama a `sign_out` y borra la sesion local.
-
-Limitacion: los tokens no se guardan en archivos. La sesion se mantiene durante la sesion activa del navegador/Streamlit. Si Streamlit Cloud reinicia la sesion, el usuario podria tener que ingresar nuevamente.
-
-Para crear usuarios:
-
-1. Entrar a Supabase.
-2. Ir a `Authentication`.
-3. Crear un usuario con email y contrasena.
-4. Usar ese email y contrasena para entrar al CRM.
-
-## Modo de datos
-
-El modo se controla en:
+Confirmar que existe `requirements.txt` con las dependencias del CRM:
 
 ```text
-configs/app_mode.json
+streamlit
+pandas
+openpyxl
+supabase
+requests
 ```
 
-Valores posibles:
+Confirmar que `.gitignore` incluye:
 
-- `local`: lee Excel local.
-- `supabase`: lee Supabase.
+```text
+.streamlit/secrets.toml
+```
 
-Para la version online, usar normalmente:
+Ese archivo contiene claves privadas y no debe subirse a GitHub.
+
+## 2. Modo Supabase
+
+Para la version online, confirmar que `configs/app_mode.json` tenga:
 
 ```json
 {
@@ -54,16 +32,95 @@ Para la version online, usar normalmente:
 }
 ```
 
-## Checklist antes de publicar
+Con este modo, el CRM lee y escribe en Supabase. El Excel local queda como respaldo, pero no es la fuente principal online.
 
-1. Confirmar que `.streamlit/secrets.toml` esta en `.gitignore`.
-2. Confirmar que `SUPABASE_URL` y `SUPABASE_KEY` estan configurados en Streamlit Cloud.
-3. Confirmar que existe al menos un usuario en Supabase Auth.
-4. Probar login con email y contrasena.
-5. Probar cierre de sesion.
-6. Probar carga del CRM.
-7. Probar lectura y escritura en Supabase con un lead de prueba.
+## 3. Subir el proyecto a GitHub
 
-## Importante
+Desde la carpeta del proyecto:
 
-Esta configuracion protege la URL con Supabase Auth. Mas adelante se pueden agregar roles, perfiles y permisos por usuario si el CRM lo necesita.
+```powershell
+git status
+git add .
+git commit -m "Preparar CRM para Streamlit Cloud"
+git push
+```
+
+Si el repositorio aun no existe, crear uno en GitHub y seguir las instrucciones de GitHub para conectar el remoto.
+
+## 4. Crear la app en Streamlit Community Cloud
+
+1. Entrar a `https://share.streamlit.io`.
+2. Iniciar sesion con GitHub.
+3. Presionar `New app`.
+4. Elegir el repositorio del proyecto.
+5. Elegir la rama que se va a desplegar, normalmente `main`.
+6. En `Main file path`, escribir:
+
+```text
+app_crm_restaurantes.py
+```
+
+7. Presionar `Deploy`.
+
+## 5. Configurar secrets en Streamlit Cloud
+
+En la app de Streamlit Cloud:
+
+1. Abrir `Settings`.
+2. Entrar a `Secrets`.
+3. Agregar:
+
+```toml
+SUPABASE_URL = "https://tu-proyecto.supabase.co"
+SUPABASE_KEY = "tu-key-de-supabase"
+```
+
+No agregar `[auth]`. El login usa Supabase Auth con email y contrasena.
+
+## 6. Crear usuarios en Supabase Auth
+
+1. Entrar al proyecto en Supabase.
+2. Ir a `Authentication`.
+3. Crear un usuario con email y contrasena.
+4. Usar ese email y contrasena para entrar al CRM online.
+
+## 7. Redeploy
+
+Cada vez que subas cambios a GitHub:
+
+```powershell
+git add .
+git commit -m "Actualizar CRM"
+git push
+```
+
+Streamlit Cloud normalmente hace redeploy automatico.
+
+Si no ocurre:
+
+1. Entrar a la app en Streamlit Cloud.
+2. Abrir el menu de la app.
+3. Presionar `Reboot` o `Deploy latest commit`.
+
+## 8. Revisar logs
+
+Si la app no carga:
+
+1. Entrar a Streamlit Cloud.
+2. Abrir la app.
+3. Ir a `Manage app`.
+4. Revisar `Logs`.
+
+Errores comunes:
+
+- Falta `SUPABASE_URL`.
+- Falta `SUPABASE_KEY`.
+- El usuario no existe en Supabase Auth.
+- `requirements.txt` no incluye alguna libreria.
+- `configs/app_mode.json` no esta en modo `supabase`.
+
+## 9. Limitacion importante
+
+El scraping incremental sigue siendo local. La version online del CRM debe usarse para gestionar leads, revisar historial y trabajar contactos.
+
+No ejecutar busquedas masivas desde Streamlit Cloud. La actualizacion con Google Maps debe seguir corriendo desde el PC local y luego subir datos a Supabase.
