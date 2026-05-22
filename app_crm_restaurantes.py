@@ -16,6 +16,18 @@ import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
+from data_source import (
+    get_data_mode,
+    insert_historial_evento as ds_insert_historial_evento,
+    load_crm_estado as ds_load_crm_estado,
+    load_historial_contactos as ds_load_historial_contactos,
+    load_mensajes as ds_load_mensajes,
+    load_restaurantes as ds_load_restaurantes,
+    save_call_event as ds_save_call_event,
+    save_crm_estado as ds_save_crm_estado,
+    save_whatsapp_event as ds_save_whatsapp_event,
+)
+
 
 ROOT = Path(__file__).resolve().parent
 ASSETS_DIR = ROOT / "assets"
@@ -1326,6 +1338,22 @@ def save_message_config(config: dict[str, dict[str, object]]) -> None:
 
 
 def load_message_config() -> dict[str, dict[str, object]]:
+    if get_data_mode() == "supabase":
+        loaded = ds_load_mensajes()
+        config = default_message_config()
+        for variant in DEFAULT_MESSAGE_VARIANTS:
+            raw = loaded.get(variant, {})
+            if isinstance(raw, dict):
+                value = clean_text(raw.get("text", ""))
+                active = bool(raw.get("active", True))
+            else:
+                value = clean_text(raw)
+                active = True
+            if value:
+                config[variant]["text"] = value
+            config[variant]["active"] = active
+        return config
+
     if not WHATSAPP_MESSAGES_CONFIG.exists():
         config = default_message_config()
         save_message_config(config)
@@ -1666,6 +1694,16 @@ def derive_load_date(df: pd.DataFrame) -> pd.Series:
 
 @st.cache_data(show_spinner=False)
 def load_base() -> pd.DataFrame:
+    if get_data_mode() == "supabase":
+        df = ds_load_restaurantes()
+        if df.empty:
+            return df
+        if "CRM ID" not in df.columns:
+            df["CRM ID"] = ensure_key(df)
+        if "Fecha carga CRM" not in df.columns:
+            df["Fecha carga CRM"] = derive_load_date(df)
+        return df
+
     if not BASE_XLSX.exists():
         return pd.DataFrame()
     df = pd.read_excel(BASE_XLSX, sheet_name="Base restaurantes")
@@ -1676,7 +1714,9 @@ def load_base() -> pd.DataFrame:
 
 @st.cache_data(show_spinner=False)
 def load_crm_state() -> pd.DataFrame:
-    if CRM_XLSX.exists():
+    if get_data_mode() == "supabase":
+        crm = normalize_crm_columns(ds_load_crm_estado())
+    elif CRM_XLSX.exists():
         crm = normalize_crm_columns(pd.read_excel(CRM_XLSX))
     else:
         crm = pd.DataFrame(columns=["CRM ID"] + CRM_FIELDS)
@@ -1687,7 +1727,7 @@ def load_crm_state() -> pd.DataFrame:
     crm["Estado CRM"] = crm["Estado CRM"].replace({"Respondió": "Respondio"})
     previous_states = crm["Estado CRM"].fillna("").astype(str).copy()
     crm["Estado CRM"] = normalize_crm_state_series(crm["Estado CRM"])
-    if CRM_XLSX.exists() and (missing_fields or not previous_states.eq(crm["Estado CRM"].fillna("").astype(str)).all()):
+    if get_data_mode() == "local" and CRM_XLSX.exists() and (missing_fields or not previous_states.eq(crm["Estado CRM"].fillna("").astype(str)).all()):
         save_crm_state(crm)
     return crm[["CRM ID"] + CRM_FIELDS]
 
@@ -1712,6 +1752,10 @@ def save_crm_state(df: pd.DataFrame) -> None:
     out["Estado CRM"] = normalize_crm_state_series(out["Estado CRM"])
     out["Resultado seguimiento"] = out["Resultado seguimiento"].apply(lambda value: normalize_resultado_seguimiento(value, ""))
     out = out.drop_duplicates(subset=["CRM ID"], keep="last")
+    if get_data_mode() == "supabase":
+        ds_save_crm_estado(out)
+        st.session_state["crm_state_version"] = int(st.session_state.get("crm_state_version", 0)) + 1
+        return
     out = out.rename(
         columns={
             "Fecha ultimo contacto": "Fecha último contacto",
@@ -1748,6 +1792,15 @@ def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 @st.cache_data(show_spinner=False)
 def load_contact_history() -> pd.DataFrame:
+    if get_data_mode() == "supabase":
+        history = ds_load_historial_contactos()
+        if history.empty:
+            return pd.DataFrame(columns=CONTACT_HISTORY_FIELDS)
+        history = normalize_contact_history_columns(history)
+        for col in CONTACT_HISTORY_FIELDS:
+            history[col] = history[col].fillna("").astype(str).replace({"nan": "", "None": ""})
+        return history
+
     if not CONTACT_HISTORY_XLSX.exists():
         return pd.DataFrame(columns=CONTACT_HISTORY_FIELDS)
     history = pd.read_excel(CONTACT_HISTORY_XLSX)
@@ -1760,6 +1813,11 @@ def load_contact_history() -> pd.DataFrame:
 def save_contact_history(df: pd.DataFrame) -> None:
     CONTACT_HISTORY_XLSX.parent.mkdir(parents=True, exist_ok=True)
     out = normalize_contact_history_columns(df)
+    if get_data_mode() == "supabase":
+        for row in out.to_dict(orient="records"):
+            ds_insert_historial_evento(row)
+        st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
+        return
     out.to_excel(CONTACT_HISTORY_XLSX, index=False)
     st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
 
@@ -1803,6 +1861,10 @@ def append_contact_event(
         "Resultado seguimiento actual": normalize_resultado_seguimiento(current_state.get("Resultado seguimiento", ""), ""),
         "Mensaje enviado": clean_text(mensaje),
     }
+    if get_data_mode() == "supabase":
+        ds_insert_historial_evento(event)
+        st.cache_data.clear()
+        return
     history = load_contact_history()
     if skip_if_same_event and not history.empty:
         duplicate = (
@@ -1882,7 +1944,7 @@ def last_contact_datetime(row: pd.Series) -> pd.Timestamp | None:
         row.get("Fecha envio WhatsApp", ""),
     ]
     for value in candidates:
-        parsed = pd.to_datetime(clean_text(value), errors="coerce")
+        parsed = pd.to_datetime(clean_text(value), errors="coerce", utc=True)
         if not pd.isna(parsed):
             return parsed
     return None
@@ -1896,7 +1958,8 @@ def should_show_no_response_alert(row: pd.Series) -> bool:
     last_contact = last_contact_datetime(row)
     if last_contact is None:
         return False
-    return last_contact <= (pd.Timestamp.now() - pd.Timedelta(days=3))
+    now_utc = pd.Timestamp.now(tz="UTC")
+    return last_contact <= (now_utc - pd.Timedelta(days=3))
 
 
 def has_no_response_alert_event(crm_id: object) -> bool:
@@ -1973,8 +2036,9 @@ def auto_transition_pending_contacts(base: pd.DataFrame, crm: pd.DataFrame) -> b
     if base.empty:
         return False
     merged = merge_crm(base, crm)
-    loaded_at = pd.to_datetime(merged["Fecha carga CRM"], errors="coerce")
-    older_than_24h = loaded_at.notna() & (loaded_at <= (pd.Timestamp.now() - pd.Timedelta(hours=24)))
+    loaded_at = pd.to_datetime(merged["Fecha carga CRM"], errors="coerce", utc=True)
+    now_utc = pd.Timestamp.now(tz="UTC")
+    older_than_24h = loaded_at.notna() & (loaded_at <= (now_utc - pd.Timedelta(hours=24)))
     candidates = merged[
         (merged["Estado CRM"] == "Nuevo")
         & older_than_24h
@@ -2157,6 +2221,7 @@ def logo_markup() -> str:
 
 
 def render_header() -> None:
+    mode_label = "Supabase" if get_data_mode() == "supabase" else "Local"
     st.markdown(
         f"""
         <div class="crm-topbar">
@@ -2167,7 +2232,7 @@ def render_header() -> None:
                     <div class="crm-subtitle">Gestión comercial de restaurantes</div>
                 </div>
             </div>
-            <div class="crm-pill">Base local de prospección</div>
+            <div class="crm-pill">Modo datos: {mode_label}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -3203,7 +3268,11 @@ def mark_whatsapp_contacted(crm_id: str, message: str, variant: str, restaurant_
     crm_current = crm_current[crm_current["CRM ID"] != crm_id]
     crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
     save_crm_state(crm_current)
-    append_contact_event(crm_id, "WhatsApp", "WhatsApp abierto", current, message, restaurant_name)
+    if get_data_mode() == "supabase":
+        context = crm_event_context(crm_id, restaurant_name)
+        ds_save_whatsapp_event(crm_id, context["Restaurante"], context["Comuna"], message, fecha_hora=now)
+    else:
+        append_contact_event(crm_id, "WhatsApp", "WhatsApp abierto", current, message, restaurant_name)
     if previous_estado != "Contactado":
         append_contact_event(
             crm_id,
@@ -3238,7 +3307,11 @@ def mark_call_contacted(crm_id: str, restaurant_name: str) -> None:
     crm_current = crm_current[crm_current["CRM ID"] != crm_id]
     crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
     save_crm_state(crm_current)
-    append_contact_event(crm_id, "Llamada", "Llamada iniciada", current, "Llamada iniciada desde CRM", restaurant_name)
+    if get_data_mode() == "supabase":
+        context = crm_event_context(crm_id, restaurant_name)
+        ds_save_call_event(crm_id, context["Restaurante"], context["Comuna"], fecha_hora=now)
+    else:
+        append_contact_event(crm_id, "Llamada", "Llamada iniciada", current, "Llamada iniciada desde CRM", restaurant_name)
     if previous_estado != "Contactado":
         append_contact_event(
             crm_id,

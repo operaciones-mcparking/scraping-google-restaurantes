@@ -1,0 +1,330 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+import pandas as pd
+
+from supabase_client import get_supabase_client
+
+
+ROOT = Path(__file__).resolve().parent
+APP_MODE_CONFIG = ROOT / "configs" / "app_mode.json"
+BASE_XLSX = ROOT / "data" / "base_restaurantes_actualizada.xlsx"
+CRM_XLSX = ROOT / "data" / "crm_restaurantes_estado.xlsx"
+HISTORY_XLSX = ROOT / "data" / "historial_contactos.xlsx"
+MESSAGES_JSON = ROOT / "configs" / "mensajes_whatsapp.json"
+
+VALID_MODES = {"local", "supabase"}
+
+CRM_COLUMN_MAP = {
+    "CRM ID": "crm_id",
+    "Estado CRM": "estado_crm",
+    "Fecha ultimo contacto": "fecha_ultimo_contacto",
+    "Canal ultimo contacto": "canal_ultimo_contacto",
+    "Responsable": "responsable",
+    "Observacion CRM": "observacion_crm",
+    "Proxima accion": "proxima_accion",
+    "Fecha proxima accion": "fecha_proxima_accion",
+    "Fecha ultimo WhatsApp": "fecha_ultimo_whatsapp",
+    "Mensaje WhatsApp sugerido": "mensaje_whatsapp_sugerido",
+    "Estado WhatsApp": "estado_whatsapp",
+    "Variante mensaje": "variante_mensaje",
+    "Mensaje enviado": "mensaje_enviado",
+    "Fecha envio WhatsApp": "fecha_envio_whatsapp",
+    "Respondio": "respondio",
+    "Interesado": "interesado",
+    "Reunion agendada": "reunion_agendada",
+    "Resultado comercial": "resultado_comercial",
+    "Resultado seguimiento": "resultado_seguimiento",
+}
+
+
+def get_data_mode() -> str:
+    if not APP_MODE_CONFIG.exists():
+        return "local"
+    try:
+        payload = json.loads(APP_MODE_CONFIG.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return "local"
+    mode = str(payload.get("data_mode", "local")).strip().lower()
+    return mode if mode in VALID_MODES else "local"
+
+
+def load_restaurantes() -> pd.DataFrame:
+    return _load_restaurantes_supabase() if get_data_mode() == "supabase" else _load_restaurantes_local()
+
+
+def load_crm_estado() -> pd.DataFrame:
+    return _load_crm_estado_supabase() if get_data_mode() == "supabase" else _load_crm_estado_local()
+
+
+def load_historial_contactos() -> pd.DataFrame:
+    return _load_historial_contactos_supabase() if get_data_mode() == "supabase" else _load_historial_contactos_local()
+
+
+def load_mensajes() -> dict[str, dict[str, object]]:
+    return _load_mensajes_supabase() if get_data_mode() == "supabase" else _load_mensajes_local()
+
+
+def _load_restaurantes_local() -> pd.DataFrame:
+    if not BASE_XLSX.exists():
+        return pd.DataFrame()
+    return pd.read_excel(BASE_XLSX, sheet_name="Base restaurantes")
+
+
+def _load_crm_estado_local() -> pd.DataFrame:
+    if not CRM_XLSX.exists():
+        return pd.DataFrame()
+    return pd.read_excel(CRM_XLSX)
+
+
+def _load_historial_contactos_local() -> pd.DataFrame:
+    if not HISTORY_XLSX.exists():
+        return pd.DataFrame()
+    return pd.read_excel(HISTORY_XLSX)
+
+
+def _load_mensajes_local() -> dict[str, dict[str, object]]:
+    if not MESSAGES_JSON.exists():
+        return {}
+    return json.loads(MESSAGES_JSON.read_text(encoding="utf-8-sig"))
+
+
+def _supabase_rows(table: str, select: str = "*") -> list[dict[str, Any]]:
+    client = get_supabase_client()
+    response = client.table(table).select(select).execute()
+    return list(response.data or [])
+
+
+def _load_restaurantes_supabase() -> pd.DataFrame:
+    rows = _supabase_rows("restaurantes")
+    records = []
+    for row in rows:
+        payload = row.get("data_json") if isinstance(row.get("data_json"), dict) else {}
+        record = dict(payload)
+        record.setdefault("Nombre restaurante", row.get("nombre_restaurante", ""))
+        record.setdefault("Rating", row.get("rating", ""))
+        record.setdefault("Cantidad reviews", row.get("cantidad_reviews", ""))
+        record.setdefault("Dirección", row.get("direccion", ""))
+        record.setdefault("Teléfono", row.get("telefono", ""))
+        record.setdefault("Sitio web", row.get("sitio_web", ""))
+        record.setdefault("Categoría", row.get("categoria", ""))
+        record.setdefault("Google Maps URL", row.get("google_maps_url", ""))
+        record.setdefault("Latitud", row.get("latitud", ""))
+        record.setdefault("Longitud", row.get("longitud", ""))
+        record.setdefault("Comuna", row.get("comuna", ""))
+        record.setdefault("Región", row.get("region", ""))
+        record.setdefault("País", row.get("pais", ""))
+        record.setdefault("Fuente", row.get("fuente", ""))
+        record.setdefault("Fecha extracción", row.get("fecha_extraccion", ""))
+        record.setdefault("Nombre normalizado", row.get("nombre_normalizado", ""))
+        record.setdefault("Tipo negocio", row.get("tipo_negocio", ""))
+        record.setdefault("Score comercial", row.get("score_comercial", ""))
+        record.setdefault("Nivel comercial", row.get("nivel_comercial", ""))
+        record["CRM ID"] = row.get("crm_id", "")
+        record["Fecha carga CRM"] = row.get("fecha_carga") or row.get("fecha_extraccion") or ""
+        records.append(record)
+    return pd.DataFrame(records)
+
+
+def _load_crm_estado_supabase() -> pd.DataFrame:
+    rows = _supabase_rows("crm_estado")
+    records = []
+    for row in rows:
+        records.append(
+            {
+                "CRM ID": row.get("crm_id", ""),
+                "Estado CRM": row.get("estado_crm", ""),
+                "Fecha ultimo contacto": row.get("fecha_ultimo_contacto", ""),
+                "Canal ultimo contacto": row.get("canal_ultimo_contacto", ""),
+                "Responsable": row.get("responsable", ""),
+                "Observacion CRM": row.get("observacion_crm", ""),
+                "Proxima accion": row.get("proxima_accion", ""),
+                "Fecha proxima accion": row.get("fecha_proxima_accion", ""),
+                "Fecha ultimo WhatsApp": row.get("fecha_ultimo_whatsapp", ""),
+                "Mensaje WhatsApp sugerido": row.get("mensaje_whatsapp_sugerido", ""),
+                "Estado WhatsApp": row.get("estado_whatsapp", ""),
+                "Variante mensaje": row.get("variante_mensaje", ""),
+                "Mensaje enviado": row.get("mensaje_enviado", ""),
+                "Fecha envio WhatsApp": row.get("fecha_envio_whatsapp", ""),
+                "Respondio": row.get("respondio", ""),
+                "Interesado": row.get("interesado", ""),
+                "Reunion agendada": row.get("reunion_agendada", ""),
+                "Resultado comercial": row.get("resultado_comercial", ""),
+                "Resultado seguimiento": row.get("resultado_seguimiento", ""),
+            }
+        )
+    return pd.DataFrame(records)
+
+
+def _load_historial_contactos_supabase() -> pd.DataFrame:
+    rows = _supabase_rows("historial_contactos")
+    records = []
+    for row in rows:
+        records.append(
+            {
+                "Fecha/hora": row.get("fecha_hora", ""),
+                "CRM ID": row.get("crm_id", ""),
+                "Restaurante": row.get("restaurante", ""),
+                "Comuna": row.get("comuna", ""),
+                "Canal": row.get("canal", ""),
+                "Acción": row.get("accion", ""),
+                "Estado CRM actual": row.get("estado_crm_actual", ""),
+                "Resultado seguimiento actual": row.get("resultado_seguimiento_actual", ""),
+                "Mensaje enviado": row.get("mensaje_enviado", ""),
+            }
+        )
+    return pd.DataFrame(records)
+
+
+def _load_mensajes_supabase() -> dict[str, dict[str, object]]:
+    rows = _supabase_rows("mensajes_whatsapp")
+    config: dict[str, dict[str, object]] = {}
+    for row in sorted(rows, key=lambda item: item.get("orden") or 0):
+        codigo = str(row.get("codigo", "")).strip()
+        if not codigo:
+            continue
+        config[codigo] = {
+            "text": row.get("texto", "") or "",
+            "active": bool(row.get("activo", True)),
+        }
+    return config
+
+
+def _clean_value(value: Any) -> Any:
+    if value is None:
+        return None
+    if isinstance(value, str) and value.strip() == "":
+        return None
+    try:
+        if pd.isna(value):
+            return None
+    except (TypeError, ValueError):
+        pass
+    return value
+
+
+def _crm_record(row: dict[str, Any]) -> dict[str, Any]:
+    record = {}
+    for source, target in CRM_COLUMN_MAP.items():
+        if source in row:
+            record[target] = _clean_value(row.get(source))
+    return {key: value for key, value in record.items() if value is not None}
+
+
+def save_crm_estado(records: pd.DataFrame | list[dict[str, Any]] | dict[str, Any]) -> int:
+    if get_data_mode() != "supabase":
+        return 0
+    if isinstance(records, pd.DataFrame):
+        rows = records.fillna("").to_dict(orient="records")
+    elif isinstance(records, dict):
+        rows = [records]
+    else:
+        rows = records
+    payload = [_crm_record(row) for row in rows]
+    payload = [row for row in payload if row.get("crm_id")]
+    if not payload:
+        return 0
+    client = get_supabase_client()
+    client.table("crm_estado").upsert(payload, on_conflict="crm_id").execute()
+    return len(payload)
+
+
+def update_lead_status(crm_id: str, updates: dict[str, Any]) -> None:
+    if get_data_mode() != "supabase":
+        return
+    record = {"CRM ID": crm_id}
+    record.update(updates)
+    save_crm_estado(record)
+
+
+def _event_key(event: dict[str, Any]) -> str:
+    raw = "|".join(
+        [
+            str(event.get("crm_id", "")),
+            str(event.get("canal", "")),
+            str(event.get("accion", "")),
+            str(event.get("fecha_hora", "")),
+        ]
+    )
+    return hashlib.sha1(raw.encode("utf-8", errors="ignore")).hexdigest()
+
+
+def _history_record(event: dict[str, Any]) -> dict[str, Any]:
+    record = {
+        "event_key": event.get("event_key"),
+        "crm_id": event.get("CRM ID") or event.get("crm_id"),
+        "fecha_hora": event.get("Fecha/hora") or event.get("fecha_hora"),
+        "restaurante": event.get("Restaurante") or event.get("restaurante"),
+        "comuna": event.get("Comuna") or event.get("comuna"),
+        "canal": event.get("Canal") or event.get("canal"),
+        "accion": event.get("Acción") or event.get("Accion") or event.get("accion"),
+        "estado_crm_actual": event.get("Estado CRM actual") or event.get("estado_crm_actual"),
+        "resultado_seguimiento_actual": event.get("Resultado seguimiento actual") or event.get("resultado_seguimiento_actual"),
+        "mensaje_enviado": event.get("Mensaje enviado") or event.get("mensaje_enviado"),
+    }
+    record = {key: _clean_value(value) for key, value in record.items() if _clean_value(value) is not None}
+    if not record.get("event_key"):
+        record["event_key"] = _event_key(record)
+    return record
+
+
+def insert_historial_evento(event: dict[str, Any]) -> str:
+    if get_data_mode() != "supabase":
+        return ""
+    record = _history_record(event)
+    if not record.get("crm_id") or not record.get("accion"):
+        return ""
+    client = get_supabase_client()
+    client.table("historial_contactos").upsert(record, on_conflict="event_key").execute()
+    return str(record["event_key"])
+
+
+def save_whatsapp_event(
+    crm_id: str,
+    restaurant: str,
+    comuna: str,
+    message: str,
+    estado_crm: str = "Contactado",
+    resultado: str = "Sin respuesta",
+    fecha_hora: str | None = None,
+) -> str:
+    return insert_historial_evento(
+        {
+            "CRM ID": crm_id,
+            "Fecha/hora": fecha_hora,
+            "Restaurante": restaurant,
+            "Comuna": comuna,
+            "Canal": "WhatsApp",
+            "Acción": "WhatsApp abierto",
+            "Estado CRM actual": estado_crm,
+            "Resultado seguimiento actual": resultado,
+            "Mensaje enviado": message,
+        }
+    )
+
+
+def save_call_event(
+    crm_id: str,
+    restaurant: str,
+    comuna: str,
+    estado_crm: str = "Contactado",
+    resultado: str = "Sin respuesta",
+    fecha_hora: str | None = None,
+) -> str:
+    return insert_historial_evento(
+        {
+            "CRM ID": crm_id,
+            "Fecha/hora": fecha_hora,
+            "Restaurante": restaurant,
+            "Comuna": comuna,
+            "Canal": "Llamada",
+            "Acción": "Llamada iniciada",
+            "Estado CRM actual": estado_crm,
+            "Resultado seguimiento actual": resultado,
+            "Mensaje enviado": "Llamada iniciada desde CRM",
+        }
+    )
