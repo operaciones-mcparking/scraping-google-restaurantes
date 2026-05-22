@@ -29,6 +29,7 @@ from data_source import (
     save_crm_estado as ds_save_crm_estado,
     save_whatsapp_event as ds_save_whatsapp_event,
 )
+from version import current_version
 
 
 ROOT = Path(__file__).resolve().parent
@@ -321,6 +322,23 @@ def inject_styles() -> None:
         }
         .crm-pill {
             display: none;
+        }
+        .version-link {
+            color: #8B96A3 !important;
+            font-size: 0.76rem;
+            line-height: 1.2;
+            text-decoration: none !important;
+            white-space: nowrap;
+        }
+        .version-link:hover {
+            color: var(--crm-rappi) !important;
+            text-decoration: none !important;
+        }
+        .version-caption {
+            color: #8B96A3;
+            font-size: 0.76rem;
+            line-height: 1.2;
+            white-space: nowrap;
         }
         .login-shell {
             max-width: 480px;
@@ -805,6 +823,11 @@ def inject_styles() -> None:
             }
             .crm-pill {
                 white-space: normal;
+            }
+            .version-link,
+            .version-caption {
+                white-space: normal;
+                font-size: 0.72rem;
             }
             .kpi-grid {
                 grid-template-columns: 1fr;
@@ -2749,6 +2772,12 @@ def logo_markup() -> str:
 
 def render_header() -> None:
     mode_label = "Supabase" if get_data_mode() == "supabase" else "Local"
+    version = current_version()
+    version_html = (
+        f'<a class="version-link" href="{version.repo_url}" target="_blank" rel="noopener">Versión: {html.escape(version.label)}</a>'
+        if version.known
+        else '<span class="version-caption">Versión desconocida</span>'
+    )
     st.markdown(
         f"""
         <div class="crm-topbar">
@@ -2759,7 +2788,7 @@ def render_header() -> None:
                     <div class="crm-subtitle">Gestión comercial de restaurantes</div>
                 </div>
             </div>
-            <div class="crm-pill">Modo datos: {mode_label}</div>
+            <div>{version_html}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -2833,25 +2862,30 @@ def render_login_screen() -> bool:
                 st.error(str(exc))
                 return False
 
-            email = st.text_input(
-                "Correo electrónico",
-                key="login_email",
-                placeholder="correo@empresa.com",
-            )
-            password = st.text_input(
-                "Contraseña",
-                type="password",
-                key="login_password",
-                placeholder="Contraseña actual",
-            )
             if "login_remember_session" not in st.session_state:
                 st.session_state["login_remember_session"] = bool(st.session_state.get("auth_remember_session", True))
-            remember_session = st.checkbox(
-                "Mantener sesión iniciada",
-                key="login_remember_session",
-            )
-            inject_login_mobile_autocomplete()
-            if st.button("Ingresar", type="primary", use_container_width=True, key="login_submit"):
+            with st.form("login_form", clear_on_submit=False):
+                st.text_input(
+                    "Correo electrónico",
+                    key="login_email",
+                    placeholder="correo@empresa.com",
+                )
+                st.text_input(
+                    "Contraseña",
+                    type="password",
+                    key="login_password",
+                    placeholder="Contraseña actual",
+                )
+                st.checkbox(
+                    "Mantener sesión iniciada",
+                    key="login_remember_session",
+                )
+                inject_login_mobile_autocomplete()
+                submitted = st.form_submit_button("Ingresar", type="primary", use_container_width=True)
+            if submitted:
+                email = str(st.session_state.get("login_email", "") or "").strip()
+                password = str(st.session_state.get("login_password", "") or "")
+                remember_session = bool(st.session_state.get("login_remember_session", False))
                 try:
                     if login(email, password, remember_session=remember_session):
                         st.rerun()
