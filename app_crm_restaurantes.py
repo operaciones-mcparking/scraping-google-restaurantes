@@ -16,6 +16,7 @@ import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
+from auth import auth_config, current_user_email, is_authenticated, login, logout
 from data_source import (
     get_data_mode,
     insert_historial_evento as ds_insert_historial_evento,
@@ -251,6 +252,70 @@ def inject_styles() -> None:
         }
         .crm-pill {
             display: none;
+        }
+        .login-shell {
+            max-width: 480px;
+            margin: 6vh auto 0 auto;
+            background: #ffffff;
+            border: 1px solid var(--crm-line);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--crm-shadow);
+        }
+        .login-top-space {
+            height: 6vh;
+            min-height: 32px;
+            max-height: 82px;
+        }
+        .login-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .login-title {
+            color: var(--crm-ink);
+            font-size: 1.35rem;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+        .login-subtitle {
+            color: var(--crm-muted);
+            font-size: 0.92rem;
+            margin-top: 2px;
+        }
+        .logout-row {
+            display: flex;
+            justify-content: flex-end;
+            margin: -6px 0 8px 0;
+        }
+        div[data-testid="stForm"] {
+            border: 0;
+            padding: 0;
+        }
+        div[data-testid="stFormSubmitButton"] button {
+            background: var(--crm-rappi) !important;
+            border-color: var(--crm-rappi) !important;
+            color: #ffffff !important;
+            min-height: 42px !important;
+            border-radius: 8px !important;
+            font-weight: 500 !important;
+            box-shadow: 0 8px 18px rgba(255, 79, 61, 0.14) !important;
+        }
+        div[data-testid="stFormSubmitButton"] button:hover {
+            background: var(--crm-rappi-dark) !important;
+            border-color: var(--crm-rappi-dark) !important;
+        }
+        div[data-testid="InputInstructions"],
+        div[data-baseweb="input"] + div,
+        div[data-testid="stTextInput"] [aria-live="polite"] {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
         }
         .kpi-grid {
             display: grid;
@@ -543,6 +608,10 @@ def inject_styles() -> None:
             .update-controls,
             .update-actions {
                 max-width: 100%;
+            }
+            .login-top-space {
+                height: 24px;
+                min-height: 24px;
             }
         }
         .app-shell {
@@ -2332,6 +2401,60 @@ def render_header() -> None:
         """,
         unsafe_allow_html=True,
     )
+    left, right = st.columns([0.84, 0.16])
+    with left:
+        user_label = current_user_email()
+        suffix = f" · Usuario: {user_label}" if user_label else ""
+        st.caption(f"Modo datos: {mode_label}{suffix}")
+    with right:
+        if st.button("Cerrar sesión", type="secondary", use_container_width=True, key="logout_button"):
+            logout()
+            st.rerun()
+
+
+def render_login_screen() -> bool:
+    st.markdown('<div class="login-top-space"></div>', unsafe_allow_html=True)
+    _, login_col, _ = st.columns([1, 1.1, 1], gap="large")
+    with login_col:
+        with st.container(border=True):
+            st.markdown(
+                f"""
+                <div class="login-brand">
+                    {logo_markup()}
+                    <div>
+                        <div class="login-title">Rappi Leads CRM</div>
+                        <div class="login-subtitle">Gestión comercial de restaurantes</div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            try:
+                auth_config()
+            except RuntimeError as exc:
+                st.error(str(exc))
+                return False
+
+            email = st.text_input(
+                "Correo electrónico",
+                key="login_email",
+                placeholder="Ingresa tu correo",
+            )
+            password = st.text_input(
+                "Contraseña",
+                type="password",
+                key="login_password",
+                placeholder="Ingresa tu contraseña",
+            )
+            if st.button("Ingresar", type="primary", use_container_width=True, key="login_submit"):
+                try:
+                    if login(email, password):
+                        st.rerun()
+                    else:
+                        st.error("Correo electrónico o contraseña incorrectos")
+                except RuntimeError as exc:
+                    st.error(str(exc))
+    return False
 
 
 def render_kpi_cards(kpis: list[tuple[str, object]], compact: bool = False) -> None:
@@ -5128,6 +5251,9 @@ def render_update_base_unified(base: pd.DataFrame) -> None:
 def main() -> None:
     ASSETS_DIR.mkdir(exist_ok=True)
     inject_styles()
+    if not is_authenticated():
+        render_login_screen()
+        return
     render_header()
 
     base = load_base()
