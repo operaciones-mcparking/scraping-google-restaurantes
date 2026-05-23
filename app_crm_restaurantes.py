@@ -25,6 +25,7 @@ from data_source import (
     load_restaurantes as ds_load_restaurantes,
     clear_contact_history_for_leads as ds_clear_contact_history_for_leads,
     replace_contact_history as ds_replace_contact_history,
+    reset_rappi_reviews as ds_reset_rappi_reviews,
     save_call_event as ds_save_call_event,
     save_crm_estado as ds_save_crm_estado,
     save_rappi_review as ds_save_rappi_review,
@@ -1201,15 +1202,15 @@ def inject_styles() -> None:
         .lead-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin: 8px 0 12px 0;
+            gap: 4px;
+            margin: 5px 0 7px 0;
         }
         .mini-badge {
             display: inline-flex;
             align-items: center;
             border-radius: 999px;
-            padding: 4px 8px;
-            font-size: 0.72rem;
+            padding: 3px 7px;
+            font-size: 0.68rem;
             font-weight: 500;
             background: #f2f4f7;
             color: #47505a;
@@ -1221,6 +1222,28 @@ def inject_styles() -> None:
         .mini-badge.positive {
             background: #edf8f2;
             color: #16784b;
+        }
+        .lead-quick-meta {
+            color: #59636f;
+            font-size: 0.76rem;
+            line-height: 1.45;
+            margin: 2px 0 7px;
+        }
+        .lead-quick-meta strong {
+            color: #20242a;
+            font-weight: 500;
+        }
+        .compact-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin: 6px 0 6px;
+        }
+        .compact-label {
+            color: #20242a;
+            font-size: 0.82rem;
+            font-weight: 500;
         }
         .table-count-text {
             margin-bottom: 10px;
@@ -1257,14 +1280,14 @@ def inject_styles() -> None:
         .lead-actions {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin: 10px 0 12px 0;
+            gap: 6px;
+            margin: 7px 0 8px 0;
         }
         .lead-action-icon {
-            width: 34px;
-            height: 34px;
+            width: 30px;
+            height: 30px;
             border: 1px solid #e7eaef;
-            border-radius: 10px;
+            border-radius: 9px;
             background: #ffffff;
             color: #68727d;
             display: inline-flex;
@@ -1274,8 +1297,8 @@ def inject_styles() -> None:
             transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
         }
         .lead-action-icon svg {
-            width: 17px;
-            height: 17px;
+            width: 15px;
+            height: 15px;
             display: block;
         }
         .lead-action-icon:hover {
@@ -1841,6 +1864,184 @@ def inject_styles() -> None:
                 font-size: 20px !important;
             }
         }
+
+        /* Global form control reset: keep Streamlit/BaseWeb controls inside their cards. */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box !important;
+        }
+        div[data-testid="stTextInput"],
+        div[data-testid="stNumberInput"],
+        div[data-testid="stDateInput"],
+        div[data-testid="stSelectbox"],
+        div[data-testid="stMultiSelect"],
+        div[data-testid="stTextArea"],
+        div[data-testid="stButton"],
+        div[data-testid="stLinkButton"],
+        div[data-testid="stDownloadButton"] {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+        div[data-testid="stTextInput"] input,
+        div[data-testid="stNumberInput"] input,
+        div[data-testid="stDateInput"] input,
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div,
+        div[data-testid="stButton"] button,
+        div[data-testid="stLinkButton"] a,
+        div[data-testid="stDownloadButton"] button {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-height: 44px !important;
+            height: 44px !important;
+            margin: 0 !important;
+            padding: 0 12px !important;
+            border-radius: 10px !important;
+            border-width: 1px !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            align-items: center !important;
+            overflow: hidden !important;
+            transform: none !important;
+            translate: none !important;
+            box-shadow: none !important;
+        }
+        div[data-testid="stTextArea"] textarea {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 10px 12px !important;
+            border-radius: 10px !important;
+            border-width: 1px !important;
+            box-sizing: border-box !important;
+            display: block !important;
+            overflow-y: auto !important;
+            transform: none !important;
+            translate: none !important;
+        }
+        div[data-baseweb="select"],
+        div[data-baseweb="input"],
+        div[data-baseweb="textarea"] {
+            background: transparent !important;
+            border: 0 !important;
+            box-shadow: none !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            transform: none !important;
+            translate: none !important;
+            margin: 0 !important;
+        }
+        div[data-baseweb="select"] > div,
+        div[data-baseweb="input"] > div,
+        div[data-baseweb="textarea"] > div {
+            width: 100% !important;
+            max-width: 100% !important;
+            box-sizing: border-box !important;
+            transform: none !important;
+            translate: none !important;
+            margin: 0 !important;
+            background: #FFFFFF !important;
+        }
+        div[data-baseweb="select"] > div > div,
+        div[data-baseweb="input"] > div > div {
+            min-width: 0 !important;
+            max-width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+            overflow: hidden !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin: 0 !important;
+        }
+        div[data-baseweb="select"] span,
+        div[data-baseweb="select"] input,
+        div[data-baseweb="input"] input {
+            line-height: 20px !important;
+            min-height: 20px !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            transform: none !important;
+            translate: none !important;
+        }
+        [data-testid="stMultiSelect"] [data-baseweb="tag"],
+        [data-baseweb="tag"] {
+            transform: none !important;
+            translate: none !important;
+            margin: 3px 4px 3px 0 !important;
+            max-width: calc(100% - 8px) !important;
+            box-sizing: border-box !important;
+        }
+        [data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+            height: auto !important;
+            min-height: 44px !important;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+            overflow: visible !important;
+        }
+        div[data-testid="stMultiSelect"] {
+            overflow: visible !important;
+        }
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div > div {
+            flex-wrap: wrap !important;
+            row-gap: 4px !important;
+            overflow: visible !important;
+        }
+        div[data-testid="stMultiSelect"] [data-baseweb="tag"] {
+            height: auto !important;
+            min-height: 24px !important;
+            line-height: 18px !important;
+            align-items: center !important;
+        }
+        div[data-testid="stHorizontalBlock"] {
+            align-items: flex-end !important;
+        }
+        div[data-testid="stHorizontalBlock"] div[data-testid="column"] {
+            min-width: 0 !important;
+            overflow: hidden !important;
+        }
+        div[data-testid="stHorizontalBlock"] div[data-testid="column"] > div {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+            background: #FFFFFF !important;
+            border: 1px solid #E5E7EB !important;
+            border-radius: 10px !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:hover,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div:hover,
+        div[data-testid="stTextInput"] input:hover,
+        div[data-testid="stNumberInput"] input:hover,
+        div[data-testid="stDateInput"] input:hover {
+            border-color: #CBD5E1 !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div:focus-within,
+        div[data-testid="stTextInput"] input:focus,
+        div[data-testid="stNumberInput"] input:focus,
+        div[data-testid="stDateInput"] input:focus,
+        div[data-testid="stTextArea"] textarea:focus {
+            border-color: #94A3B8 !important;
+            box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.18) !important;
+            outline: none !important;
+        }
+        div[data-testid="stSelectbox"] label,
+        div[data-testid="stMultiSelect"] label,
+        div[data-testid="stTextInput"] label,
+        div[data-testid="stNumberInput"] label,
+        div[data-testid="stDateInput"] label,
+        div[data-testid="stTextArea"] label {
+            margin-bottom: 6px !important;
+            line-height: 1.2 !important;
+            display: block !important;
+        }
         </style>
         """,
         unsafe_allow_html=True,
@@ -2151,8 +2352,6 @@ def refresh_whatsapp_message_state(active_messages: dict[str, str] | None = None
         if key.startswith("lead_wa_msg_") or key.startswith("lead_msg_variant_") or key.startswith("assigned_msg_variant_"):
             del st.session_state[key]
     active_messages = active_messages or load_message_variants()
-    active_keys = ", ".join(active_messages.keys())
-    print(f"Mensajes WhatsApp activos actualizados: {active_keys}")
 
 
 def normalize_crm_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -2553,6 +2752,64 @@ def save_rappi_review_state(crm_id: str, estado: str, url_rappi: str, observacio
     st.cache_data.clear()
 
 
+def reset_rappi_reviews_state(base: pd.DataFrame) -> int:
+    if base.empty or "CRM ID" not in base.columns:
+        return 0
+    ids = [clean_text(value) for value in base["CRM ID"].fillna("").astype(str) if clean_text(value)]
+    if get_data_mode() == "supabase":
+        count = ds_reset_rappi_reviews(set(ids))
+        st.session_state["rappi_review_version"] = int(st.session_state.get("rappi_review_version", 0)) + 1
+        st.cache_data.clear()
+        return count or len(set(ids))
+
+    local_base = load_base().copy()
+    if local_base.empty or "CRM ID" not in local_base.columns:
+        return 0
+    for field in ["Estado revision Rappi", "URL Rappi", "Fecha revision Rappi", "Observacion revision Rappi"]:
+        if field not in local_base.columns:
+            local_base[field] = ""
+    mask = local_base["CRM ID"].fillna("").astype(str).isin(set(ids))
+    local_base.loc[mask, "Estado revision Rappi"] = "No revisado"
+    local_base.loc[mask, "URL Rappi"] = ""
+    local_base.loc[mask, "Fecha revision Rappi"] = ""
+    local_base.loc[mask, "Observacion revision Rappi"] = ""
+    output = local_base.drop(columns=["CRM ID", "Fecha carga CRM"], errors="ignore")
+    with pd.ExcelWriter(BASE_XLSX, engine="openpyxl") as writer:
+        output.to_excel(writer, sheet_name="Base restaurantes", index=False)
+    st.session_state["rappi_review_version"] = int(st.session_state.get("rappi_review_version", 0)) + 1
+    st.cache_data.clear()
+    return int(mask.sum())
+
+
+def save_rappi_state_from_widget(
+    crm_id: str,
+    key: str,
+    current_state: str = "No revisado",
+    current_url: str = "",
+    current_observation: str = "",
+    estado_crm: str = "",
+    resultado_seguimiento: str = "",
+    restaurant_name: str = "",
+) -> None:
+    previous_state = normalize_rappi_state(current_state)
+    estado = normalize_rappi_state(st.session_state.get(key, "No revisado"))
+    save_rappi_review_state(crm_id, estado, current_url, current_observation)
+    if estado != previous_state:
+        append_contact_event(
+            crm_id,
+            "Rappi",
+            "Estado Rappi cambiado",
+            {
+                "Estado CRM": normalize_crm_state(estado_crm),
+                "Resultado seguimiento": normalize_resultado_seguimiento(resultado_seguimiento, ""),
+            },
+            f"Estado Rappi: {previous_state} -> {estado}",
+            restaurant_name,
+        )
+        st.cache_data.clear()
+    st.session_state["rappi_status_toast"] = "Estado Rappi actualizado"
+
+
 def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
     out = df.copy()
     rename_map = {
@@ -2928,8 +3185,71 @@ def reset_lead_values(row: dict) -> dict:
     updated["Interesado"] = "No"
     updated["Reunion agendada"] = "No"
     updated["Resultado comercial"] = ""
-    updated["Resultado seguimiento"] = ""
+    updated["Resultado seguimiento"] = "Sin respuesta"
     return updated
+
+
+def clear_lead_widget_state(crm_ids: set[str] | list[str]) -> None:
+    ids = {clean_text(value) for value in crm_ids if clean_text(value)}
+    if not ids:
+        return
+    prefixes = [
+        "lead_estado_",
+        "lead_obs_",
+        "lead_wa_last_",
+        "lead_wa_msg_",
+        "lead_msg_variant_",
+        "resultado_seguimiento_",
+        "rappi_estado_",
+        "rappi_url_",
+        "rappi_obs_",
+        "confirm_reset_",
+    ]
+    for key in list(st.session_state.keys()):
+        for crm_id in ids:
+            if any(key.startswith(prefix + crm_id) for prefix in prefixes):
+                st.session_state.pop(key, None)
+                break
+
+
+def reset_state_validation_snapshot(base: pd.DataFrame, crm: pd.DataFrame, history: pd.DataFrame | None = None) -> dict[str, int]:
+    if base.empty or "CRM ID" not in base.columns:
+        return {
+            "total_leads": 0,
+            "estado_no_nuevo": 0,
+            "resultado_no_sin_respuesta": 0,
+            "whatsapp_no_no_contactado": 0,
+            "rappi_no_no_revisado": 0,
+            "fecha_contacto_con_valor": 0,
+            "fecha_whatsapp_con_valor": 0,
+            "canal_contacto_con_valor": 0,
+            "notas_con_valor": 0,
+            "eventos_no_iniciales": 0,
+        }
+    merged = merge_crm(base, crm)
+    rappi_state = get_series(merged, ["Estado revision Rappi"]).apply(normalize_rappi_state)
+    fecha_contacto = get_series(merged, ["Fecha ultimo contacto"])
+    fecha_whatsapp = get_series(merged, ["Fecha ultimo WhatsApp"])
+    fecha_envio_whatsapp = get_series(merged, ["Fecha envio WhatsApp"])
+    canal_contacto = get_series(merged, ["Canal ultimo contacto"])
+    notas = get_series(merged, ["Observacion CRM"])
+    if history is None:
+        history = load_contact_history()
+    non_initial_events = 0
+    if history is not None and not history.empty:
+        non_initial_events = int((~initial_contact_history_mask(history)).sum())
+    return {
+        "total_leads": int(len(merged)),
+        "estado_no_nuevo": int((merged["Estado CRM"] != "Nuevo").sum()),
+        "resultado_no_sin_respuesta": int((merged["Resultado seguimiento"].apply(lambda value: normalize_resultado_seguimiento(value, "")) != "Sin respuesta").sum()),
+        "whatsapp_no_no_contactado": int((merged["Estado WhatsApp"].fillna("").astype(str).replace("", "No contactado") != "No contactado").sum()),
+        "rappi_no_no_revisado": int((rappi_state != "No revisado").sum()),
+        "fecha_contacto_con_valor": int(yes_no_has_value(fecha_contacto).sum()),
+        "fecha_whatsapp_con_valor": int((yes_no_has_value(fecha_whatsapp) | yes_no_has_value(fecha_envio_whatsapp)).sum()),
+        "canal_contacto_con_valor": int(yes_no_has_value(canal_contacto).sum()),
+        "notas_con_valor": int(yes_no_has_value(notas).sum()),
+        "eventos_no_iniciales": non_initial_events,
+    }
 
 
 def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0, extra: dict | None = None) -> None:
@@ -3037,11 +3357,16 @@ def reset_full_contact_history(initial_history: pd.DataFrame) -> dict[str, int |
 
 def reset_full_crm() -> int:
     base = load_base()
+    crm_before = load_crm_state()
+    history_before = load_contact_history()
+    before_snapshot = reset_state_validation_snapshot(base, crm_before, history_before)
     reset_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if base.empty or "CRM ID" not in base.columns:
         stats = empty_reset_history_stats()
         stats["initial_recreated"] = 0
         stats["reset_timestamp"] = reset_timestamp
+        stats["validation_before"] = before_snapshot
+        stats["validation_after"] = reset_state_validation_snapshot(base, crm_before, history_before)
         st.session_state["reset_cleaned_events"] = 0
         st.session_state["last_reset_stats"] = stats
         log_crm_reset("reset_crm_completo", 0, 0, {"modo_datos": get_data_mode(), "fecha_reinicio": reset_timestamp})
@@ -3063,6 +3388,9 @@ def reset_full_crm() -> int:
         stats = empty_reset_history_stats()
         stats["initial_recreated"] = 0
         stats["reset_timestamp"] = reset_timestamp
+        stats["rappi_reset"] = 0
+        stats["validation_before"] = before_snapshot
+        stats["validation_after"] = reset_state_validation_snapshot(base, crm_before, history_before)
         st.session_state["reset_cleaned_events"] = 0
         st.session_state["last_reset_stats"] = stats
         log_crm_reset("reset_crm_completo", 0, 0, {"modo_datos": get_data_mode(), "fecha_reinicio": reset_timestamp})
@@ -3070,20 +3398,33 @@ def reset_full_crm() -> int:
 
     reset_df = pd.DataFrame(crm_rows, columns=["CRM ID"] + CRM_FIELDS)
     save_crm_state(reset_df)
+    rappi_reset_count = reset_rappi_reviews_state(base)
     initial_history = build_initial_contact_history(base, reset_timestamp)
     stats = reset_full_contact_history(initial_history)
+    clear_lead_widget_state(seen_ids)
+    st.cache_data.clear()
+    base_after = load_base()
+    crm_after = load_crm_state()
+    history_after = load_contact_history()
+    after_snapshot = reset_state_validation_snapshot(base_after, crm_after, history_after)
     cleaned_events = int(stats.get("deleted", 0))
     stats["reset_timestamp"] = reset_timestamp
+    stats["rappi_reset"] = rappi_reset_count
+    stats["validation_before"] = before_snapshot
+    stats["validation_after"] = after_snapshot
     extra = {
         "modo_datos": get_data_mode(),
         "fecha_reinicio": reset_timestamp,
         "crm_estado_reiniciados": len(reset_df),
+        "estados_rappi_reiniciados": rappi_reset_count,
         "eventos_iniciales_recreados": int(stats.get("initial_recreated", len(initial_history))),
         "eventos_antes": int(stats.get("total_before", 0)),
         "eventos_despues": int(stats.get("total_after", 0)),
+        "validacion_antes": before_snapshot,
+        "validacion_despues": after_snapshot,
     }
     st.session_state["reset_cleaned_events"] = cleaned_events
-    st.session_state["last_reset_stats"] = stats | {"crm_reset": len(reset_df)}
+    st.session_state["last_reset_stats"] = stats | {"crm_reset": len(reset_df), "rappi_reset": rappi_reset_count}
     log_crm_reset("reset_crm_completo", len(reset_df), cleaned_events, extra)
     st.cache_data.clear()
     return len(reset_df)
@@ -3114,6 +3455,7 @@ def reset_crm_ids(affected_ids: set[str], reset_type: str) -> int:
         updated_rows.append(new_row)
     save_crm_state(pd.DataFrame(updated_rows))
     stats = clean_contact_history_after_reset(ids)
+    clear_lead_widget_state(ids)
     cleaned_events = int(stats.get("deleted", 0))
     st.session_state["reset_cleaned_events"] = cleaned_events
     st.session_state["last_reset_stats"] = stats
@@ -3193,6 +3535,33 @@ def format_date_label(value: object) -> str:
     if pd.isna(parsed):
         return clean_text(value)
     return parsed.strftime("%d-%m-%Y")
+
+
+def format_review_datetime(value: object) -> str:
+    parsed = pd.to_datetime(clean_text(value), errors="coerce")
+    if pd.isna(parsed):
+        return "Sin revisar"
+    today = pd.Timestamp.now().date()
+    review_date = parsed.date()
+    if review_date == today:
+        return f"Hoy {parsed.strftime('%H:%M')}"
+    if review_date == today - pd.Timedelta(days=1):
+        return f"Ayer {parsed.strftime('%H:%M')}"
+    month_map = {
+        1: "Ene",
+        2: "Feb",
+        3: "Mar",
+        4: "Abr",
+        5: "May",
+        6: "Jun",
+        7: "Jul",
+        8: "Ago",
+        9: "Sep",
+        10: "Oct",
+        11: "Nov",
+        12: "Dic",
+    }
+    return f"{review_date.day} {month_map.get(review_date.month, parsed.strftime('%b'))} {parsed.strftime('%H:%M')}"
 
 
 def make_table_view(df: pd.DataFrame) -> pd.DataFrame:
@@ -4204,11 +4573,11 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
         key="buscador_restaurante_select",
         placeholder="Escribe o selecciona restaurante...",
     )
-    search_cols[1].button("Limpiar", type="secondary", use_container_width=True, on_click=clear_search_filter)
+    search_cols[1].button("Limpiar", type="secondary", use_container_width=True, on_click=clear_search_filter, key="clear_search_aligned")
     search = "" if search == all_restaurants_label else search
     st.session_state["texto_temporal_buscador"] = search
     st.session_state["texto_aplicado_buscador"] = search
-    cols = st.columns([1.0, 1.0, 0.9, 1.12, 0.72, 0.76, 0.88], gap="small")
+    cols = st.columns([1, 1, 1, 1, 0.9, 0.9, 0.9], gap="small")
 
     selected_comuna = cols[0].selectbox("Comuna", ["Todas"] + comunas, key="crm_top_comuna_select")
     selected_nivel = cols[1].selectbox("Nivel", ["Todos"] + niveles, key="crm_top_nivel_select")
@@ -4230,21 +4599,9 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
         out = out[out["Estado CRM"].eq(selected_state)]
     if selected_resultado != "Todos":
         selected_norm = {normalize_resultado_seguimiento(selected_resultado, "")}
-        before_resultado = len(out)
         resultado_source = out["Resultado seguimiento"] if "Resultado seguimiento" in out.columns else pd.Series([""] * len(out), index=out.index)
         resultado_series = resultado_source.apply(lambda value: normalize_resultado_seguimiento(value, ""))
-        unique_values = sorted([value for value in resultado_series.unique() if value])
         out = out[resultado_series.isin(selected_norm)]
-        debug_msg = (
-            f"Filtro Resultado seguimiento | antes={before_resultado} | despues={len(out)} | "
-            f"seleccion={', '.join(sorted(selected_norm))} | valores={', '.join(unique_values) or 'sin valores'}"
-        )
-        print(debug_msg)
-        with st.expander("Debug filtro Resultado", expanded=False):
-            st.caption(f"Columna usada: Resultado seguimiento")
-            st.caption(f"Total antes del filtro: {before_resultado}")
-            st.caption(f"Total después del filtro: {len(out)}")
-            st.caption(f"Valores únicos encontrados: {', '.join(unique_values) or 'sin valores'}")
     if phone_filter != "Todos":
         has_phone = yes_no_has_value(get_series(out, PHONE_COLUMNS))
         out = out[has_phone if phone_filter == "Si" else ~has_phone]
@@ -4525,7 +4882,8 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     nivel_col = find_column(df, ["Nivel comercial"]) or "Nivel comercial"
     tipo_col = find_column(df, ["Tipo negocio"]) or "Tipo negocio"
     phone_col = find_column(df, PHONE_COLUMNS) or "Telefono"
-    name = html.escape(clean_text(row.get(name_col, "")) or "Restaurante sin nombre")
+    name_raw = clean_text(row.get(name_col, "")) or "Restaurante sin nombre"
+    name = html.escape(name_raw)
     comuna = html.escape(clean_text(row.get(comuna_col, "")))
     nivel = html.escape(clean_text(row.get(nivel_col, "")))
     tipo = html.escape(clean_text(row.get(tipo_col, "")))
@@ -4628,49 +4986,166 @@ def render_lead_link_icons(row: pd.Series) -> None:
     st.markdown(f'<div class="lead-actions">{"".join(actions)}</div>', unsafe_allow_html=True)
 
 
+def render_lead_name_with_copy(name: str) -> None:
+    safe_name = clean_text(name) or "Restaurante sin nombre"
+    components.html(
+        f"""
+        <div class="lead-copy-header">
+            <style>
+                .lead-copy-header {{
+                    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 10px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin: 0 0 8px;
+                }}
+                .lead-copy-name {{
+                    min-width: 0;
+                    color: #1f2933;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }}
+                .lead-copy-action {{
+                    width: 32px;
+                    height: 32px;
+                    border: 1px solid #e3e7eb;
+                    border-radius: 9px;
+                    background: #ffffff;
+                    color: #68727d;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+                    flex: 0 0 auto;
+                }}
+                .lead-copy-action:hover {{
+                    background: #f8fafc;
+                    border-color: #cbd5e1;
+                    color: #1e293b;
+                }}
+                .lead-copy-action svg {{
+                    width: 16px;
+                    height: 16px;
+                }}
+                .lead-copy-toast {{
+                    position: fixed;
+                    right: 14px;
+                    top: 12px;
+                    z-index: 999;
+                    background: #1e293b;
+                    color: #ffffff;
+                    border-radius: 999px;
+                    padding: 7px 11px;
+                    font-size: 12px;
+                    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.16);
+                    opacity: 0;
+                    transform: translateY(-6px);
+                    transition: opacity 0.16s ease, transform 0.16s ease;
+                    pointer-events: none;
+                }}
+                .lead-copy-toast.show {{
+                    opacity: 1;
+                    transform: translateY(0);
+                }}
+                @media (max-width: 640px) {{
+                    .lead-copy-name {{
+                        font-size: 18px;
+                    }}
+                    .lead-copy-action {{
+                        width: 30px;
+                        height: 30px;
+                    }}
+                }}
+            </style>
+            <div class="lead-copy-name" title="{html.escape(safe_name, quote=True)}">{html.escape(safe_name)}</div>
+            <button class="lead-copy-action" type="button" title="Copiar nombre" aria-label="Copiar nombre">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </button>
+            <div class="lead-copy-toast">Nombre copiado</div>
+            <script>
+                const root = document.currentScript.parentElement;
+                const button = root.querySelector(".lead-copy-action");
+                const toast = root.querySelector(".lead-copy-toast");
+                const value = {json.dumps(safe_name)};
+                button.addEventListener("click", async () => {{
+                    try {{
+                        await navigator.clipboard.writeText(value);
+                    }} catch (error) {{
+                        const temp = document.createElement("textarea");
+                        temp.value = value;
+                        temp.style.position = "fixed";
+                        temp.style.opacity = "0";
+                        document.body.appendChild(temp);
+                        temp.select();
+                        document.execCommand("copy");
+                        temp.remove();
+                    }}
+                    toast.classList.add("show");
+                    window.setTimeout(() => toast.classList.remove("show"), 1800);
+                }});
+            </script>
+        </div>
+        """,
+        height=44,
+    )
+
+
 def render_rappi_review_block(row: pd.Series, name_col: str, comuna_col: str) -> None:
     crm_id = clean_text(row.get("CRM ID", ""))
     current_state = normalize_rappi_state(row.get("Estado revision Rappi", ""))
     current_url = clean_text(row.get("URL Rappi", ""))
     current_observation = clean_text(row.get("Observacion revision Rappi", ""))
-    last_review = clean_text(row.get("Fecha revision Rappi", ""))
-    search_url = rappi_search_url(row.get(name_col, ""), row.get(comuna_col, ""))
+    estado_crm = normalize_crm_state(row.get("Estado CRM", ""))
+    resultado_seguimiento = normalize_resultado_seguimiento(row.get("Resultado seguimiento", ""), "")
+    restaurant_name = clean_text(row.get(name_col, ""))
 
-    st.markdown('<div class="crm-divider"></div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-title">Rappi</div>', unsafe_allow_html=True)
+    rappi_toast = st.session_state.pop("rappi_status_toast", "")
+    if rappi_toast:
+        if hasattr(st, "toast"):
+            st.toast(rappi_toast)
+        else:
+            st.success(rappi_toast)
     badge_class = "positive" if current_state == "Encontrado" else "result" if current_state == "Dudoso" else ""
     st.markdown(
         f"""
-        <div class="lead-meta">
-            <span class="mini-badge {badge_class}">Rappi: {html.escape(current_state)}</span>
-            <span class="mini-badge">Última revisión: {html.escape(last_review or 'Sin revisar')}</span>
+        <div class="compact-row">
+            <span class="compact-label">Rappi</span>
+            <span class="mini-badge {badge_class}">{html.escape(current_state)}</span>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    st.link_button("Buscar en Rappi", search_url, use_container_width=True, help="Abre una búsqueda sugerida en Google con nombre, comuna y Rappi.")
     estado = st.selectbox(
         "Estado Rappi",
         RAPPI_REVIEW_STATES,
         index=RAPPI_REVIEW_STATES.index(current_state),
         key=f"rappi_estado_{crm_id}",
+        on_change=save_rappi_state_from_widget,
+        args=(
+            crm_id,
+            f"rappi_estado_{crm_id}",
+            current_state,
+            current_url,
+            current_observation,
+            estado_crm,
+            resultado_seguimiento,
+            restaurant_name,
+        ),
     )
-    url_rappi = st.text_input("URL Rappi", value=current_url, key=f"rappi_url_{crm_id}", placeholder="Pega aquí la URL encontrada")
-    observacion = st.text_area(
-        "Observación Rappi",
-        value=current_observation,
-        height=88,
-        key=f"rappi_obs_{crm_id}",
-        placeholder="Ej: coincide nombre, pero falta confirmar sucursal.",
-    )
-    if st.button("Guardar revisión Rappi", type="secondary", use_container_width=True, key=f"save_rappi_{crm_id}"):
-        save_rappi_review_state(crm_id, estado, url_rappi, observacion)
-        st.success("Revisión Rappi guardada.")
-        st.rerun()
 
 
 def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selected_index: object | None) -> None:
-    st.markdown('<div class="section-title">Lead seleccionado</div>', unsafe_allow_html=True)
     row = selected_lead_row(df, filtered, selected_index)
     if row is None:
         st.info("No hay restaurantes para estos filtros.")
@@ -4681,7 +5156,8 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     nivel_col = find_column(df, ["Nivel comercial"]) or "Nivel comercial"
     tipo_col = find_column(df, ["Tipo negocio"]) or "Tipo negocio"
     phone_col = find_column(df, PHONE_COLUMNS) or "Telefono"
-    name = html.escape(clean_text(row.get(name_col, "")) or "Restaurante sin nombre")
+    name_raw = clean_text(row.get(name_col, "")) or "Restaurante sin nombre"
+    name = html.escape(name_raw)
     comuna = html.escape(clean_text(row.get(comuna_col, "")))
     nivel = html.escape(clean_text(row.get(nivel_col, "")))
     tipo = html.escape(clean_text(row.get(tipo_col, "")))
@@ -4692,15 +5168,12 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     estado_badge_class = "positive" if estado_actual in CONTACTED_STATES else "accent" if estado_actual == "Pendiente contacto" else ""
     resultado_badge_class = "result" if resultado_seguimiento != "Sin respuesta" else ""
 
+    render_lead_name_with_copy(name_raw)
     st.markdown(
         f"""
-        <div class="lead-name">{name}</div>
-        <div class="lead-meta">
-            <span class="mini-badge">Comuna: {comuna}</span>
-            <span class="mini-badge accent">Nivel: {nivel}</span>
-            <span class="mini-badge">Tipo: {tipo}</span>
-            <span class="mini-badge {estado_badge_class}">Estado CRM: {html.escape(estado_actual)}</span>
-            <span class="mini-badge {resultado_badge_class}">Resultado: {html.escape(resultado_seguimiento)}</span>
+        <div class="lead-quick-meta">
+            <div>{comuna} · {nivel} · {tipo}</div>
+            <div>CRM: <strong>{html.escape(estado_actual)}</strong> · Resultado: <strong>{html.escape(resultado_seguimiento)}</strong></div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -4727,7 +5200,7 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
 
     current_state = estado_actual if estado_actual in CRM_STATES else "Nuevo"
     estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=f"lead_estado_{row['CRM ID']}")
-    observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=175, key=f"lead_obs_{row['CRM ID']}")
+    observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=105, key=f"lead_obs_{row['CRM ID']}")
 
     if st.button("Guardar lead", type="primary", use_container_width=True, key=f"save_lead_main_{row['CRM ID']}"):
         save_lead_updates(
@@ -4741,12 +5214,9 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
 
 
 def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selected_index: object | None) -> None:
-    header_cols = st.columns([0.86, 0.14], vertical_alignment="center")
-    header_cols[0].markdown('<div class="section-title">Contacto WhatsApp</div>', unsafe_allow_html=True)
-    with header_cols[1]:
-        render_whatsapp_messages_launcher(None, None, None)
     row = selected_lead_row(df, filtered, selected_index)
     if row is None:
+        st.markdown('<div class="section-title">Contacto WhatsApp</div>', unsafe_allow_html=True)
         st.info("No hay restaurante seleccionado.")
         return
     render_whatsapp_toast()
@@ -4756,6 +5226,19 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
 
     name_col = find_column(df, ["Nombre restaurante"]) or "Nombre restaurante"
     comuna_col = find_column(df, ["Comuna"]) or "Comuna"
+    settings_href = whatsapp_messages_settings_href(row)
+    st.markdown(
+        f"""
+        <div class="wa-header-row">
+            <div class="section-title">Contacto WhatsApp</div>
+            <div class="wa-settings-inline">
+                <a href="{html.escape(settings_href, quote=True)}" target="_self" title="Editar mensajes WhatsApp" aria-label="Editar mensajes WhatsApp">⚙</a>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    maybe_open_whatsapp_messages_dialog(row, name_col, comuna_col)
     current_variant = assigned_message_variant(row)
     message_variants = load_message_variants()
     if current_variant not in message_variants:
@@ -4801,7 +5284,7 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         args=(row["CRM ID"], resultado_key),
     )
 
-    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=150, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
+    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=205, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
     st.caption(f"{len(mensaje_whatsapp)} caracteres")
 
     wa_url = whatsapp_action_url(row, name_col, comuna_col, mensaje_whatsapp)
@@ -4910,8 +5393,8 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         div[data-testid="stHorizontalBlock"] div[data-testid="column"] div[data-testid="stLinkButton"] a,
         div[data-testid="stHorizontalBlock"] div[data-testid="column"] div[data-testid="stButton"] button {
             width: 100% !important;
-            height: 40px !important;
-            min-height: 40px !important;
+            height: 44px !important;
+            min-height: 44px !important;
             margin: 0 !important;
             display: flex !important;
             align-items: center !important;
@@ -4920,24 +5403,97 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             box-sizing: border-box !important;
             vertical-align: middle !important;
         }
+        div[data-testid="stLinkButton"] a[href*="wa.me"],
+        div[data-testid="stLinkButton"] a[href^="tel:"],
+        button[kind="primary"] {
+            height: 44px !important;
+            min-height: 44px !important;
+            line-height: 44px !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
         button[kind="secondary"][title="Editar mensajes WhatsApp"] {
-            width: 34px !important;
-            height: 34px !important;
-            min-height: 34px !important;
+            width: 42px !important;
+            height: 42px !important;
+            min-height: 42px !important;
+            max-width: 42px !important;
             padding: 0 !important;
             border-radius: 10px !important;
             background: #ffffff !important;
             border-color: #e7eaef !important;
             color: #68727d !important;
             box-shadow: none !important;
+            font-size: 15px !important;
+            line-height: 1 !important;
         }
         button[kind="secondary"][title="Editar mensajes WhatsApp"]:hover {
             background: #f8fafc !important;
             border-color: #cbd5e1 !important;
             color: var(--crm-rappi-dark) !important;
         }
+        div[data-testid="stButton"]:has(button[title="Editar mensajes WhatsApp"]) {
+            width: 42px !important;
+            min-width: 42px !important;
+            max-width: 42px !important;
+            height: 44px !important;
+            min-height: 44px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            position: static !important;
+            z-index: 5 !important;
+        }
+        div[data-testid="stButton"]:has(button[title="Editar mensajes WhatsApp"]) button {
+            position: static !important;
+            width: 42px !important;
+            max-width: 42px !important;
+            min-width: 42px !important;
+        }
         div[data-testid="stTextArea"] {
             margin-bottom: 0 !important;
+        }
+        .wa-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 0 0 14px;
+        }
+        .wa-header-row .section-title {
+            margin: 0 !important;
+        }
+        .wa-settings-inline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            flex: 0 0 30px;
+        }
+        .wa-settings-inline a {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e7eaef;
+            border-radius: 9px;
+            background: #ffffff;
+            color: #68727d;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 14px;
+            line-height: 1;
+            box-shadow: none;
+            transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+        }
+        .wa-settings-inline a:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--crm-rappi-dark);
+            text-decoration: none;
         }
         div[data-testid="stTextArea"] textarea {
             min-height: 135px !important;
@@ -4952,6 +5508,31 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         }
         div[data-testid="stHorizontalBlock"] {
             margin-top: 2px !important;
+        }
+        div[data-testid="stHorizontalBlock"] div[data-testid="column"] {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-end !important;
+        }
+        div[data-testid="stSelectbox"],
+        div[data-testid="stButton"],
+        div[data-testid="stLinkButton"] {
+            margin-bottom: 0 !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+        div[data-testid="stTextInput"] input {
+            min-height: 42px !important;
+            height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        div[data-testid="stButton"] button,
+        div[data-testid="stLinkButton"] a {
+            min-height: 42px !important;
+            height: 42px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
         </style>
         """,
@@ -5327,10 +5908,8 @@ def render_restaurant_table_modern(filtered: pd.DataFrame, total: int) -> object
         lead_key = lead_selection_key(filtered.loc[index], index)
         number = f"{int(row.get('Numero', 0)):02d}"
         name = clean_text(row.get("Nombre", "")) or "Restaurante sin nombre"
-        rappi_state = normalize_rappi_state(row.get("Rappi", ""))
-        rappi_suffix = f"  · Rappi: {rappi_state}"
         option_keys.append(lead_key)
-        option_labels[lead_key] = f"{number}  {name}{rappi_suffix}"
+        option_labels[lead_key] = f"{number}  {name}"
         option_meta[lead_key] = (lead_id, index)
 
     current_key = lead_selection_key(filtered.loc[current_index], current_index) if current_index in filtered.index else option_keys[0]
@@ -5927,9 +6506,22 @@ def render_testing_tools() -> None:
             f"eventos antes = {stats.get('total_before', 0)} · "
             f"eventos eliminados = {stats.get('deleted', 0)} · "
             f"eventos iniciales conservados/recreados = {stats.get('initial_recreated', stats.get('kept_initial', 0))} · "
+            f"Estados Rappi reiniciados = {stats.get('rappi_reset', 0)} · "
             f"eventos después = {stats.get('total_after', 0)} · "
             f"fecha reset = {stats.get('reset_timestamp', '-')}"
         )
+        validation_after = stats.get("validation_after", {})
+        if isinstance(validation_after, dict) and validation_after:
+            st.caption(
+                "Validación después del reset: "
+                f"Estado CRM distinto de Nuevo = {validation_after.get('estado_no_nuevo', 0)} · "
+                f"Resultado distinto de Sin respuesta = {validation_after.get('resultado_no_sin_respuesta', 0)} · "
+                f"WhatsApp distinto de No contactado = {validation_after.get('whatsapp_no_no_contactado', 0)} · "
+                f"Rappi distinto de No revisado = {validation_after.get('rappi_no_no_revisado', 0)} · "
+                f"fechas contacto con valor = {validation_after.get('fecha_contacto_con_valor', 0)} · "
+                f"notas con valor = {validation_after.get('notas_con_valor', 0)} · "
+                f"eventos no iniciales = {validation_after.get('eventos_no_iniciales', 0)}"
+            )
     options = {
         "Reiniciar leads Contactados": "contactados",
         "Reiniciar leads Respondidos": "respondidos",
@@ -5952,9 +6544,12 @@ def render_testing_tools() -> None:
             affected = reset_massive_leads(selected_option)
         cleaned = int(st.session_state.get("reset_cleaned_events", 0))
         if selected_option == "completo":
+            fresh_stats = st.session_state.get("last_reset_stats", {})
+            rappi_reset_count = fresh_stats.get("rappi_reset", 0) if isinstance(fresh_stats, dict) else 0
             st.session_state["reset_feedback_message"] = (
                 "CRM reiniciado. Los restaurantes se mantienen, pero los estados e historial comercial quedaron como nuevos. "
-                f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+                f"Leads afectados: {affected}. Eventos eliminados: {cleaned}. "
+                f"Estados Rappi reiniciados: {rappi_reset_count}."
             )
         else:
             st.session_state["reset_feedback_message"] = (
@@ -6053,9 +6648,26 @@ else:
             render_whatsapp_messages_editor_body(selected_row, name_col, comuna_col)
 
 
-def render_whatsapp_messages_launcher(selected_row: pd.Series | None, name_col: str | None, comuna_col: str | None) -> None:
-    if st.button("⚙", key="open_whatsapp_messages_editor", help="Editar mensajes WhatsApp", use_container_width=True):
+def whatsapp_messages_settings_href(selected_row: pd.Series | None) -> str:
+    selected_id = clean_text(selected_row.get("CRM ID", "")) if selected_row is not None else ""
+    params = current_commercial_filter_params()
+    selected_key = clean_text(st.session_state.get("selected_lead_key", ""))
+    if selected_key:
+        params.append(("selected_lead_key", selected_key))
+    if selected_id:
+        params.append(("edit_whatsapp_messages", selected_id))
+    return "?" + urlencode(params)
+
+
+def maybe_open_whatsapp_messages_dialog(selected_row: pd.Series | None, name_col: str | None, comuna_col: str | None) -> None:
+    selected_id = clean_text(selected_row.get("CRM ID", "")) if selected_row is not None else ""
+    edit_target = clean_text(st.query_params.get("edit_whatsapp_messages", ""))
+    if selected_id and edit_target == selected_id:
         st.session_state["show_message_editor"] = True
+        try:
+            del st.query_params["edit_whatsapp_messages"]
+        except Exception:
+            pass
     if st.session_state.get("show_message_editor") and selected_row is not None:
         render_whatsapp_messages_dialog(selected_row, name_col, comuna_col)
 
@@ -6183,26 +6795,18 @@ def main() -> None:
     try:
         with loading_placeholder.container():
             render_skeleton_workspace()
-        print("[CRM load] antes de cargar restaurantes", flush=True)
         base = load_base()
-        print(f"[CRM load] restaurantes cargados: {len(base)}", flush=True)
         if base.empty:
             loading_placeholder.empty()
             st.error(f"No se encontró la base principal: {BASE_XLSX}")
             return
 
-        print("[CRM load] antes de cargar crm_estado", flush=True)
         crm = load_crm_state()
-        print(f"[CRM load] crm_estado cargado: {len(crm)}", flush=True)
         if auto_transition_pending_contacts(base, crm):
-            print("[CRM load] transicion automatica aplicada, recargando crm_estado", flush=True)
             crm = load_crm_state()
-            print(f"[CRM load] crm_estado recargado: {len(crm)}", flush=True)
         df = merge_crm(base, crm)
-        print(f"[CRM load] dataframe CRM listo: {len(df)}", flush=True)
     except Exception as exc:
         loading_placeholder.empty()
-        print(f"[CRM load] ERROR: {exc}", flush=True)
         st.error("Error cargando datos")
         st.caption(str(exc))
         return

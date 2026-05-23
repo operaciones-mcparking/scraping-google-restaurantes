@@ -241,7 +241,7 @@ def _crm_record(row: dict[str, Any]) -> dict[str, Any]:
     for source, target in CRM_COLUMN_MAP.items():
         if source in row:
             record[target] = _clean_value(row.get(source))
-    return {key: value for key, value in record.items() if value is not None}
+    return record
 
 
 def save_crm_estado(records: pd.DataFrame | list[dict[str, Any]] | dict[str, Any]) -> int:
@@ -287,6 +287,35 @@ def save_rappi_review(
     }
     client = get_supabase_client()
     client.table("restaurantes").update(payload).eq("crm_id", crm_id).execute()
+
+
+def reset_rappi_reviews(crm_ids: set[str] | list[str] | None = None) -> int:
+    if get_data_mode() != "supabase":
+        return 0
+    payload = {
+        "estado_revision_rappi": "No revisado",
+        "url_rappi": None,
+        "fecha_revision_rappi": None,
+        "observacion_revision_rappi": None,
+    }
+    client = get_supabase_client()
+    if crm_ids is None:
+        response = client.table("restaurantes").update(payload).execute()
+        return len(response.data or [])
+
+    ids = sorted({str(value).strip() for value in crm_ids if str(value).strip()})
+    if not ids:
+        return 0
+
+    updated = 0
+    # PostgREST sends filters in the URL. Keep batches small because some crm_id
+    # values can be long and otherwise httpx rejects the query before sending it.
+    batch_size = 10
+    for start in range(0, len(ids), batch_size):
+        batch = ids[start : start + batch_size]
+        client.table("restaurantes").update(payload).in_("crm_id", batch).execute()
+        updated += len(batch)
+    return updated
 
 
 def _event_key(event: dict[str, Any]) -> str:
