@@ -73,18 +73,22 @@ En la app de Streamlit Cloud:
 ```toml
 SUPABASE_URL = "https://tu-proyecto.supabase.co"
 SUPABASE_KEY = "tu-key-de-supabase"
+
 ```
 
-No agregar `[auth]`. El login usa Supabase Auth con email y contrasena.
+Por ahora el CRM no usa login interno de Streamlit. El control de acceso debe ser externo/manual:
 
-La sesion se mantiene en una cookie del navegador para no pedir login en cada recarga. El boton `Cerrar sesion` borra la cookie y cierra la sesion en Supabase.
+- no compartir la URL publicamente;
+- usar una URL privada solo con personas internas;
+- si se necesita seguridad formal mas adelante, agregar autenticacion externa estable antes de compartir masivamente.
 
-## 6. Crear usuarios en Supabase Auth
+## 6. Acceso al CRM
 
-1. Entrar al proyecto en Supabase.
-2. Ir a `Authentication`.
-3. Crear un usuario con email y contrasena.
-4. Usar ese email y contrasena para entrar al CRM online.
+Para dar acceso en esta etapa:
+
+1. Compartir la URL de Streamlit Cloud solo con usuarios internos.
+2. No publicar la URL en sitios abiertos.
+3. Mantener las credenciales de Supabase solo en `Secrets`.
 
 ## 7. Redeploy
 
@@ -117,7 +121,6 @@ Errores comunes:
 
 - Falta `SUPABASE_URL`.
 - Falta `SUPABASE_KEY`.
-- El usuario no existe en Supabase Auth.
 - `requirements.txt` no incluye alguna libreria.
 - `configs/app_mode.json` no esta en modo `supabase`.
 

@@ -6,8 +6,10 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
+import requests
 
 from supabase_client import get_supabase_client
+from supabase_client import load_supabase_secrets
 
 
 ROOT = Path(__file__).resolve().parent
@@ -94,9 +96,32 @@ def _load_mensajes_local() -> dict[str, dict[str, object]]:
 
 
 def _supabase_rows(table: str, select: str = "*") -> list[dict[str, Any]]:
-    client = get_supabase_client()
-    response = client.table(table).select(select).execute()
-    return list(response.data or [])
+    secrets = load_supabase_secrets()
+    url = f'{secrets["SUPABASE_URL"].rstrip("/")}/rest/v1/{table}'
+    base_headers = {
+        "apikey": secrets["SUPABASE_KEY"],
+        "Authorization": f'Bearer {secrets["SUPABASE_KEY"]}',
+        "Accept": "application/json",
+    }
+    rows: list[dict[str, Any]] = []
+    page_size = 1000
+    start = 0
+    while True:
+        headers = dict(base_headers)
+        headers["Range"] = f"{start}-{start + page_size - 1}"
+        params = {"select": select}
+        try:
+            response = requests.get(url, headers=headers, params=params, timeout=25)
+            response.raise_for_status()
+        except requests.RequestException as exc:
+            raise RuntimeError(f"No se pudo cargar la tabla Supabase '{table}': {exc}") from exc
+        payload = response.json()
+        page = list(payload or []) if isinstance(payload, list) else []
+        rows.extend(page)
+        if len(page) < page_size:
+            break
+        start += page_size
+    return rows
 
 
 def _load_restaurantes_supabase() -> pd.DataFrame:
@@ -266,6 +291,8 @@ def _history_record(event: dict[str, Any]) -> dict[str, Any]:
         "resultado_seguimiento_actual": event.get("Resultado seguimiento actual") or event.get("resultado_seguimiento_actual"),
         "mensaje_enviado": event.get("Mensaje enviado") or event.get("mensaje_enviado"),
     }
+    if not record.get("accion"):
+        record["accion"] = event.get("Acción")
     record = {key: _clean_value(value) for key, value in record.items() if _clean_value(value) is not None}
     if not record.get("event_key"):
         record["event_key"] = _event_key(record)
@@ -281,6 +308,49 @@ def insert_historial_evento(event: dict[str, Any]) -> str:
     client = get_supabase_client()
     client.table("historial_contactos").upsert(record, on_conflict="event_key").execute()
     return str(record["event_key"])
+
+
+def replace_contact_history(events: pd.DataFrame | list[dict[str, Any]]) -> dict[str, int | str]:
+    stats: dict[str, int | str] = {
+        "data_mode": get_data_mode(),
+        "total_before": 0,
+        "target_before": 0,
+        "kept_initial": 0,
+        "deleted": 0,
+        "initial_recreated": 0,
+        "total_after": 0,
+    }
+    if get_data_mode() != "supabase":
+        return stats
+    if isinstance(events, pd.DataFrame):
+        event_rows = events.fillna("").to_dict(orient="records")
+    else:
+        event_rows = events
+
+    payload = [_history_record(row) for row in event_rows]
+    payload = [row for row in payload if row.get("crm_id") and row.get("accion")]
+    raw_rows = _supabase_rows("historial_contactos")
+    stats["total_before"] = len(raw_rows)
+    stats["target_before"] = len(raw_rows)
+    if not payload:
+        stats["total_after"] = len(raw_rows)
+        return stats
+
+    keys = [row.get("event_key") for row in raw_rows if row.get("event_key")]
+    client = get_supabase_client()
+    for start in range(0, len(keys), 100):
+        batch = keys[start : start + 100]
+        if batch:
+            client.table("historial_contactos").delete().in_("event_key", batch).execute()
+            stats["deleted"] = int(stats["deleted"]) + len(batch)
+
+    for start in range(0, len(payload), 100):
+        batch = payload[start : start + 100]
+        if batch:
+            client.table("historial_contactos").upsert(batch, on_conflict="event_key").execute()
+            stats["initial_recreated"] = int(stats["initial_recreated"]) + len(batch)
+    stats["total_after"] = len(_supabase_rows("historial_contactos"))
+    return stats
 
 
 def save_whatsapp_event(

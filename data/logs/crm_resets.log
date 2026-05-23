@@ -19,3 +19,4 @@
 {"fecha": "2026-05-22 16:09:18", "tipo_reset": "codex_reset_flow_test", "cantidad_afectada": 1, "eventos_contacto_eliminados": 2}
 {"fecha": "2026-05-22 16:13:07", "tipo_reset": "reset_masivo_todos_prueba", "cantidad_afectada": 5, "eventos_contacto_eliminados": 0}
 {"fecha": "2026-05-22 16:13:32", "tipo_reset": "reset_masivo_contactados", "cantidad_afectada": 0, "eventos_contacto_eliminados": 0}
+{"fecha": "2026-05-23 12:20:21", "tipo_reset": "reset_crm_completo", "cantidad_afectada": 327, "eventos_contacto_eliminados": 563, "modo_datos": "supabase", "fecha_reinicio": "2026-05-23 12:20:15", "crm_estado_reiniciados": 327, "eventos_iniciales_recreados": 327, "eventos_antes": 563, "eventos_despues": 327}

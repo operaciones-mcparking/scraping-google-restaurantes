@@ -16,7 +16,6 @@ import pandas as pd
 import streamlit as st
 import streamlit.components.v1 as components
 
-from auth import auth_config, current_user_email, is_authenticated, last_auth_error, last_auth_error_detail, login, logout
 from data_source import (
     get_data_mode,
     insert_historial_evento as ds_insert_historial_evento,
@@ -25,6 +24,7 @@ from data_source import (
     load_mensajes as ds_load_mensajes,
     load_restaurantes as ds_load_restaurantes,
     clear_contact_history_for_leads as ds_clear_contact_history_for_leads,
+    replace_contact_history as ds_replace_contact_history,
     save_call_event as ds_save_call_event,
     save_crm_estado as ds_save_crm_estado,
     save_whatsapp_event as ds_save_whatsapp_event,
@@ -170,9 +170,9 @@ def inject_styles() -> None:
         """
         <style>
         :root {
-            --crm-rappi: #ff4f3d;
-            --crm-rappi-dark: #db3325;
-            --crm-rappi-soft: #fff1ee;
+            --crm-rappi: #1E293B;
+            --crm-rappi-dark: #0F172A;
+            --crm-rappi-soft: #f1f5f9;
             --crm-green: #16a05d;
             --crm-green-dark: #137d4b;
             --crm-green-soft: #edf8f2;
@@ -239,20 +239,79 @@ def inject_styles() -> None:
         div[data-baseweb="select"] span,
         div[data-baseweb="select"] input,
         div[data-baseweb="select"] svg,
-        div[data-testid="stSelectbox"] span,
-        div[data-testid="stMultiSelect"] span {
+        div[data-testid="stSelectbox"] span {
             color: #1F2937 !important;
             fill: #1F2937 !important;
             -webkit-text-fill-color: #1F2937 !important;
         }
-        div[data-baseweb="tag"] {
-            background-color: #F3F4F6 !important;
-            color: #1F2937 !important;
-            border-color: #E5E7EB !important;
+        [data-testid="stMultiSelect"] [data-baseweb="tag"],
+        [data-baseweb="tag"] {
+            min-height: 30px !important;
+            height: 30px !important;
+            align-items: center !important;
+            display: inline-flex !important;
+            background-color: var(--crm-rappi) !important;
+            color: #FFFFFF !important;
+            border: 1px solid #0F172A !important;
+            border-radius: 8px !important;
+            padding: 0 8px !important;
+            margin: 4px 4px 4px 0 !important;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12) !important;
+            max-width: calc(100% - 8px) !important;
+            transform: translateY(-3px) !important;
+            overflow: visible !important;
         }
-        div[data-baseweb="tag"] span {
-            color: #1F2937 !important;
-            -webkit-text-fill-color: #1F2937 !important;
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] span,
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] svg,
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] div,
+        [data-baseweb="tag"] span,
+        [data-baseweb="tag"] svg,
+        [data-baseweb="tag"] div {
+            color: #FFFFFF !important;
+            fill: #FFFFFF !important;
+            -webkit-text-fill-color: #FFFFFF !important;
+        }
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] span,
+        [data-baseweb="tag"] span {
+            font-size: 13px !important;
+            line-height: 18px !important;
+            font-weight: 500 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            height: 18px !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+        [data-testid="stMultiSelect"] [data-baseweb="tag"] svg,
+        [data-baseweb="tag"] svg {
+            opacity: 0.9 !important;
+            width: 14px !important;
+            height: 14px !important;
+            min-width: 14px !important;
+        }
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+            min-height: 52px !important;
+            align-items: center !important;
+            padding: 7px 10px !important;
+            overflow: visible !important;
+        }
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div:has([data-baseweb="tag"]) {
+            align-items: center !important;
+            padding-top: 10px !important;
+            padding-bottom: 4px !important;
+        }
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div > div {
+            gap: 4px !important;
+            padding-left: 0 !important;
+            margin-left: 0 !important;
+            overflow: visible !important;
+            align-items: center !important;
+        }
+        div[data-testid="stMultiSelect"] span {
+            color: inherit !important;
+            -webkit-text-fill-color: inherit !important;
         }
         .block-container {
             width: 100%;
@@ -384,14 +443,26 @@ def inject_styles() -> None:
             background: var(--crm-rappi) !important;
             border-color: var(--crm-rappi) !important;
             color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
             min-height: 42px !important;
             border-radius: 8px !important;
             font-weight: 500 !important;
-            box-shadow: 0 8px 18px rgba(255, 79, 61, 0.14) !important;
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.16) !important;
+            transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease !important;
         }
         div[data-testid="stFormSubmitButton"] button:hover {
             background: var(--crm-rappi-dark) !important;
             border-color: var(--crm-rappi-dark) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            box-shadow: 0 10px 22px rgba(30, 41, 59, 0.22) !important;
+            transform: translateY(-1px);
+        }
+        div[data-testid="stFormSubmitButton"] button *,
+        div[data-testid="stFormSubmitButton"] button:hover * {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            fill: #ffffff !important;
         }
         div[data-testid="InputInstructions"],
         div[data-baseweb="input"] + div,
@@ -583,14 +654,27 @@ def inject_styles() -> None:
         div.stButton > button[kind="primary"] {
             background: var(--crm-rappi);
             border-color: var(--crm-rappi);
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
             border-radius: 8px;
             font-weight: 500;
             min-height: 42px;
-            box-shadow: 0 8px 18px rgba(255, 79, 61, 0.18);
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.16);
+            transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
         }
         div.stButton > button[kind="primary"]:hover {
             background: var(--crm-rappi-dark);
             border-color: var(--crm-rappi-dark);
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            box-shadow: 0 10px 22px rgba(30, 41, 59, 0.22);
+            transform: translateY(-1px);
+        }
+        div.stButton > button[kind="primary"] *,
+        div.stButton > button[kind="primary"]:hover * {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            fill: #ffffff !important;
         }
         div.stButton > button {
             border-radius: 8px;
@@ -631,6 +715,10 @@ def inject_styles() -> None:
             width: 100%;
             box-sizing: border-box;
         }
+        .skeleton-workspace {
+            display: grid;
+            gap: 14px;
+        }
         .skeleton-card {
             border: 1px solid #e8ebef;
             border-radius: 12px;
@@ -638,28 +726,82 @@ def inject_styles() -> None:
             padding: 14px;
             box-sizing: border-box;
         }
+        .skeleton-header-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            min-height: 62px;
+        }
+        .skeleton-brand-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1;
+        }
+        .skeleton-logo {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+        }
+        .skeleton-header-meta {
+            display: grid;
+            gap: 8px;
+            justify-items: end;
+            min-width: 180px;
+        }
+        .skeleton-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .skeleton-kpi-card {
+            min-height: 70px;
+        }
+        .skeleton-filter-card {
+            display: grid;
+            gap: 12px;
+        }
+        .skeleton-filter-row {
+            display: grid;
+            grid-template-columns: 1.5fr repeat(5, 1fr);
+            gap: 10px;
+            align-items: center;
+        }
+        .skeleton-main-grid {
+            display: grid;
+            grid-template-columns: 0.38fr 0.30fr 0.32fr;
+            gap: 18px;
+            align-items: stretch;
+        }
+        .skeleton-panel {
+            min-height: 610px;
+        }
         .skeleton-line,
         .skeleton-pill,
         .skeleton-button,
         .skeleton-textarea,
         .skeleton-table-cell,
-        .skeleton-dot {
+        .skeleton-dot,
+        .skeleton-logo {
             position: relative;
             overflow: hidden;
-            background: #eef1f4;
+            background: #eef2f6;
         }
         .skeleton-line::after,
         .skeleton-pill::after,
         .skeleton-button::after,
         .skeleton-textarea::after,
         .skeleton-table-cell::after,
-        .skeleton-dot::after {
+        .skeleton-dot::after,
+        .skeleton-logo::after {
             content: "";
             position: absolute;
             inset: 0;
             transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.68), transparent);
-            animation: skeleton-shimmer 1.45s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.72), transparent);
+            animation: skeleton-shimmer 1.6s ease-in-out infinite;
         }
         @keyframes skeleton-shimmer {
             100% { transform: translateX(100%); }
@@ -670,7 +812,7 @@ def inject_styles() -> None:
             margin-bottom: 10px;
         }
         .skeleton-title {
-            height: 22px;
+            height: 18px;
             max-width: 68%;
         }
         .skeleton-subtitle {
@@ -681,11 +823,11 @@ def inject_styles() -> None:
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 12px 0 16px;
+            margin: 10px 0 14px;
         }
         .skeleton-pill {
             width: 78px;
-            height: 24px;
+            height: 22px;
             border-radius: 999px;
         }
         .skeleton-button-row {
@@ -699,7 +841,7 @@ def inject_styles() -> None:
             border-radius: 10px;
         }
         .skeleton-textarea {
-            height: 130px;
+            height: 150px;
             border-radius: 10px;
             margin: 10px 0 12px;
         }
@@ -711,10 +853,10 @@ def inject_styles() -> None:
         }
         .skeleton-table-row {
             display: grid;
-            grid-template-columns: 42px minmax(140px, 1fr) 82px;
+            grid-template-columns: 42px minmax(140px, 1fr);
             gap: 10px;
             align-items: center;
-            padding: 8px 10px;
+            padding: 9px 10px;
             border-bottom: 1px solid #f0f2f5;
         }
         .skeleton-table-row:last-child {
@@ -729,7 +871,8 @@ def inject_styles() -> None:
             grid-template-columns: repeat(5, minmax(130px, 1fr));
             gap: 16px;
             align-items: center;
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
             padding-top: 10px;
         }
         .skeleton-event {
@@ -743,6 +886,25 @@ def inject_styles() -> None:
             border-radius: 999px;
         }
         @media (max-width: 768px) {
+            .skeleton-header-card {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+            .skeleton-header-meta {
+                justify-items: start;
+                min-width: 0;
+                width: 100%;
+            }
+            .skeleton-kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-filter-row,
+            .skeleton-main-grid {
+                grid-template-columns: 1fr;
+            }
+            .skeleton-panel {
+                min-height: auto;
+            }
             .skeleton-table-row {
                 grid-template-columns: 34px minmax(120px, 1fr);
             }
@@ -1045,8 +1207,8 @@ def inject_styles() -> None:
             color: #47505a;
         }
         .mini-badge.accent {
-            background: #fff0ec;
-            color: #c83a20;
+            background: var(--crm-rappi-soft);
+            color: var(--crm-rappi-dark);
         }
         .mini-badge.positive {
             background: #edf8f2;
@@ -1074,9 +1236,9 @@ def inject_styles() -> None:
             justify-content: center;
         }
         div[data-testid="stLinkButton"] a:hover {
-            background: #fff4f1;
-            border-color: #ffd0c5;
-            color: #c83a20;
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--crm-rappi-dark);
         }
         div[data-testid="stLinkButton"] a[aria-disabled="true"],
         div[data-testid="stLinkButton"] a[data-disabled="true"] {
@@ -1109,9 +1271,9 @@ def inject_styles() -> None:
             display: block;
         }
         .lead-action-icon:hover {
-            background: #fff4f1;
-            border-color: #ffd0c5;
-            color: #ff441f;
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--crm-rappi-dark);
             transform: translateY(-1px);
         }
         .lead-action-icon.disabled {
@@ -1182,7 +1344,7 @@ def inject_styles() -> None:
             color: #34a853;
         }
         .lead-action-icon.website.active {
-            color: #ff441f;
+            color: var(--crm-rappi);
         }
         .lead-alert-badge {
             border: 1px solid #ffd8a8;
@@ -1231,8 +1393,8 @@ def inject_styles() -> None:
             height: 9px;
             margin-top: 6px;
             border-radius: 999px;
-            background: #ff441f;
-            box-shadow: 0 0 0 4px #fff0ec;
+            background: var(--crm-rappi);
+            box-shadow: 0 0 0 4px var(--crm-rappi-soft);
         }
         .timeline-body {
             border: 1px solid #edf0f3;
@@ -1309,14 +1471,14 @@ def inject_styles() -> None:
             border-left: 3px solid #ffb020;
         }
         .rules-card.manual {
-            border-left: 3px solid #ff441f;
+            border-left: 3px solid var(--crm-rappi);
         }
 
         /* Visual system override: one lightweight CRM identity across sections. */
         :root {
-            --crm-rappi: #FF441F;
-            --crm-rappi-dark: #D93A1B;
-            --crm-rappi-soft: #FFF2EE;
+            --crm-rappi: #1E293B;
+            --crm-rappi-dark: #0F172A;
+            --crm-rappi-soft: #f1f5f9;
             --crm-bg: #F7F8FA;
             --crm-card: #FFFFFF;
             --crm-ink: #20242A;
@@ -1455,11 +1617,25 @@ def inject_styles() -> None:
             background: var(--crm-rappi) !important;
             border-color: var(--crm-rappi) !important;
             color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            box-shadow: 0 8px 18px rgba(30, 41, 59, 0.16) !important;
         }
         div.stButton > button[kind="primary"]:hover,
         div[data-testid="stDownloadButton"] button[kind="primary"]:hover {
             background: var(--crm-rappi-dark) !important;
             border-color: var(--crm-rappi-dark) !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            box-shadow: 0 10px 22px rgba(30, 41, 59, 0.22) !important;
+            transform: translateY(-1px);
+        }
+        div.stButton > button[kind="primary"] *,
+        div[data-testid="stDownloadButton"] button[kind="primary"] *,
+        div.stButton > button[kind="primary"]:hover *,
+        div[data-testid="stDownloadButton"] button[kind="primary"]:hover * {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            fill: #ffffff !important;
         }
         div.stButton > button:not([kind="primary"]):hover,
         div[data-testid="stDownloadButton"] button:hover,
@@ -1479,10 +1655,20 @@ def inject_styles() -> None:
             color: #1F2937 !important;
             border-color: #E5E7EB !important;
             color-scheme: light !important;
-            min-height: 40px !important;
+            min-height: 46px !important;
             border-radius: var(--crm-control-radius) !important;
             font-size: 15px !important;
             font-weight: 400 !important;
+        }
+        div[data-baseweb="select"] > div {
+            min-height: 46px !important;
+            align-items: center !important;
+            overflow: visible !important;
+        }
+        div[data-baseweb="select"] span,
+        div[data-baseweb="select"] input {
+            line-height: 22px !important;
+            min-height: 22px !important;
         }
         .stTabs [data-baseweb="tab-list"] {
             gap: 8px !important;
@@ -1525,13 +1711,55 @@ def inject_styles() -> None:
         }
         .mini-badge.accent {
             background: var(--crm-rappi-soft) !important;
-            color: #B9361C !important;
-            border-color: #FFD8CE !important;
+            color: var(--crm-rappi-dark) !important;
+            border-color: #cbd5e1 !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div {
+            min-height: 46px !important;
+            align-items: center !important;
+            overflow: visible !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] {
+            min-height: 46px !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] > div > div,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] > div > div {
+            min-height: 34px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            overflow: visible !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] div[role="button"],
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] div[aria-selected],
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] span {
+            display: inline-flex !important;
+            align-items: center !important;
+            transform: none !important;
+            translate: none !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            line-height: 20px !important;
+            min-height: 20px !important;
+            vertical-align: middle !important;
+        }
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+        div[data-testid="stSelectbox"] div[data-baseweb="select"] input,
+        div[data-testid="stMultiSelect"] div[data-baseweb="select"] input {
+            line-height: 22px !important;
+            min-height: 22px !important;
         }
         .mini-badge.positive {
             background: #EDF8F2 !important;
             color: #137D4B !important;
             border-color: #CBEEDD !important;
+        }
+        .mini-badge.result {
+            background: #f8fafc !important;
+            color: #334155 !important;
+            border-color: #dbe3ec !important;
         }
         div[role="radiogroup"] {
             gap: 2px !important;
@@ -1551,7 +1779,7 @@ def inject_styles() -> None:
         }
         div[role="radiogroup"] label:has(input:checked) {
             background: var(--crm-rappi-soft) !important;
-            border-color: #FFE0D8 !important;
+            border-color: #cbd5e1 !important;
             box-shadow: inset 2px 0 0 var(--crm-rappi) !important;
         }
         div[role="radiogroup"] label p {
@@ -1629,7 +1857,6 @@ def render_skeleton_restaurant_rows(rows: int = 12) -> None:
         <div class="skeleton-table-row">
             <div class="skeleton-table-cell" style="width:28px;"></div>
             <div class="skeleton-table-cell" style="width:92%;"></div>
-            <div class="skeleton-table-cell" style="width:66px;"></div>
         </div>
         """
         for _ in range(rows)
@@ -1658,10 +1885,13 @@ def render_skeleton_selected_lead() -> None:
                 <div class="skeleton-pill"></div>
             </div>
             {skeleton_line("48%")}
-            <div class="skeleton-button-row">
-                <div class="skeleton-button"></div>
-                <div class="skeleton-button"></div>
+            <div class="skeleton-pill-row">
+                <div class="skeleton-button" style="width:34px;height:34px;"></div>
+                <div class="skeleton-button" style="width:34px;height:34px;"></div>
+                <div class="skeleton-button" style="width:34px;height:34px;"></div>
+                <div class="skeleton-button" style="width:34px;height:34px;"></div>
             </div>
+            {skeleton_line("34%")}
             <div class="skeleton-textarea"></div>
             <div class="skeleton-button"></div>
         </div>
@@ -1675,18 +1905,17 @@ def render_skeleton_whatsapp() -> None:
         f"""
         <div class="skeleton-shell">
             {skeleton_line("56%", "skeleton-title")}
+            {skeleton_line("38%")}
             <div class="skeleton-pill-row">
                 <div class="skeleton-pill"></div>
                 <div class="skeleton-pill"></div>
             </div>
-            {skeleton_line("84%")}
+            {skeleton_line("68%")}
             <div class="skeleton-textarea"></div>
             <div class="skeleton-button-row">
                 <div class="skeleton-button"></div>
                 <div class="skeleton-button"></div>
             </div>
-            {skeleton_line("58%")}
-            {skeleton_line("72%")}
         </div>
         """,
         unsafe_allow_html=True,
@@ -1740,19 +1969,58 @@ def render_skeleton_timeline() -> None:
     )
 
 
-def render_skeleton_workspace() -> None:
-    cols = st.columns([0.38, 0.30, 0.32], gap="large")
-    with cols[0]:
-        with st.container(border=True, height=650):
-            render_skeleton_restaurant_rows(12)
-    with cols[1]:
-        with st.container(border=True, height=650):
-            render_skeleton_selected_lead()
-    with cols[2]:
-        with st.container(border=True, height=650):
-            render_skeleton_whatsapp()
+def render_skeleton_header() -> None:
+    st.markdown(
+        (
+            '<div class="skeleton-card skeleton-header-card">'
+            '<div class="skeleton-brand-row"><div class="skeleton-logo"></div>'
+            f'<div style="min-width:0; flex:1;">{skeleton_line("220px", "skeleton-title")}{skeleton_line("260px", "skeleton-subtitle")}</div></div>'
+            f'<div class="skeleton-header-meta">{skeleton_line("150px")}<div class="skeleton-button" style="width:120px;height:34px;"></div></div>'
+            "</div>"
+        ),
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_kpis() -> None:
+    cards = "".join(
+        f'<div class="skeleton-card skeleton-kpi-card">{skeleton_line("62%")}{skeleton_line("34%", "skeleton-title")}</div>'
+        for _ in range(5)
+    )
+    st.markdown(f'<div class="skeleton-kpi-grid">{cards}</div>', unsafe_allow_html=True)
+
+
+def render_skeleton_filters() -> None:
+    filters = "".join('<div class="skeleton-button"></div>' for _ in range(6))
+    st.markdown(
+        f'<div class="skeleton-card skeleton-filter-card">{skeleton_line("190px", "skeleton-title")}<div class="skeleton-filter-row">{filters}</div></div>',
+        unsafe_allow_html=True,
+    )
+
+
+def render_skeleton_lower_sections() -> None:
+    render_skeleton_history_rows(5)
     render_panel_grid_spacer()
     render_skeleton_timeline()
+
+
+def render_skeleton_workspace() -> None:
+    render_skeleton_kpis()
+    render_panel_grid_spacer()
+    render_skeleton_filters()
+    render_panel_grid_spacer()
+    cols = st.columns([0.38, 0.30, 0.32], gap="large")
+    with cols[0]:
+        with st.container(border=True, height=680):
+            render_skeleton_restaurant_rows(10)
+    with cols[1]:
+        with st.container(border=True, height=680):
+            render_skeleton_selected_lead()
+    with cols[2]:
+        with st.container(border=True, height=680):
+            render_skeleton_whatsapp()
+    render_panel_grid_spacer()
+    render_skeleton_lower_sections()
 
 
 def find_column(df: pd.DataFrame, candidates: list[str]) -> str | None:
@@ -2240,6 +2508,10 @@ def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
         "Mensaje / detalle": "Mensaje enviado",
     }
     out = out.rename(columns={key: value for key, value in rename_map.items() if key in out.columns})
+    if "Acción" not in out.columns:
+        action_like = [col for col in out.columns if str(col).startswith("Acc")]
+        if action_like:
+            out = out.rename(columns={action_like[0]: "Acción"})
     for field in CONTACT_HISTORY_FIELDS:
         if field not in out.columns:
             out[field] = ""
@@ -2385,6 +2657,35 @@ def generate_restaurant_added_events(df: pd.DataFrame) -> int:
     return len(events)
 
 
+def build_initial_contact_history(df: pd.DataFrame, fecha_hora: str | None = None) -> pd.DataFrame:
+    if df.empty or "CRM ID" not in df.columns:
+        return pd.DataFrame(columns=CONTACT_HISTORY_FIELDS)
+    name_col = find_column(df, ["Nombre restaurante"]) or "Nombre restaurante"
+    comuna_col = find_column(df, ["Comuna"]) or "Comuna"
+    timestamp = fecha_hora
+    events = []
+    seen_ids: set[str] = set()
+    for _, row in df.iterrows():
+        crm_id = clean_text(row.get("CRM ID", ""))
+        if not crm_id or crm_id in seen_ids:
+            continue
+        seen_ids.add(crm_id)
+        events.append(
+            {
+                "Fecha/hora": timestamp or best_added_date(row),
+                "CRM ID": crm_id,
+                "Restaurante": clean_text(row.get(name_col, "")),
+                "Comuna": clean_text(row.get(comuna_col, "")),
+                "Canal": "Sistema",
+                "Acción": "Restaurante agregado",
+                "Estado CRM actual": "Nuevo",
+                "Resultado seguimiento actual": "Sin respuesta",
+                "Mensaje enviado": "Lead ingresado a la base",
+            }
+        )
+    return normalize_contact_history_columns(pd.DataFrame(events))
+
+
 def contact_history_for_crm_id(crm_id: object) -> pd.DataFrame:
     history = load_contact_history()
     if history.empty:
@@ -2488,11 +2789,32 @@ def has_manual_interaction(row: pd.Series) -> bool:
     return False
 
 
+def latest_restaurant_added_dates() -> pd.Series:
+    history = load_contact_history()
+    if history.empty or "CRM ID" not in history.columns:
+        return pd.Series(dtype="datetime64[ns, UTC]")
+    action_col = "Acción" if "Acción" in history.columns else "Accion"
+    if action_col not in history.columns or "Fecha/hora" not in history.columns:
+        return pd.Series(dtype="datetime64[ns, UTC]")
+    mask = history[action_col].fillna("").astype(str).str.strip().eq("Restaurante agregado")
+    added = history.loc[mask, ["CRM ID", "Fecha/hora"]].copy()
+    if added.empty:
+        return pd.Series(dtype="datetime64[ns, UTC]")
+    added["CRM ID"] = added["CRM ID"].fillna("").astype(str).str.strip()
+    added["Fecha/hora"] = pd.to_datetime(added["Fecha/hora"], errors="coerce", utc=True)
+    added = added.dropna(subset=["CRM ID", "Fecha/hora"])
+    return added.groupby("CRM ID")["Fecha/hora"].max()
+
+
 def auto_transition_pending_contacts(base: pd.DataFrame, crm: pd.DataFrame) -> bool:
     if base.empty:
         return False
     merged = merge_crm(base, crm)
     loaded_at = pd.to_datetime(merged["Fecha carga CRM"], errors="coerce", utc=True)
+    added_dates = latest_restaurant_added_dates()
+    if not added_dates.empty:
+        history_loaded_at = pd.to_datetime(merged["CRM ID"].fillna("").astype(str).map(added_dates), errors="coerce", utc=True)
+        loaded_at = pd.concat([loaded_at, history_loaded_at], axis=1).max(axis=1)
     now_utc = pd.Timestamp.now(tz="UTC")
     older_than_24h = loaded_at.notna() & (loaded_at <= (now_utc - pd.Timedelta(hours=24)))
     candidates = merged[
@@ -2554,7 +2876,7 @@ def reset_lead_values(row: dict) -> dict:
     return updated
 
 
-def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0) -> None:
+def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0, extra: dict | None = None) -> None:
     CRM_RESET_LOG.parent.mkdir(parents=True, exist_ok=True)
     event = {
         "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -2562,6 +2884,8 @@ def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0) -> None:
         "cantidad_afectada": int(count),
         "eventos_contacto_eliminados": int(cleaned_events),
     }
+    if extra:
+        event.update(extra)
     with CRM_RESET_LOG.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(event, ensure_ascii=False) + "\n")
 
@@ -2633,6 +2957,80 @@ def clean_contact_history_after_reset(crm_ids: set[str]) -> dict[str, int | str]
     stats["total_after"] = int(stats["total_before"]) - int(stats["deleted"])
     st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
     return stats
+
+
+def reset_full_contact_history(initial_history: pd.DataFrame) -> dict[str, int | str]:
+    stats = empty_reset_history_stats()
+    stats["initial_recreated"] = 0
+    if get_data_mode() == "supabase":
+        stats = ds_replace_contact_history(initial_history)
+        st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
+        st.cache_data.clear()
+        return stats
+
+    history = load_contact_history()
+    stats["total_before"] = len(history)
+    stats["target_before"] = len(history)
+    stats["deleted"] = len(history)
+    stats["initial_recreated"] = len(initial_history)
+    save_contact_history(initial_history)
+    stats["total_after"] = len(initial_history)
+    st.cache_data.clear()
+    return stats
+
+
+def reset_full_crm() -> int:
+    base = load_base()
+    reset_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if base.empty or "CRM ID" not in base.columns:
+        stats = empty_reset_history_stats()
+        stats["initial_recreated"] = 0
+        stats["reset_timestamp"] = reset_timestamp
+        st.session_state["reset_cleaned_events"] = 0
+        st.session_state["last_reset_stats"] = stats
+        log_crm_reset("reset_crm_completo", 0, 0, {"modo_datos": get_data_mode(), "fecha_reinicio": reset_timestamp})
+        return 0
+
+    crm_rows = []
+    seen_ids: set[str] = set()
+    for _, row in base.iterrows():
+        crm_id = clean_text(row.get("CRM ID", ""))
+        if not crm_id or crm_id in seen_ids:
+            continue
+        seen_ids.add(crm_id)
+        new_row = reset_lead_values({})
+        new_row["CRM ID"] = crm_id
+        new_row["Resultado seguimiento"] = "Sin respuesta"
+        crm_rows.append(new_row)
+
+    if not crm_rows:
+        stats = empty_reset_history_stats()
+        stats["initial_recreated"] = 0
+        stats["reset_timestamp"] = reset_timestamp
+        st.session_state["reset_cleaned_events"] = 0
+        st.session_state["last_reset_stats"] = stats
+        log_crm_reset("reset_crm_completo", 0, 0, {"modo_datos": get_data_mode(), "fecha_reinicio": reset_timestamp})
+        return 0
+
+    reset_df = pd.DataFrame(crm_rows, columns=["CRM ID"] + CRM_FIELDS)
+    save_crm_state(reset_df)
+    initial_history = build_initial_contact_history(base, reset_timestamp)
+    stats = reset_full_contact_history(initial_history)
+    cleaned_events = int(stats.get("deleted", 0))
+    stats["reset_timestamp"] = reset_timestamp
+    extra = {
+        "modo_datos": get_data_mode(),
+        "fecha_reinicio": reset_timestamp,
+        "crm_estado_reiniciados": len(reset_df),
+        "eventos_iniciales_recreados": int(stats.get("initial_recreated", len(initial_history))),
+        "eventos_antes": int(stats.get("total_before", 0)),
+        "eventos_despues": int(stats.get("total_after", 0)),
+    }
+    st.session_state["reset_cleaned_events"] = cleaned_events
+    st.session_state["last_reset_stats"] = stats | {"crm_reset": len(reset_df)}
+    log_crm_reset("reset_crm_completo", len(reset_df), cleaned_events, extra)
+    st.cache_data.clear()
+    return len(reset_df)
 
 
 def reset_crm_ids(affected_ids: set[str], reset_type: str) -> int:
@@ -2793,110 +3191,7 @@ def render_header() -> None:
         """,
         unsafe_allow_html=True,
     )
-    left, right = st.columns([0.84, 0.16])
-    with left:
-        user_label = current_user_email()
-        suffix = f" · Usuario: {user_label}" if user_label else ""
-        st.caption(f"Modo datos: {mode_label}{suffix}")
-    with right:
-        if st.button("Cerrar sesión", type="secondary", use_container_width=True, key="logout_button"):
-            logout()
-            st.rerun()
-
-
-def inject_login_mobile_autocomplete() -> None:
-    components.html(
-        """
-        <script>
-        const applyLoginAutocomplete = () => {
-          const doc = window.parent.document;
-          const email = doc.querySelector('input[aria-label="Correo electrónico"]');
-          const password = doc.querySelector('input[aria-label="Contraseña"]');
-
-          if (email) {
-            email.setAttribute("autocomplete", "email");
-            email.setAttribute("inputmode", "email");
-            email.setAttribute("autocapitalize", "none");
-            email.setAttribute("autocorrect", "off");
-            email.setAttribute("spellcheck", "false");
-          }
-
-          if (password) {
-            password.setAttribute("autocomplete", "current-password");
-            password.setAttribute("autocapitalize", "none");
-            password.setAttribute("autocorrect", "off");
-            password.setAttribute("spellcheck", "false");
-          }
-        };
-
-        applyLoginAutocomplete();
-        window.setTimeout(applyLoginAutocomplete, 250);
-        window.setTimeout(applyLoginAutocomplete, 1000);
-        </script>
-        """,
-        height=0,
-        width=0,
-    )
-
-
-def render_login_screen() -> bool:
-    st.markdown('<div class="login-top-space"></div>', unsafe_allow_html=True)
-    _, login_col, _ = st.columns([1, 1.1, 1], gap="large")
-    with login_col:
-        with st.container(border=True):
-            st.markdown(
-                f"""
-                <div class="login-brand">
-                    {logo_markup()}
-                    <div>
-                        <div class="login-title">Rappi Leads CRM</div>
-                        <div class="login-subtitle">Gestión comercial de restaurantes</div>
-                    </div>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-            try:
-                auth_config()
-            except RuntimeError as exc:
-                st.error(str(exc))
-                return False
-
-            if "login_remember_session" not in st.session_state:
-                st.session_state["login_remember_session"] = bool(st.session_state.get("auth_remember_session", True))
-            with st.form("login_form", clear_on_submit=False):
-                st.text_input(
-                    "Correo electrónico",
-                    key="login_email",
-                    placeholder="correo@empresa.com",
-                )
-                st.text_input(
-                    "Contraseña",
-                    type="password",
-                    key="login_password",
-                    placeholder="Contraseña actual",
-                )
-                st.checkbox(
-                    "Mantener sesión iniciada",
-                    key="login_remember_session",
-                )
-                inject_login_mobile_autocomplete()
-                submitted = st.form_submit_button("Ingresar", type="primary", use_container_width=True)
-            if submitted:
-                email = str(st.session_state.get("login_email", "") or "").strip()
-                password = str(st.session_state.get("login_password", "") or "")
-                remember_session = bool(st.session_state.get("login_remember_session", False))
-                try:
-                    if login(email, password, remember_session=remember_session):
-                        st.rerun()
-                    else:
-                        st.error(last_auth_error() or "No se pudo iniciar sesión.")
-                        detail = last_auth_error_detail()
-                        if detail:
-                            st.caption(detail)
-                except RuntimeError as exc:
-                    st.error(str(exc))
-    return False
+    st.caption(f"Modo datos: {mode_label}")
 
 
 def render_kpi_cards(kpis: list[tuple[str, object]], compact: bool = False) -> None:
@@ -3066,6 +3361,19 @@ def restore_commercial_filters_from_query(
         elif session_key not in st.session_state:
             st.session_state[session_key] = []
 
+    single_filters = {
+        "crm_top_comuna_select": ("filtro_comuna", comunas, "Todas"),
+        "crm_top_nivel_select": ("filtro_nivel", niveles, "Todos"),
+        "crm_top_estado_select": ("filtro_estado", states, "Todos"),
+        "crm_top_resultado_select": ("filtro_resultado", resultados or [], "Todos"),
+    }
+    for session_key, (query_key, valid_options, default_value) in single_filters.items():
+        values = [value for value in query_values(query_key) if value in valid_options] if should_restore else []
+        if should_restore:
+            st.session_state[session_key] = values[0] if values else default_value
+        elif session_key not in st.session_state:
+            st.session_state[session_key] = default_value
+
     for session_key, query_key in {
         "crm_top_phone": "filtro_telefono",
         "crm_top_whatsapp": "filtro_whatsapp",
@@ -3094,6 +3402,15 @@ def current_commercial_filter_params() -> list[tuple[str, str]]:
         for value in st.session_state.get(session_key, []) or []:
             if clean_text(value):
                 params.append((query_key, clean_text(value)))
+    for session_key, query_key in {
+        "crm_top_comuna_select": "filtro_comuna",
+        "crm_top_nivel_select": "filtro_nivel",
+        "crm_top_estado_select": "filtro_estado",
+        "crm_top_resultado_select": "filtro_resultado",
+    }.items():
+        value = clean_text(st.session_state.get(session_key, "Todos"))
+        if value and value not in {"Todos", "Todas"}:
+            params.append((query_key, value))
     for session_key, query_key in {
         "crm_top_phone": "filtro_telefono",
         "crm_top_whatsapp": "filtro_whatsapp",
@@ -3812,10 +4129,16 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
 
     if st.session_state.get("buscador_restaurante_select") not in search_options:
         st.session_state["buscador_restaurante_select"] = all_restaurants_label
-    st.session_state["crm_top_comuna"] = [value for value in st.session_state.get("crm_top_comuna", []) if value in comunas]
-    st.session_state["crm_top_nivel"] = [value for value in st.session_state.get("crm_top_nivel", []) if value in niveles]
-    st.session_state["crm_top_estado"] = [value for value in st.session_state.get("crm_top_estado", []) if value in CRM_STATES]
-    st.session_state["crm_top_resultado"] = [value for value in st.session_state.get("crm_top_resultado", []) if value in RESULTADO_SEGUIMIENTO_OPTIONS]
+    if st.session_state.get("crm_top_comuna_select") not in ["Todas"] + comunas:
+        st.session_state["crm_top_comuna_select"] = "Todas"
+    if st.session_state.get("crm_top_nivel_select") not in ["Todos"] + niveles:
+        st.session_state["crm_top_nivel_select"] = "Todos"
+    if st.session_state.get("crm_top_estado_select") not in ["Todos"] + CRM_STATES:
+        st.session_state["crm_top_estado_select"] = "Todos"
+    if st.session_state.get("crm_top_resultado_select") not in ["Todos"] + RESULTADO_SEGUIMIENTO_OPTIONS:
+        st.session_state["crm_top_resultado_select"] = "Todos"
+    for legacy_key in ["crm_top_comuna", "crm_top_nivel", "crm_top_estado", "crm_top_resultado"]:
+        st.session_state[legacy_key] = []
 
     search_cols = st.columns([6, 1], gap="small", vertical_alignment="bottom")
     search = search_cols[0].selectbox(
@@ -3830,10 +4153,10 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
     st.session_state["texto_aplicado_buscador"] = search
     cols = st.columns([1.05, 1.05, 0.95, 1.2, 0.75, 0.8], gap="small")
 
-    selected_comunas = cols[0].multiselect("Comuna", comunas, placeholder="Todas", key="crm_top_comuna")
-    selected_niveles = cols[1].multiselect("Nivel", niveles, placeholder="Todos", key="crm_top_nivel")
-    selected_states = cols[2].multiselect("Estado", CRM_STATES, placeholder="Todos", key="crm_top_estado")
-    selected_resultados = cols[3].multiselect("Resultado", RESULTADO_SEGUIMIENTO_OPTIONS, placeholder="Todos", key="crm_top_resultado")
+    selected_comuna = cols[0].selectbox("Comuna", ["Todas"] + comunas, key="crm_top_comuna_select")
+    selected_nivel = cols[1].selectbox("Nivel", ["Todos"] + niveles, key="crm_top_nivel_select")
+    selected_state = cols[2].selectbox("Estado", ["Todos"] + CRM_STATES, key="crm_top_estado_select")
+    selected_resultado = cols[3].selectbox("Resultado", ["Todos"] + RESULTADO_SEGUIMIENTO_OPTIONS, key="crm_top_resultado_select")
     phone_filter = cols[4].selectbox("Telefono", ["Todos", "Si", "No"], key="crm_top_phone")
     whatsapp_filter = cols[5].selectbox("WhatsApp", ["Todos", "Si", "No"], key="crm_top_whatsapp")
 
@@ -3841,14 +4164,14 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
     comuna_col = find_column(out, ["Comuna"])
     nivel_col = find_column(out, ["Nivel comercial"])
     name_col = find_column(out, ["Nombre restaurante"])
-    if selected_comunas and comuna_col:
-        out = out[out[comuna_col].isin(selected_comunas)]
-    if selected_niveles and nivel_col:
-        out = out[out[nivel_col].isin(selected_niveles)]
-    if selected_states:
-        out = out[out["Estado CRM"].isin(selected_states)]
-    if selected_resultados:
-        selected_norm = {normalize_resultado_seguimiento(value, "") for value in selected_resultados}
+    if selected_comuna != "Todas" and comuna_col:
+        out = out[out[comuna_col].eq(selected_comuna)]
+    if selected_nivel != "Todos" and nivel_col:
+        out = out[out[nivel_col].eq(selected_nivel)]
+    if selected_state != "Todos":
+        out = out[out["Estado CRM"].eq(selected_state)]
+    if selected_resultado != "Todos":
+        selected_norm = {normalize_resultado_seguimiento(selected_resultado, "")}
         before_resultado = len(out)
         resultado_source = out["Resultado seguimiento"] if "Resultado seguimiento" in out.columns else pd.Series([""] * len(out), index=out.index)
         resultado_series = resultado_source.apply(lambda value: normalize_resultado_seguimiento(value, ""))
@@ -4264,17 +4587,18 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     telefono_display = telefono_normalizado_display(telefono_original)
     estado_actual = normalize_crm_state(row.get("Estado CRM", "Nuevo"))
     resultado_seguimiento = clean_text(row.get("Resultado seguimiento", "")) or "Sin respuesta"
-    badge_class = "positive" if estado_actual in CONTACTED_STATES else "accent" if nivel == "Alto potencial" else ""
+    estado_badge_class = "positive" if estado_actual in CONTACTED_STATES else "accent" if estado_actual == "Pendiente contacto" else ""
+    resultado_badge_class = "result" if resultado_seguimiento != "Sin respuesta" else ""
 
     st.markdown(
         f"""
         <div class="lead-name">{name}</div>
         <div class="lead-meta">
-            <span class="mini-badge">📍 {comuna}</span>
-            <span class="mini-badge accent">⭐ {nivel}</span>
-            <span class="mini-badge">🏷 {tipo}</span>
-            <span class="mini-badge {badge_class}">{html.escape(estado_actual)}</span>
-            <span class="mini-badge">{html.escape(resultado_seguimiento)}</span>
+            <span class="mini-badge">Comuna: {comuna}</span>
+            <span class="mini-badge accent">Nivel: {nivel}</span>
+            <span class="mini-badge">Tipo: {tipo}</span>
+            <span class="mini-badge {estado_badge_class}">Estado CRM: {html.escape(estado_actual)}</span>
+            <span class="mini-badge {resultado_badge_class}">Resultado: {html.escape(resultado_seguimiento)}</span>
         </div>
         """,
         unsafe_allow_html=True,
@@ -4300,7 +4624,7 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
 
     current_state = estado_actual if estado_actual in CRM_STATES else "Nuevo"
     estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=f"lead_estado_{row['CRM ID']}")
-    observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=230, key=f"lead_obs_{row['CRM ID']}")
+    observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=175, key=f"lead_obs_{row['CRM ID']}")
 
     if st.button("Guardar lead", type="primary", use_container_width=True, key=f"save_lead_main_{row['CRM ID']}"):
         save_lead_updates(
@@ -4345,11 +4669,11 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
     contacted = current_whatsapp_state != "No contactado" or bool(clean_text(row.get("Fecha envio WhatsApp", "")))
     badges = []
     if contacted:
-        badges.append('<span class="mini-badge positive">🟢 Contactado</span>')
+        badges.append(f'<span class="mini-badge positive">WhatsApp: {html.escape(current_whatsapp_state)}</span>')
+    else:
+        badges.append('<span class="mini-badge">WhatsApp: Sin contacto</span>')
     if resultado_badge:
-        badges.append(f'<span class="mini-badge accent">{html.escape(resultado_badge)}</span>')
-    if not badges:
-        badges.append('<span class="mini-badge">Sin contacto</span>')
+        badges.append(f'<span class="mini-badge result">Resultado: {html.escape(resultado_badge)}</span>')
     st.markdown(
         f"""
         <div class="lead-meta">{''.join(badges)}</div>
@@ -4374,7 +4698,7 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         args=(row["CRM ID"], resultado_key),
     )
 
-    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=200, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
+    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=150, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
     st.caption(f"{len(mensaje_whatsapp)} caracteres")
 
     wa_url = whatsapp_action_url(row, name_col, comuna_col, mensaje_whatsapp)
@@ -4387,9 +4711,9 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            margin: 10px 0 14px;
-            padding: 10px 12px;
+            gap: 10px;
+            margin: 4px 0 6px;
+            padding: 7px 10px;
             border: 1px solid var(--crm-line);
             border-radius: 10px;
             background: #fafbfc;
@@ -4505,9 +4829,26 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             box-shadow: none !important;
         }
         button[kind="secondary"][title="Editar mensajes WhatsApp"]:hover {
-            background: #fff4f1 !important;
-            border-color: #ffd0c5 !important;
-            color: #ff441f !important;
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: var(--crm-rappi-dark) !important;
+        }
+        div[data-testid="stTextArea"] {
+            margin-bottom: 0 !important;
+        }
+        div[data-testid="stTextArea"] textarea {
+            min-height: 135px !important;
+        }
+        div[data-testid="stTextArea"] + div,
+        div[data-testid="stCaptionContainer"] {
+            margin-top: 2px !important;
+            margin-bottom: 4px !important;
+        }
+        div[data-testid="stSelectbox"] {
+            margin-bottom: 4px !important;
+        }
+        div[data-testid="stHorizontalBlock"] {
+            margin-top: 2px !important;
         }
         </style>
         """,
@@ -4758,10 +5099,10 @@ def render_restaurant_table_modern_legacy_click_table(filtered: pd.DataFrame, to
             transition: background 0.12s ease, box-shadow 0.12s ease;
         }}
         .crm-click-table-row:hover {{
-            background: #fff6f3;
+            background: #f8fafc;
         }}
         .crm-click-table-row.selected {{
-            background: #fff1ee;
+            background: var(--crm-rappi-soft);
             box-shadow: inset 3px 0 0 var(--crm-rappi);
         }}
         .crm-click-table-td {{
@@ -4823,8 +5164,8 @@ def render_restaurant_table_modern_legacy_buttons(filtered: pd.DataFrame, total:
             font-family: "Inter", "Segoe UI", sans-serif;
         }
         div[data-testid="stVerticalBlock"] div[data-testid="stButton"] > button[kind="secondary"]:hover {
-            border-color: #ffd0c7;
-            background: #fff8f6;
+            border-color: #cbd5e1;
+            background: #f8fafc;
             color: var(--crm-ink);
         }
         .crm-row-help {
@@ -4973,7 +5314,7 @@ def render_restaurant_table_modern(filtered: pd.DataFrame, total: int) -> object
 @fragment
 def render_lead_workspace_fragment(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
     table_col, detail_col, whatsapp_col = st.columns([0.38, 0.30, 0.32], gap="large")
-    panel_height = 650
+    panel_height = 680
     with table_col:
         with st.container(border=True, height=panel_height):
             table_placeholder = st.empty()
@@ -5480,23 +5821,41 @@ def render_testing_tools() -> None:
             f"modo datos = {stats.get('data_mode', get_data_mode())} · "
             f"eventos antes = {stats.get('total_before', 0)} · "
             f"eventos eliminados = {stats.get('deleted', 0)} · "
-            f"eventos iniciales conservados = {stats.get('kept_initial', 0)} · "
-            f"eventos después = {stats.get('total_after', 0)}"
+            f"eventos iniciales conservados/recreados = {stats.get('initial_recreated', stats.get('kept_initial', 0))} · "
+            f"eventos después = {stats.get('total_after', 0)} · "
+            f"fecha reset = {stats.get('reset_timestamp', '-')}"
         )
     options = {
         "Reiniciar leads Contactados": "contactados",
         "Reiniciar leads Respondidos": "respondidos",
         "Reiniciar todos los leads de prueba": "todos",
+        "Reiniciar CRM completo": "completo",
     }
     selected_label = st.selectbox("Tipo de reset", list(options), key="testing_reset_option")
-    confirm = st.checkbox("Confirmo que solo quiero reiniciar estados comerciales.", key="testing_reset_confirm")
-    if st.button("Ejecutar reset", type="secondary", use_container_width=True, disabled=not confirm, key="testing_reset_run"):
-        affected = reset_massive_leads(options[selected_label])
-        cleaned = int(st.session_state.get("reset_cleaned_events", 0))
-        st.session_state["reset_feedback_message"] = (
-            "Se reiniciaron estados y se limpiaron eventos de contacto, manteniendo el evento inicial del lead. "
-            f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+    selected_option = options[selected_label]
+    if selected_option == "completo":
+        confirm = st.checkbox(
+            "Confirmo que quiero reiniciar todo el CRM comercial sin borrar restaurantes",
+            key="testing_reset_confirm_full",
         )
+    else:
+        confirm = st.checkbox("Confirmo que solo quiero reiniciar estados comerciales.", key="testing_reset_confirm")
+    if st.button("Ejecutar reset", type="secondary", use_container_width=True, disabled=not confirm, key="testing_reset_run"):
+        if selected_option == "completo":
+            affected = reset_full_crm()
+        else:
+            affected = reset_massive_leads(selected_option)
+        cleaned = int(st.session_state.get("reset_cleaned_events", 0))
+        if selected_option == "completo":
+            st.session_state["reset_feedback_message"] = (
+                "CRM reiniciado. Los restaurantes se mantienen, pero los estados e historial comercial quedaron como nuevos. "
+                f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+            )
+        else:
+            st.session_state["reset_feedback_message"] = (
+                "Se reiniciaron estados y se limpiaron eventos de contacto, manteniendo el evento inicial del lead. "
+                f"Leads afectados: {affected}. Eventos eliminados: {cleaned}."
+            )
         st.rerun()
 
 
@@ -5713,24 +6072,35 @@ def render_update_base_unified(base: pd.DataFrame) -> None:
 def main() -> None:
     ASSETS_DIR.mkdir(exist_ok=True)
     inject_styles()
-    if not is_authenticated():
-        render_login_screen()
-        return
     render_header()
 
     loading_placeholder = st.empty()
-    with loading_placeholder.container():
-        render_skeleton_workspace()
-    base = load_base()
-    if base.empty:
-        loading_placeholder.empty()
-        st.error(f"No se encontró la base principal: {BASE_XLSX}")
-        return
+    try:
+        with loading_placeholder.container():
+            render_skeleton_workspace()
+        print("[CRM load] antes de cargar restaurantes", flush=True)
+        base = load_base()
+        print(f"[CRM load] restaurantes cargados: {len(base)}", flush=True)
+        if base.empty:
+            loading_placeholder.empty()
+            st.error(f"No se encontró la base principal: {BASE_XLSX}")
+            return
 
-    crm = load_crm_state()
-    if auto_transition_pending_contacts(base, crm):
+        print("[CRM load] antes de cargar crm_estado", flush=True)
         crm = load_crm_state()
-    df = merge_crm(base, crm)
+        print(f"[CRM load] crm_estado cargado: {len(crm)}", flush=True)
+        if auto_transition_pending_contacts(base, crm):
+            print("[CRM load] transicion automatica aplicada, recargando crm_estado", flush=True)
+            crm = load_crm_state()
+            print(f"[CRM load] crm_estado recargado: {len(crm)}", flush=True)
+        df = merge_crm(base, crm)
+        print(f"[CRM load] dataframe CRM listo: {len(df)}", flush=True)
+    except Exception as exc:
+        loading_placeholder.empty()
+        print(f"[CRM load] ERROR: {exc}", flush=True)
+        st.error("Error cargando datos")
+        st.caption(str(exc))
+        return
     loading_placeholder.empty()
     added_events = generate_restaurant_added_events(df)
     alert_count = generate_no_response_alerts(df)
