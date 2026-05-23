@@ -27,6 +27,7 @@ from data_source import (
     replace_contact_history as ds_replace_contact_history,
     save_call_event as ds_save_call_event,
     save_crm_estado as ds_save_crm_estado,
+    save_rappi_review as ds_save_rappi_review,
     save_whatsapp_event as ds_save_whatsapp_event,
 )
 from version import current_version
@@ -117,6 +118,13 @@ RESULTADO_SEGUIMIENTO_OPTIONS = [
 RESULTADO_SEGUIMIENTO_LOOKUP = {
     re.sub(r"\s+", " ", value).strip().lower(): value for value in RESULTADO_SEGUIMIENTO_OPTIONS
 }
+
+RAPPI_REVIEW_STATES = [
+    "No revisado",
+    "Encontrado",
+    "No encontrado",
+    "Dudoso",
+]
 
 DEFAULT_MESSAGE_VARIANTS = {
     "1": "Hola, ¿cómo estás? Te escribo porque encontré el restaurante {nombre} en {comuna} en Google y quería hacer una consulta comercial breve. ¿Con quién podría hablar?",
@@ -1846,6 +1854,17 @@ def clean_text(value: object) -> str:
     return "" if text.lower() == "nan" else text.strip()
 
 
+def normalize_rappi_state(value: object) -> str:
+    text = clean_text(value)
+    lookup = {state.lower(): state for state in RAPPI_REVIEW_STATES}
+    return lookup.get(text.lower(), "No revisado")
+
+
+def rappi_search_url(name: object, comuna: object) -> str:
+    query = " ".join(part for part in [clean_text(name), clean_text(comuna), "Rappi"] if part).strip()
+    return "https://www.google.com/search?" + urlencode({"q": query})
+
+
 def skeleton_line(width: str = "100%", class_name: str = "") -> str:
     classes = f"skeleton-line {class_name}".strip()
     return f'<div class="{classes}" style="width:{width};"></div>'
@@ -2426,6 +2445,10 @@ def load_base() -> pd.DataFrame:
             df["CRM ID"] = ensure_key(df)
         if "Fecha carga CRM" not in df.columns:
             df["Fecha carga CRM"] = derive_load_date(df)
+        for field in ["Estado revision Rappi", "URL Rappi", "Fecha revision Rappi", "Observacion revision Rappi"]:
+            if field not in df.columns:
+                df[field] = ""
+        df["Estado revision Rappi"] = df["Estado revision Rappi"].apply(normalize_rappi_state)
         return df
 
     if not BASE_XLSX.exists():
@@ -2433,6 +2456,10 @@ def load_base() -> pd.DataFrame:
     df = pd.read_excel(BASE_XLSX, sheet_name="Base restaurantes")
     df["CRM ID"] = ensure_key(df)
     df["Fecha carga CRM"] = derive_load_date(df)
+    for field in ["Estado revision Rappi", "URL Rappi", "Fecha revision Rappi", "Observacion revision Rappi"]:
+        if field not in df.columns:
+            df[field] = ""
+    df["Estado revision Rappi"] = df["Estado revision Rappi"].apply(normalize_rappi_state)
     return df
 
 
@@ -2495,6 +2522,35 @@ def save_crm_state(df: pd.DataFrame) -> None:
     )
     out.to_excel(CRM_XLSX, index=False)
     st.session_state["crm_state_version"] = int(st.session_state.get("crm_state_version", 0)) + 1
+
+
+def save_rappi_review_state(crm_id: str, estado: str, url_rappi: str, observacion: str) -> None:
+    fecha_revision = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    estado = normalize_rappi_state(estado)
+    if get_data_mode() == "supabase":
+        ds_save_rappi_review(crm_id, estado, url_rappi, observacion, fecha_revision)
+        st.session_state["rappi_review_version"] = int(st.session_state.get("rappi_review_version", 0)) + 1
+        st.cache_data.clear()
+        return
+
+    base = load_base().copy()
+    if base.empty or "CRM ID" not in base.columns:
+        return
+    for field in ["Estado revision Rappi", "URL Rappi", "Fecha revision Rappi", "Observacion revision Rappi"]:
+        if field not in base.columns:
+            base[field] = ""
+    mask = base["CRM ID"].fillna("").astype(str) == clean_text(crm_id)
+    if not bool(mask.any()):
+        return
+    base.loc[mask, "Estado revision Rappi"] = estado
+    base.loc[mask, "URL Rappi"] = clean_text(url_rappi)
+    base.loc[mask, "Fecha revision Rappi"] = fecha_revision
+    base.loc[mask, "Observacion revision Rappi"] = clean_text(observacion)
+    output = base.drop(columns=["CRM ID", "Fecha carga CRM"], errors="ignore")
+    with pd.ExcelWriter(BASE_XLSX, engine="openpyxl") as writer:
+        output.to_excel(writer, sheet_name="Base restaurantes", index=False)
+    st.session_state["rappi_review_version"] = int(st.session_state.get("rappi_review_version", 0)) + 1
+    st.cache_data.clear()
 
 
 def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -3155,8 +3211,9 @@ def make_table_view(df: pd.DataFrame) -> pd.DataFrame:
     out["Instagram"] = get_series(df, ["Instagram URL"])
     out["Estado CRM"] = get_series(df, ["Estado CRM"])
     out["Resultado seguimiento"] = get_series(df, ["Resultado seguimiento"]).apply(lambda value: normalize_resultado_seguimiento(value, ""))
+    out["Rappi"] = get_series(df, ["Estado revision Rappi"]).apply(normalize_rappi_state)
     out["Proxima accion"] = get_series(df, ["Proxima accion"])
-    for col in ["Nombre", "Comuna", "Tipo negocio", "Nivel comercial", "Telefono", "Telefono normalizado", "Telefono tipo", "WhatsApp disponible", "Instagram", "Estado CRM", "Resultado seguimiento", "Proxima accion"]:
+    for col in ["Nombre", "Comuna", "Tipo negocio", "Nivel comercial", "Telefono", "Telefono normalizado", "Telefono tipo", "WhatsApp disponible", "Instagram", "Estado CRM", "Resultado seguimiento", "Rappi", "Proxima accion"]:
         out[col] = out[col].fillna("").astype(str).replace({"nan": "", "None": ""})
     return out
 
@@ -4151,7 +4208,7 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
     search = "" if search == all_restaurants_label else search
     st.session_state["texto_temporal_buscador"] = search
     st.session_state["texto_aplicado_buscador"] = search
-    cols = st.columns([1.05, 1.05, 0.95, 1.2, 0.75, 0.8], gap="small")
+    cols = st.columns([1.0, 1.0, 0.9, 1.12, 0.72, 0.76, 0.88], gap="small")
 
     selected_comuna = cols[0].selectbox("Comuna", ["Todas"] + comunas, key="crm_top_comuna_select")
     selected_nivel = cols[1].selectbox("Nivel", ["Todos"] + niveles, key="crm_top_nivel_select")
@@ -4159,6 +4216,7 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
     selected_resultado = cols[3].selectbox("Resultado", ["Todos"] + RESULTADO_SEGUIMIENTO_OPTIONS, key="crm_top_resultado_select")
     phone_filter = cols[4].selectbox("Telefono", ["Todos", "Si", "No"], key="crm_top_phone")
     whatsapp_filter = cols[5].selectbox("WhatsApp", ["Todos", "Si", "No"], key="crm_top_whatsapp")
+    rappi_filter = cols[6].selectbox("Rappi", ["Todos"] + RAPPI_REVIEW_STATES, key="crm_top_rappi")
 
     out = df.copy()
     comuna_col = find_column(out, ["Comuna"])
@@ -4193,6 +4251,9 @@ def apply_crm_filters_compact(df: pd.DataFrame) -> pd.DataFrame:
     if whatsapp_filter != "Todos":
         has_whatsapp = get_series(out, PHONE_COLUMNS).apply(is_valid_whatsapp_phone)
         out = out[has_whatsapp if whatsapp_filter == "Si" else ~has_whatsapp]
+    if rappi_filter != "Todos":
+        rappi_series = get_series(out, ["Estado revision Rappi"]).apply(normalize_rappi_state)
+        out = out[rappi_series.eq(rappi_filter)]
     if search and name_col:
         out = out[out[name_col].fillna("").astype(str).str.contains(search, case=False, na=False)]
     return out
@@ -4567,6 +4628,47 @@ def render_lead_link_icons(row: pd.Series) -> None:
     st.markdown(f'<div class="lead-actions">{"".join(actions)}</div>', unsafe_allow_html=True)
 
 
+def render_rappi_review_block(row: pd.Series, name_col: str, comuna_col: str) -> None:
+    crm_id = clean_text(row.get("CRM ID", ""))
+    current_state = normalize_rappi_state(row.get("Estado revision Rappi", ""))
+    current_url = clean_text(row.get("URL Rappi", ""))
+    current_observation = clean_text(row.get("Observacion revision Rappi", ""))
+    last_review = clean_text(row.get("Fecha revision Rappi", ""))
+    search_url = rappi_search_url(row.get(name_col, ""), row.get(comuna_col, ""))
+
+    st.markdown('<div class="crm-divider"></div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">Rappi</div>', unsafe_allow_html=True)
+    badge_class = "positive" if current_state == "Encontrado" else "result" if current_state == "Dudoso" else ""
+    st.markdown(
+        f"""
+        <div class="lead-meta">
+            <span class="mini-badge {badge_class}">Rappi: {html.escape(current_state)}</span>
+            <span class="mini-badge">Última revisión: {html.escape(last_review or 'Sin revisar')}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.link_button("Buscar en Rappi", search_url, use_container_width=True, help="Abre una búsqueda sugerida en Google con nombre, comuna y Rappi.")
+    estado = st.selectbox(
+        "Estado Rappi",
+        RAPPI_REVIEW_STATES,
+        index=RAPPI_REVIEW_STATES.index(current_state),
+        key=f"rappi_estado_{crm_id}",
+    )
+    url_rappi = st.text_input("URL Rappi", value=current_url, key=f"rappi_url_{crm_id}", placeholder="Pega aquí la URL encontrada")
+    observacion = st.text_area(
+        "Observación Rappi",
+        value=current_observation,
+        height=88,
+        key=f"rappi_obs_{crm_id}",
+        placeholder="Ej: coincide nombre, pero falta confirmar sucursal.",
+    )
+    if st.button("Guardar revisión Rappi", type="secondary", use_container_width=True, key=f"save_rappi_{crm_id}"):
+        save_rappi_review_state(crm_id, estado, url_rappi, observacion)
+        st.success("Revisión Rappi guardada.")
+        st.rerun()
+
+
 def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selected_index: object | None) -> None:
     st.markdown('<div class="section-title">Lead seleccionado</div>', unsafe_allow_html=True)
     row = selected_lead_row(df, filtered, selected_index)
@@ -4621,6 +4723,7 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
         )
 
     render_lead_link_icons(row)
+    render_rappi_review_block(row, name_col, comuna_col)
 
     current_state = estado_actual if estado_actual in CRM_STATES else "Nuevo"
     estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=f"lead_estado_{row['CRM ID']}")
@@ -5224,8 +5327,10 @@ def render_restaurant_table_modern(filtered: pd.DataFrame, total: int) -> object
         lead_key = lead_selection_key(filtered.loc[index], index)
         number = f"{int(row.get('Numero', 0)):02d}"
         name = clean_text(row.get("Nombre", "")) or "Restaurante sin nombre"
+        rappi_state = normalize_rappi_state(row.get("Rappi", ""))
+        rappi_suffix = f"  · Rappi: {rappi_state}"
         option_keys.append(lead_key)
-        option_labels[lead_key] = f"{number}  {name}"
+        option_labels[lead_key] = f"{number}  {name}{rappi_suffix}"
         option_meta[lead_key] = (lead_id, index)
 
     current_key = lead_selection_key(filtered.loc[current_index], current_index) if current_index in filtered.index else option_keys[0]

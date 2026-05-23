@@ -149,6 +149,10 @@ def _load_restaurantes_supabase() -> pd.DataFrame:
         record.setdefault("Tipo negocio", row.get("tipo_negocio", ""))
         record.setdefault("Score comercial", row.get("score_comercial", ""))
         record.setdefault("Nivel comercial", row.get("nivel_comercial", ""))
+        record.setdefault("Estado revision Rappi", row.get("estado_revision_rappi", "") or "No revisado")
+        record.setdefault("URL Rappi", row.get("url_rappi", ""))
+        record.setdefault("Fecha revision Rappi", row.get("fecha_revision_rappi", ""))
+        record.setdefault("Observacion revision Rappi", row.get("observacion_revision_rappi", ""))
         record["CRM ID"] = row.get("crm_id", "")
         record["Fecha carga CRM"] = row.get("fecha_carga") or row.get("fecha_extraccion") or ""
         records.append(record)
@@ -264,6 +268,25 @@ def update_lead_status(crm_id: str, updates: dict[str, Any]) -> None:
     record = {"CRM ID": crm_id}
     record.update(updates)
     save_crm_estado(record)
+
+
+def save_rappi_review(
+    crm_id: str,
+    estado: str,
+    url_rappi: str = "",
+    observacion: str = "",
+    fecha_revision: str | None = None,
+) -> None:
+    if get_data_mode() != "supabase":
+        return
+    payload = {
+        "estado_revision_rappi": _clean_value(estado) or "No revisado",
+        "url_rappi": _clean_value(url_rappi),
+        "observacion_revision_rappi": _clean_value(observacion),
+        "fecha_revision_rappi": _clean_value(fecha_revision),
+    }
+    client = get_supabase_client()
+    client.table("restaurantes").update(payload).eq("crm_id", crm_id).execute()
 
 
 def _event_key(event: dict[str, Any]) -> str:
