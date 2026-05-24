@@ -8,6 +8,8 @@ const DEFAULT_CONFIG = path.join(ROOT, "configs", "scraper_google_maps.json");
 const BUNDLED_PLAYWRIGHT = "C:/Users/gabyp/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/.pnpm/playwright@1.60.0/node_modules/playwright/index.mjs";
 const BUNDLED_PYTHON = "C:\\Users\\gabyp\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe";
 const CSV_TO_XLSX = path.join(ROOT, "scripts", "convert_csv_to_xlsx.py");
+const PROGRESS_PATH = path.join(ROOT, "data", "scraping_progress.json");
+const STOP_FLAG = path.join(ROOT, "data", "stop_scraping.flag");
 
 const FIELDS = [
   "Nombre restaurante",
@@ -73,12 +75,69 @@ function ensureDir(filePath) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
 }
 
+function readProgress() {
+  try {
+    return JSON.parse(fs.readFileSync(PROGRESS_PATH, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function updateProgress(patch) {
+  ensureDir(PROGRESS_PATH);
+  const previous = readProgress();
+  const startedAt = previous.started_at || new Date().toISOString();
+  const elapsed = Math.max(Math.round((Date.now() - Date.parse(startedAt)) / 1000), 0);
+  fs.writeFileSync(
+    PROGRESS_PATH,
+    JSON.stringify(
+      {
+        ...previous,
+        ...patch,
+        started_at: startedAt,
+        updated_at: new Date().toISOString(),
+        tiempo_transcurrido_segundos: elapsed,
+      },
+      null,
+      2,
+    ),
+    "utf8",
+  );
+}
+
+function stopRequested() {
+  return fs.existsSync(STOP_FLAG);
+}
+
+function markStopping(message = "Detencion solicitada. Guardando avance parcial.") {
+  updateProgress({ status: "stopping", etapa_actual: "Deteniendo", mensaje_actual: message });
+}
+
+function markStopped(message = "Scraping detenido por el usuario") {
+  updateProgress({
+    status: "stopped",
+    etapa_actual: "Detenido",
+    mensaje_actual: message,
+    finished_at: new Date().toISOString(),
+  });
+}
+
+function ensureNotStopped(log, message = "Scraping detenido por el usuario") {
+  if (stopRequested()) {
+    log(message);
+    markStopping(message);
+    return false;
+  }
+  return true;
+}
+
 function makeLogger(logPath) {
   ensureDir(logPath);
   return (message) => {
     const line = `${new Date().toISOString()} ${message}`;
     console.log(line);
     fs.appendFileSync(logPath, `${line}\n`, "utf8");
+    updateProgress({ mensaje_actual: message, logs_path: logPath });
   };
 }
 
@@ -86,12 +145,28 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function sleepCheckingStop(ms, log, reason) {
+  const chunkMs = 500;
+  let elapsed = 0;
+  while (elapsed < ms) {
+    if (stopRequested()) {
+      log(`Detencion solicitada durante pausa: ${reason}`);
+      markStopping("Detencion solicitada. Guardando avance parcial.");
+      return false;
+    }
+    const wait = Math.min(chunkMs, ms - elapsed);
+    await sleep(wait);
+    elapsed += wait;
+  }
+  return true;
+}
+
 async function slowPause(config, log, reason) {
   const min = Number(config.pausaMinMs || 2000);
   const max = Number(config.pausaMaxMs || 5000);
   const wait = Math.floor(min + Math.random() * Math.max(max - min, 0));
   log(`Pausa ${wait} ms: ${reason}`);
-  await sleep(wait);
+  return sleepCheckingStop(wait, log, reason);
 }
 
 async function loadPlaywright() {
@@ -446,7 +521,7 @@ async function acceptConsentIfVisible(page, log) {
       if (await button.count()) {
         await button.click({ timeout: 2500 });
         log(`Se cerró aviso de consentimiento: ${label}`);
-        await sleep(1000);
+        await sleepCheckingStop(1000, log, "consentimiento");
         return;
       }
     } catch {
@@ -460,6 +535,11 @@ async function collectResultLinks(page, config, log) {
   const feed = page.locator('div[role="feed"]').first();
 
   for (let scroll = 0; scroll <= Number(config.maxScrolls || 3); scroll += 1) {
+    if (stopRequested()) {
+      log("Detencion solicitada durante scrolls.");
+      markStopping("Detencion solicitada durante scrolls.");
+      break;
+    }
     const candidates = await page.locator('a[href*="/maps/place/"]').evaluateAll((nodes) =>
       nodes.map((node) => ({
         href: node.href,
@@ -471,8 +551,14 @@ async function collectResultLinks(page, config, log) {
       if (item.href && !links.has(item.href)) links.set(item.href, item.text);
       if (links.size >= Number(config.maxResultados || 10)) break;
     }
+    if (!ensureNotStopped(log, "Detencion solicitada despues de leer resultados visibles.")) break;
 
     log(`Resultados visibles acumulados: ${links.size}`);
+    updateProgress({
+      etapa_actual: "Buscando restaurantes...",
+      mensaje_actual: `Resultados visibles acumulados: ${links.size}`,
+      restaurantes_revisados: links.size,
+    });
     if (links.size >= Number(config.maxResultados || 10)) break;
     if (scroll >= Number(config.maxScrolls || 3)) break;
 
@@ -481,7 +567,9 @@ async function collectResultLinks(page, config, log) {
     } else {
       await page.mouse.wheel(0, 900);
     }
-    await slowPause(config, log, `scroll ${scroll + 1}`);
+    if (!ensureNotStopped(log, "Detencion solicitada despues del scroll.")) break;
+    const completedPause = await slowPause(config, log, `scroll ${scroll + 1}`);
+    if (!completedPause) break;
   }
 
   return [...links.keys()].slice(0, Number(config.maxResultados || 10));
@@ -490,7 +578,9 @@ async function collectResultLinks(page, config, log) {
 async function scrapePlace(page, url, config, log) {
   log(`Abriendo ficha: ${url}`);
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
-  await slowPause(config, log, "espera de ficha");
+  if (!ensureNotStopped(log, "Detencion solicitada despues de abrir ficha.")) return null;
+  const completedPause = await slowPause(config, log, "espera de ficha");
+  if (!completedPause) return null;
 
   const block = await detectBlock(page);
   if (block) throw new Error(`Bloqueo/captcha detectado. ${block}`);
@@ -546,6 +636,12 @@ async function main() {
   log("Inicio scraper Google Maps piloto");
   log(`Búsqueda: ${query}`);
   log(`Máximo resultados: ${config.maxResultados}. Scrolls máximos: ${config.maxScrolls}`);
+  updateProgress({
+    status: "running",
+    etapa_actual: "Buscando restaurantes...",
+    mensaje_actual: `Busqueda: ${query}`,
+    comuna_actual: config.comuna,
+  });
 
   const { chromium } = await loadPlaywright();
   if (args.check) {
@@ -584,8 +680,11 @@ async function main() {
   try {
     log(`Abriendo Google Maps: ${searchUrl}`);
     await page.goto(searchUrl, { waitUntil: "domcontentloaded", timeout: 60000 });
+    if (!ensureNotStopped(log, "Detencion solicitada despues de cargar busqueda.")) return;
     await slowPause(config, log, "carga inicial");
+    if (!ensureNotStopped(log, "Detencion solicitada despues de la carga inicial.")) return;
     await acceptConsentIfVisible(page, log);
+    if (!ensureNotStopped(log, "Detencion solicitada despues del consentimiento.")) return;
 
     const block = await detectBlock(page);
     if (block) throw new Error(`Bloqueo/captcha detectado. ${block}`);
@@ -595,12 +694,29 @@ async function main() {
     log(`Fichas a abrir una por una: ${urls.length}`);
 
     for (let index = 0; index < urls.length; index += 1) {
+      if (stopRequested()) {
+        log("Detencion solicitada antes de procesar nueva ficha.");
+        markStopping("Detencion solicitada. Guardando avance parcial.");
+        break;
+      }
       const url = urls[index];
       log(`Procesando ${index + 1}/${urls.length}`);
+      updateProgress({
+        etapa_actual: "Procesando restaurante...",
+        mensaje_actual: `Procesando ${index + 1}/${urls.length}`,
+        restaurantes_revisados: index + 1,
+      });
       try {
         const row = await scrapePlace(page, url, config, log);
-        rows.push(row);
-        raw.rows.push(row);
+        if (row) {
+          rows.push(row);
+          raw.rows.push(row);
+          updateProgress({
+            ultimo_restaurante: row["Nombre restaurante"] || "",
+            restaurantes_revisados: index + 1,
+          });
+        }
+        if (!ensureNotStopped(log, "Detencion solicitada despues de procesar restaurante.")) break;
       } catch (error) {
         const message = error && error.message ? error.message : String(error);
         log(`Error en ficha: ${message}`);
@@ -608,7 +724,8 @@ async function main() {
           throw error;
         }
       }
-      await slowPause(config, log, "pausa entre fichas");
+      const completedPause = await slowPause(config, log, "pausa entre fichas");
+      if (!completedPause) break;
     }
 
     const finalRows = dedupeRows(rows, log).slice(0, Number(config.maxResultados || 10));
@@ -618,21 +735,42 @@ async function main() {
     raw.rowsAfterDedupe = finalRows.length;
     raw.summary = buildSummary(rows.length, finalRows);
 
+    ensureNotStopped(log, "Detencion solicitada antes de guardar archivos locales.");
     writeCsv(csvPath, finalRows);
+    ensureNotStopped(log, "Detencion solicitada despues de guardar CSV.");
     writeRawJson(rawPath, raw);
+    ensureNotStopped(log, "Detencion solicitada despues de guardar RAW JSON.");
     log(`CSV creado: ${csvPath}`);
     log(`RAW JSON creado: ${rawPath}`);
 
     if (finalRows.length > 0) {
+      ensureNotStopped(log, "Detencion solicitada antes de crear Excel.");
       convertToExcel(csvPath, xlsxPath, log);
+      ensureNotStopped(log, "Detencion solicitada despues de crear Excel.");
     } else {
       log("No se creó Excel porque no hubo filas extraídas.");
     }
 
     printSummary(raw.summary, log);
     log(`Fin scraper. Filas extraídas: ${finalRows.length}`);
+    if (stopRequested()) {
+      markStopped();
+    }
   } finally {
+    try {
+      await page.close();
+    } catch {
+      // Browser teardown continues below.
+    }
+    try {
+      await context.close();
+    } catch {
+      // Browser teardown continues below.
+    }
     await browser.close();
+    if (stopRequested()) {
+      markStopped();
+    }
   }
 }
 

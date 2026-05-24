@@ -388,14 +388,65 @@ def replace_contact_history(events: pd.DataFrame | list[dict[str, Any]]) -> dict
         stats["total_after"] = len(raw_rows)
         return stats
 
-    keys = [row.get("event_key") for row in raw_rows if row.get("event_key")]
     client = get_supabase_client()
-    for start in range(0, len(keys), 100):
-        batch = keys[start : start + 100]
+    if raw_rows:
+        # Full CRM reset: remove every historical event, then rebuild only the
+        # initial "Lead ingresado a la base" event per restaurant. Use crm_id
+        # instead of event_key because older migrated events may not have a key.
+        client.table("historial_contactos").delete().neq("crm_id", "__keep_none__").execute()
+        stats["deleted"] = len(raw_rows)
+
+    for start in range(0, len(payload), 100):
+        batch = payload[start : start + 100]
+        if batch:
+            client.table("historial_contactos").upsert(batch, on_conflict="event_key").execute()
+            stats["initial_recreated"] = int(stats["initial_recreated"]) + len(batch)
+    stats["total_after"] = len(_supabase_rows("historial_contactos"))
+    return stats
+
+
+def replace_contact_history_for_leads(events: pd.DataFrame | list[dict[str, Any]], crm_ids: set[str] | list[str]) -> dict[str, int | str]:
+    stats: dict[str, int | str] = {
+        "data_mode": get_data_mode(),
+        "total_before": 0,
+        "target_before": 0,
+        "kept_initial": 0,
+        "deleted": 0,
+        "initial_recreated": 0,
+        "total_after": 0,
+    }
+    if get_data_mode() != "supabase":
+        return stats
+    ids = sorted({str(value).strip() for value in crm_ids if str(value).strip()})
+    if not ids:
+        return stats
+    if isinstance(events, pd.DataFrame):
+        event_rows = events.fillna("").to_dict(orient="records")
+    else:
+        event_rows = events
+
+    payload = [_history_record(row) for row in event_rows]
+    payload = [row for row in payload if row.get("crm_id") and row.get("accion")]
+    raw_rows = _supabase_rows("historial_contactos")
+    stats["total_before"] = len(raw_rows)
+    id_set = set(ids)
+    target_rows = [row for row in raw_rows if str(row.get("crm_id", "")).strip() in id_set]
+    stats["target_before"] = len(target_rows)
+
+    client = get_supabase_client()
+    batch_size = 10
+    for start in range(0, len(ids), batch_size):
+        batch = ids[start : start + batch_size]
+        if batch:
+            client.table("historial_contactos").delete().in_("crm_id", batch).execute()
+
+    target_keys = [str(row.get("event_key", "")).strip() for row in target_rows if str(row.get("event_key", "")).strip()]
+    for start in range(0, len(target_keys), 50):
+        batch = target_keys[start : start + 50]
         if batch:
             client.table("historial_contactos").delete().in_("event_key", batch).execute()
-            stats["deleted"] = int(stats["deleted"]) + len(batch)
 
+    stats["deleted"] = int(stats["target_before"])
     for start in range(0, len(payload), 100):
         batch = payload[start : start + 100]
         if batch:

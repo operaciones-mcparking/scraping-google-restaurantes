@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import base64
 import json
+import os
 import tomllib
 from tomllib import TOMLDecodeError
 from pathlib import Path
@@ -34,15 +36,40 @@ def load_supabase_secrets(path: Path | None = None) -> dict[str, str]:
     except TOMLDecodeError:
         data = _load_simple_key_value_secrets(secrets_path)
 
-    url = data.get("SUPABASE_URL") or data.get("supabase", {}).get("SUPABASE_URL")
-    key = data.get("SUPABASE_KEY") or data.get("supabase", {}).get("SUPABASE_KEY")
+    supabase_section = data.get("supabase", {})
+    url = (
+        os.environ.get("SUPABASE_URL")
+        or os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
+        or data.get("SUPABASE_URL")
+        or supabase_section.get("SUPABASE_URL")
+    )
+    anon_key = os.environ.get("SUPABASE_KEY") or data.get("SUPABASE_KEY") or supabase_section.get("SUPABASE_KEY")
+    service_role_key = (
+        os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        or data.get("SUPABASE_SERVICE_ROLE_KEY")
+        or supabase_section.get("SUPABASE_SERVICE_ROLE_KEY")
+    )
 
     if not url:
         raise SupabaseConfigError("Falta SUPABASE_URL en .streamlit/secrets.toml")
-    if not key:
-        raise SupabaseConfigError("Falta SUPABASE_KEY en .streamlit/secrets.toml")
+    if not anon_key and not service_role_key:
+        raise SupabaseConfigError("Falta SUPABASE_KEY o SUPABASE_SERVICE_ROLE_KEY en .streamlit/secrets.toml")
 
-    return {"SUPABASE_URL": normalize_supabase_url(str(url).strip()), "SUPABASE_KEY": str(key).strip()}
+    return {
+        "SUPABASE_URL": normalize_supabase_url(str(url).strip()),
+        "SUPABASE_KEY": str(anon_key or "").strip(),
+        "SUPABASE_SERVICE_ROLE_KEY": str(service_role_key or "").strip(),
+    }
+
+
+def jwt_role(key: str) -> str | None:
+    try:
+        payload = key.split(".")[1]
+        payload += "=" * (-len(payload) % 4)
+        decoded = json.loads(base64.urlsafe_b64decode(payload.encode("utf-8")))
+        return decoded.get("role")
+    except Exception:
+        return None
 
 
 def normalize_supabase_url(url: str) -> str:
@@ -66,7 +93,22 @@ def _load_simple_key_value_secrets(path: Path) -> dict[str, str]:
 
 def get_supabase_client(path: Path | None = None) -> Client:
     secrets = load_supabase_secrets(path)
+    if not secrets["SUPABASE_KEY"]:
+        raise SupabaseConfigError("Falta SUPABASE_KEY para crear cliente de lectura Supabase.")
     return create_client(secrets["SUPABASE_URL"], secrets["SUPABASE_KEY"])
+
+
+def get_supabase_service_client(path: Path | None = None) -> Client:
+    secrets = load_supabase_secrets(path)
+    key = secrets.get("SUPABASE_SERVICE_ROLE_KEY", "")
+    if not key:
+        raise SupabaseConfigError("Falta SUPABASE_SERVICE_ROLE_KEY para escribir en Supabase con RLS activo.")
+    role = jwt_role(key)
+    if role and role != "service_role":
+        raise SupabaseConfigError(
+            f"SUPABASE_SERVICE_ROLE_KEY no tiene rol service_role; rol detectado: {role}."
+        )
+    return create_client(secrets["SUPABASE_URL"], key)
 
 
 def test_supabase_connection(path: Path | None = None, timeout: int = 15) -> dict:

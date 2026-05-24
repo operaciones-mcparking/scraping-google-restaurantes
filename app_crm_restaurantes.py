@@ -7,6 +7,7 @@ import json
 import random
 import re
 import subprocess
+import time
 from datetime import date, datetime
 from io import BytesIO
 from pathlib import Path
@@ -23,8 +24,8 @@ from data_source import (
     load_historial_contactos as ds_load_historial_contactos,
     load_mensajes as ds_load_mensajes,
     load_restaurantes as ds_load_restaurantes,
-    clear_contact_history_for_leads as ds_clear_contact_history_for_leads,
     replace_contact_history as ds_replace_contact_history,
+    replace_contact_history_for_leads as ds_replace_contact_history_for_leads,
     reset_rappi_reviews as ds_reset_rappi_reviews,
     save_call_event as ds_save_call_event,
     save_crm_estado as ds_save_crm_estado,
@@ -47,6 +48,7 @@ UPDATE_LOCK = ROOT / "data" / "logs" / "actualizacion_incremental_crm_ui.lock"
 UI_LOG = ROOT / "data" / "logs" / "actualizacion_incremental_crm_ui.log"
 UI_STDOUT_LOG = ROOT / "data" / "logs" / "actualizacion_incremental_crm_ui_stdout.log"
 CRM_RESET_LOG = ROOT / "data" / "logs" / "crm_resets.log"
+PERFORMANCE_LOG = ROOT / "data" / "logs" / "crm_performance.log"
 NODE_EXE = Path.home() / ".cache" / "codex-runtimes" / "codex-primary-runtime" / "dependencies" / "node" / "bin" / "node.exe"
 
 CRM_FIELDS = [
@@ -2231,13 +2233,13 @@ def render_skeleton_workspace() -> None:
     render_panel_grid_spacer()
     cols = st.columns([0.38, 0.30, 0.32], gap="large")
     with cols[0]:
-        with st.container(border=True, height=680):
+        with st.container(border=True, height=800):
             render_skeleton_restaurant_rows(10)
     with cols[1]:
-        with st.container(border=True, height=680):
+        with st.container(border=True, height=800):
             render_skeleton_selected_lead()
     with cols[2]:
-        with st.container(border=True, height=680):
+        with st.container(border=True, height=800):
             render_skeleton_whatsapp()
     render_panel_grid_spacer()
     render_skeleton_lower_sections()
@@ -2634,7 +2636,7 @@ def derive_load_date(df: pd.DataFrame) -> pd.Series:
     return parsed.fillna(fallback).astype(str)
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, ttl=120)
 def load_base() -> pd.DataFrame:
     if get_data_mode() == "supabase":
         df = ds_load_restaurantes()
@@ -2662,7 +2664,7 @@ def load_base() -> pd.DataFrame:
     return df
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, ttl=60)
 def load_crm_state() -> pd.DataFrame:
     if get_data_mode() == "supabase":
         crm = normalize_crm_columns(ds_load_crm_estado())
@@ -2721,6 +2723,24 @@ def save_crm_state(df: pd.DataFrame) -> None:
     )
     out.to_excel(CRM_XLSX, index=False)
     st.session_state["crm_state_version"] = int(st.session_state.get("crm_state_version", 0)) + 1
+
+
+def save_single_crm_state_record(crm_current: pd.DataFrame, current: dict[str, object]) -> None:
+    crm_id = clean_text(current.get("CRM ID", ""))
+    if not crm_id:
+        return
+    record = normalize_crm_columns(pd.DataFrame([current]))[["CRM ID"] + CRM_FIELDS].copy()
+    record["Estado CRM"] = normalize_crm_state_series(record["Estado CRM"])
+    record["Resultado seguimiento"] = record["Resultado seguimiento"].apply(lambda value: normalize_resultado_seguimiento(value, ""))
+    if get_data_mode() == "supabase":
+        ds_save_crm_estado(record.iloc[0].to_dict())
+        st.session_state["crm_state_version"] = int(st.session_state.get("crm_state_version", 0)) + 1
+        return
+    existing = crm_current.copy()
+    if "CRM ID" not in existing.columns:
+        existing = pd.DataFrame(columns=["CRM ID"] + CRM_FIELDS)
+    existing = existing[existing["CRM ID"].fillna("").astype(str) != crm_id]
+    save_crm_state(pd.concat([existing, record], ignore_index=True))
 
 
 def save_rappi_review_state(crm_id: str, estado: str, url_rappi: str, observacion: str) -> None:
@@ -2806,8 +2826,8 @@ def save_rappi_state_from_widget(
             f"Estado Rappi: {previous_state} -> {estado}",
             restaurant_name,
         )
-        st.cache_data.clear()
     st.session_state["rappi_status_toast"] = "Estado Rappi actualizado"
+    refresh_crm_after_action()
 
 
 def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -2831,7 +2851,7 @@ def normalize_contact_history_columns(df: pd.DataFrame) -> pd.DataFrame:
     return out[CONTACT_HISTORY_FIELDS]
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, ttl=60)
 def load_contact_history() -> pd.DataFrame:
     if get_data_mode() == "supabase":
         history = ds_load_historial_contactos()
@@ -2904,7 +2924,7 @@ def append_contact_event(
     }
     if get_data_mode() == "supabase":
         ds_insert_historial_evento(event)
-        st.cache_data.clear()
+        clear_contact_action_caches()
         return
     history = load_contact_history()
     if skip_if_same_event and not history.empty:
@@ -2918,7 +2938,35 @@ def append_contact_event(
             return
     history = pd.concat([history, pd.DataFrame([event])], ignore_index=True)
     save_contact_history(history)
-    st.cache_data.clear()
+    clear_contact_action_caches()
+
+
+def clear_cached_loader(loader) -> None:
+    clear = getattr(loader, "clear", None)
+    if callable(clear):
+        clear()
+
+
+def clear_contact_action_caches() -> None:
+    clear_cached_loader(load_crm_state)
+    clear_cached_loader(load_contact_history)
+    clear_cached_loader(merge_crm)
+    st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
+    st.session_state["crm_data_version"] = int(st.session_state.get("crm_data_version", 0)) + 1
+
+
+def refresh_crm_after_action() -> None:
+    clear_contact_action_caches()
+    st.session_state["pending_crm_full_refresh"] = True
+
+
+def consume_pending_crm_full_refresh() -> None:
+    if not st.session_state.pop("pending_crm_full_refresh", False):
+        return
+    try:
+        st.rerun(scope="app")
+    except TypeError:
+        st.rerun()
 
 
 def best_added_date(row: pd.Series) -> str:
@@ -2999,12 +3047,92 @@ def build_initial_contact_history(df: pd.DataFrame, fecha_hora: str | None = Non
     return normalize_contact_history_columns(pd.DataFrame(events))
 
 
-def contact_history_for_crm_id(crm_id: object) -> pd.DataFrame:
+def contact_history_for_crm_id(crm_id: object, row: pd.Series | None = None) -> pd.DataFrame:
     history = load_contact_history()
     if history.empty:
         return history
     key = clean_text(crm_id)
-    return history[history["CRM ID"].fillna("").astype(str) == key].copy()
+    initial_ids = {key} if row_is_commercial_initial(row) else set()
+    return visible_contact_history(history[history["CRM ID"].fillna("").astype(str) == key].copy(), initial_ids)
+
+
+def latest_initial_events(group: pd.DataFrame) -> pd.DataFrame:
+    initial_mask = initial_contact_history_mask(group)
+    if not initial_mask.any():
+        return group.iloc[0:0]
+    parsed = pd.to_datetime(group.loc[initial_mask, "Fecha/hora"], errors="coerce")
+    if parsed.notna().any():
+        latest = parsed.max()
+        return group.loc[initial_mask & pd.to_datetime(group["Fecha/hora"], errors="coerce").eq(latest)]
+    return group.loc[[group.loc[initial_mask].index[-1]]]
+
+
+def row_is_commercial_initial(row: pd.Series | None) -> bool:
+    if row is None:
+        return False
+    estado = normalize_crm_state(row.get("Estado CRM", ""))
+    resultado = normalize_resultado_seguimiento(row.get("Resultado seguimiento", ""), "")
+    estado_whatsapp = clean_text(row.get("Estado WhatsApp", "")) or "No contactado"
+    estado_rappi = normalize_rappi_state(row.get("Estado revision Rappi", "")) if "Estado revision Rappi" in row.index else "No revisado"
+    if estado != "Nuevo" or resultado != "Sin respuesta" or estado_whatsapp != "No contactado" or estado_rappi != "No revisado":
+        return False
+    fields_that_make_it_worked = [
+        "Fecha ultimo contacto",
+        "Fecha ultimo WhatsApp",
+        "Fecha envio WhatsApp",
+        "Mensaje enviado",
+        "Observacion CRM",
+        "Canal ultimo contacto",
+        "Fecha revision Rappi",
+    ]
+    return not any(clean_text(row.get(field, "")) for field in fields_that_make_it_worked)
+
+
+def commercial_initial_crm_ids(df: pd.DataFrame) -> set[str]:
+    if df.empty or "CRM ID" not in df.columns:
+        return set()
+    return {
+        clean_text(row.get("CRM ID", ""))
+        for _, row in df.iterrows()
+        if clean_text(row.get("CRM ID", "")) and row_is_commercial_initial(row)
+    }
+
+
+def visible_contact_history(history: pd.DataFrame, initial_only_ids: set[str] | None = None) -> pd.DataFrame:
+    if history.empty or "CRM ID" not in history.columns:
+        return history
+    out = normalize_contact_history_columns(history).copy()
+    parsed = pd.to_datetime(out["Fecha/hora"], errors="coerce")
+    initial_only_ids = {clean_text(value) for value in (initial_only_ids or set()) if clean_text(value)}
+    visible_parts = []
+    for crm_id, group in out.assign(_fecha_sort=parsed).groupby(out["CRM ID"].fillna("").astype(str), sort=False):
+        if clean_text(crm_id) in initial_only_ids:
+            group = latest_initial_events(group)
+            if not group.empty:
+                visible_parts.append(group.drop(columns=["_fecha_sort"], errors="ignore"))
+            continue
+        initial_mask = initial_contact_history_mask(group)
+        if initial_mask.any():
+            latest_initial = group.loc[initial_mask, "_fecha_sort"].max()
+            if pd.isna(latest_initial):
+                latest_initial_index = group.loc[initial_mask].index[-1]
+                group = group.loc[group.index >= latest_initial_index]
+            else:
+                group = group[(group["_fecha_sort"].isna()) | (group["_fecha_sort"] >= latest_initial)]
+        visible_parts.append(group.drop(columns=["_fecha_sort"], errors="ignore"))
+    if not visible_parts:
+        return out.iloc[0:0].drop(columns=["_fecha_sort"], errors="ignore")
+    return pd.concat(visible_parts, ignore_index=True)
+
+
+def initial_state_crm_ids(df: pd.DataFrame) -> set[str]:
+    if df.empty or "CRM ID" not in df.columns:
+        return set()
+    estado = df["Estado CRM"].apply(normalize_crm_state) if "Estado CRM" in df.columns else pd.Series("", index=df.index)
+    resultado = df["Resultado seguimiento"].apply(lambda value: normalize_resultado_seguimiento(value, "")) if "Resultado seguimiento" in df.columns else pd.Series("", index=df.index)
+    whatsapp = df["Estado WhatsApp"].fillna("").astype(str).replace("", "No contactado") if "Estado WhatsApp" in df.columns else pd.Series("No contactado", index=df.index)
+    initial_mask = estado.eq("Nuevo") & resultado.eq("Sin respuesta") & whatsapp.eq("No contactado")
+    return set(df.loc[initial_mask, "CRM ID"].fillna("").astype(str).str.strip())
 
 
 def last_contact_datetime(row: pd.Series) -> pd.Timestamp | None:
@@ -3063,7 +3191,7 @@ def generate_no_response_alerts(df: pd.DataFrame) -> int:
     return created
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(show_spinner=False, ttl=60)
 def merge_crm(base: pd.DataFrame, crm: pd.DataFrame) -> pd.DataFrame:
     df = base.merge(crm, on="CRM ID", how="left", suffixes=("", "_crm"))
     for field in CRM_FIELDS:
@@ -3173,6 +3301,7 @@ def reset_lead_values(row: dict) -> dict:
     updated["Estado CRM"] = "Nuevo"
     updated["Fecha ultimo contacto"] = ""
     updated["Canal ultimo contacto"] = ""
+    updated["Observacion CRM"] = ""
     updated["Proxima accion"] = ""
     updated["Fecha proxima accion"] = ""
     updated["Estado WhatsApp"] = "No contactado"
@@ -3210,6 +3339,11 @@ def clear_lead_widget_state(crm_ids: set[str] | list[str]) -> None:
             if any(key.startswith(prefix + crm_id) for prefix in prefixes):
                 st.session_state.pop(key, None)
                 break
+
+
+def clear_history_filter_state() -> None:
+    for key in ["history_restaurante", "history_canal", "history_resultado", "history_fecha"]:
+        st.session_state.pop(key, None)
 
 
 def reset_state_validation_snapshot(base: pd.DataFrame, crm: pd.DataFrame, history: pd.DataFrame | None = None) -> dict[str, int]:
@@ -3266,6 +3400,26 @@ def log_crm_reset(reset_type: str, count: int, cleaned_events: int = 0, extra: d
         handle.write(json.dumps(event, ensure_ascii=False) + "\n")
 
 
+def log_performance_event(event_name: str, seconds: float, extra: dict | None = None) -> None:
+    PERFORMANCE_LOG.parent.mkdir(parents=True, exist_ok=True)
+    event = {
+        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "evento": event_name,
+        "segundos": round(float(seconds), 4),
+    }
+    if extra:
+        event.update(extra)
+    with PERFORMANCE_LOG.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(event, ensure_ascii=False) + "\n")
+
+
+def timed_call(event_name: str, func, *args, **kwargs):
+    start = time.perf_counter()
+    result = func(*args, **kwargs)
+    log_performance_event(event_name, time.perf_counter() - start)
+    return result
+
+
 def empty_reset_history_stats() -> dict[str, int | str]:
     return {
         "data_mode": get_data_mode(),
@@ -3311,26 +3465,28 @@ def clean_contact_history_after_reset(crm_ids: set[str]) -> dict[str, int | str]
     stats = empty_reset_history_stats()
     if not ids:
         return stats
+    base = load_base()
+    if not base.empty and "CRM ID" in base.columns:
+        initial_history = build_initial_contact_history(base[base["CRM ID"].fillna("").astype(str).isin(ids)].copy())
+    else:
+        initial_history = pd.DataFrame(columns=CONTACT_HISTORY_FIELDS)
     if get_data_mode() == "supabase":
-        stats = ds_clear_contact_history_for_leads(ids)
+        stats = ds_replace_contact_history_for_leads(initial_history, ids)
         st.cache_data.clear()
         st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
         return stats
 
     history = load_contact_history()
-    if history.empty:
-        return stats
     stats["total_before"] = len(history)
-    target_mask = history["CRM ID"].fillna("").astype(str).isin(ids)
-    initial_mask = initial_contact_history_mask(history)
-    delete_mask = target_mask & ~initial_mask
+    target_mask = history["CRM ID"].fillna("").astype(str).isin(ids) if not history.empty else pd.Series(dtype=bool)
     stats["target_before"] = int(target_mask.sum())
-    stats["kept_initial"] = int((target_mask & initial_mask).sum())
-    stats["deleted"] = int(delete_mask.sum())
-    if stats["deleted"]:
-        save_contact_history(history.loc[~delete_mask].copy())
-        st.cache_data.clear()
-    stats["total_after"] = int(stats["total_before"]) - int(stats["deleted"])
+    stats["deleted"] = int(target_mask.sum())
+    kept = history.loc[~target_mask].copy() if not history.empty else pd.DataFrame(columns=CONTACT_HISTORY_FIELDS)
+    replacement = pd.concat([kept, initial_history], ignore_index=True)
+    stats["initial_recreated"] = len(initial_history)
+    save_contact_history(replacement)
+    st.cache_data.clear()
+    stats["total_after"] = len(replacement)
     st.session_state["contact_history_version"] = int(st.session_state.get("contact_history_version", 0)) + 1
     return stats
 
@@ -3402,6 +3558,7 @@ def reset_full_crm() -> int:
     initial_history = build_initial_contact_history(base, reset_timestamp)
     stats = reset_full_contact_history(initial_history)
     clear_lead_widget_state(seen_ids)
+    clear_history_filter_state()
     st.cache_data.clear()
     base_after = load_base()
     crm_after = load_crm_state()
@@ -3456,6 +3613,7 @@ def reset_crm_ids(affected_ids: set[str], reset_type: str) -> int:
     save_crm_state(pd.DataFrame(updated_rows))
     stats = clean_contact_history_after_reset(ids)
     clear_lead_widget_state(ids)
+    clear_history_filter_state()
     cleaned_events = int(stats.get("deleted", 0))
     st.session_state["reset_cleaned_events"] = cleaned_events
     st.session_state["last_reset_stats"] = stats
@@ -3499,6 +3657,7 @@ def reset_massive_leads(option: str) -> int:
         | yes_no_has_value(crm["Fecha ultimo WhatsApp"])
         | yes_no_has_value(crm["Fecha envio WhatsApp"])
         | yes_no_has_value(crm["Mensaje enviado"])
+        | yes_no_has_value(crm["Observacion CRM"])
         | yes_no_has_value(crm["Variante mensaje"])
         | (crm["Respondio"].fillna("").astype(str) == "Si")
         | (crm["Interesado"].fillna("").astype(str) == "Si")
@@ -4647,7 +4806,77 @@ def action_icon_link(icon: str, tooltip: str, url: str, css_class: str) -> str:
     return f'<span class="lead-action-icon {css_class} disabled" title="{safe_tip}">{action_icon_svg(icon)}</span>'
 
 
-def mark_whatsapp_contacted(crm_id: str, message: str, variant: str, restaurant_name: str) -> None:
+def render_pending_external_open() -> None:
+    url = clean_text(st.session_state.pop("pending_external_open_url", ""))
+    if not url:
+        return
+    notice = clean_text(st.session_state.pop("pending_external_open_notice", ""))
+    if notice and hasattr(st, "toast"):
+        st.toast(notice)
+    components.html(
+        f"""
+        <script>
+        window.open({json.dumps(url)}, "_blank", "noopener,noreferrer");
+        </script>
+        """,
+        height=0,
+    )
+
+
+def queue_pending_contact_action(action: dict[str, object], url: str, notice: str) -> None:
+    st.session_state["pending_contact_action"] = action
+    st.session_state["pending_external_open_url"] = clean_text(url)
+    st.session_state["pending_external_open_notice"] = clean_text(notice)
+
+
+def process_pending_contact_action() -> None:
+    action = st.session_state.pop("pending_contact_action", None)
+    if not isinstance(action, dict):
+        return
+    action_type = clean_text(action.get("type", ""))
+    start = time.perf_counter()
+    try:
+        if action_type == "whatsapp":
+            mark_whatsapp_contacted(
+                clean_text(action.get("crm_id", "")),
+                clean_text(action.get("message", "")),
+                clean_text(action.get("variant", "")),
+                clean_text(action.get("restaurant_name", "")),
+                request_refresh=False,
+            )
+        elif action_type == "call":
+            mark_call_contacted(
+                clean_text(action.get("crm_id", "")),
+                clean_text(action.get("restaurant_name", "")),
+                request_refresh=False,
+            )
+        else:
+            return
+        clear_contact_action_caches()
+        st.session_state["skip_heavy_history_checks_once"] = True
+        if hasattr(st, "toast"):
+            st.toast("Contacto guardado")
+        log_performance_event(
+            f"click {action_type}",
+            time.perf_counter() - start,
+            {"crm_id": clean_text(action.get("crm_id", ""))},
+        )
+    except Exception as exc:
+        log_performance_event(
+            f"error click {action_type}",
+            time.perf_counter() - start,
+            {"crm_id": clean_text(action.get("crm_id", "")), "error": str(exc)},
+        )
+        st.session_state["contact_action_error"] = str(exc)
+
+
+def mark_whatsapp_contacted(
+    crm_id: str,
+    message: str,
+    variant: str,
+    restaurant_name: str,
+    request_refresh: bool = True,
+) -> None:
     crm_current = load_crm_state()
     existing = crm_current[crm_current["CRM ID"] == crm_id].tail(1)
     current = {field: "" for field in CRM_FIELDS}
@@ -4666,9 +4895,7 @@ def mark_whatsapp_contacted(crm_id: str, message: str, variant: str, restaurant_
     current["Mensaje WhatsApp sugerido"] = message
     current["Mensaje enviado"] = message
     current["Variante mensaje"] = variant
-    crm_current = crm_current[crm_current["CRM ID"] != crm_id]
-    crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
-    save_crm_state(crm_current)
+    save_single_crm_state_record(crm_current, current)
     if get_data_mode() == "supabase":
         context = crm_event_context(crm_id, restaurant_name)
         ds_save_whatsapp_event(crm_id, context["Restaurante"], context["Comuna"], message, fecha_hora=now)
@@ -4684,13 +4911,34 @@ def mark_whatsapp_contacted(crm_id: str, message: str, variant: str, restaurant_
             restaurant_name,
             skip_if_same_event=True,
         )
-    st.cache_data.clear()
     st.session_state["whatsapp_toast"] = {
         "restaurant": restaurant_name,
     }
+    if request_refresh:
+        refresh_crm_after_action()
 
 
-def mark_call_contacted(crm_id: str, restaurant_name: str) -> None:
+def mark_whatsapp_contacted_and_open(
+    crm_id: str,
+    message: str,
+    variant: str,
+    restaurant_name: str,
+    wa_url: str,
+) -> None:
+    queue_pending_contact_action(
+        {
+            "type": "whatsapp",
+            "crm_id": clean_text(crm_id),
+            "message": clean_text(message),
+            "variant": clean_text(variant),
+            "restaurant_name": clean_text(restaurant_name),
+        },
+        wa_url,
+        "WhatsApp abierto. Guardando contacto...",
+    )
+
+
+def mark_call_contacted(crm_id: str, restaurant_name: str, request_refresh: bool = True) -> None:
     crm_current = load_crm_state()
     existing = crm_current[crm_current["CRM ID"] == crm_id].tail(1)
     current = {field: "" for field in CRM_FIELDS}
@@ -4705,9 +4953,7 @@ def mark_call_contacted(crm_id: str, restaurant_name: str) -> None:
     current["Canal ultimo contacto"] = "Llamada"
     if not clean_text(current.get("Mensaje enviado", "")) and not clean_text(current.get("Mensaje WhatsApp sugerido", "")):
         current["Mensaje WhatsApp sugerido"] = "Llamada iniciada desde CRM"
-    crm_current = crm_current[crm_current["CRM ID"] != crm_id]
-    crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
-    save_crm_state(crm_current)
+    save_single_crm_state_record(crm_current, current)
     if get_data_mode() == "supabase":
         context = crm_event_context(crm_id, restaurant_name)
         ds_save_call_event(crm_id, context["Restaurante"], context["Comuna"], fecha_hora=now)
@@ -4723,10 +4969,23 @@ def mark_call_contacted(crm_id: str, restaurant_name: str) -> None:
             restaurant_name,
             skip_if_same_event=True,
         )
-    st.cache_data.clear()
     st.session_state["call_toast"] = {
         "restaurant": restaurant_name,
     }
+    if request_refresh:
+        refresh_crm_after_action()
+
+
+def mark_call_contacted_and_open(crm_id: str, restaurant_name: str, call_url: str) -> None:
+    queue_pending_contact_action(
+        {
+            "type": "call",
+            "crm_id": clean_text(crm_id),
+            "restaurant_name": clean_text(restaurant_name),
+        },
+        call_url,
+        "Llamada iniciada. Guardando contacto...",
+    )
 
 
 def render_whatsapp_toast() -> None:
@@ -4797,9 +5056,7 @@ def save_lead_updates(row: pd.Series, updates: dict[str, object]) -> None:
         current.update(existing.iloc[0].to_dict())
     previous = current.copy()
     current.update(updates)
-    crm_current = crm_current[crm_current["CRM ID"] != row["CRM ID"]]
-    crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
-    save_crm_state(crm_current)
+    save_single_crm_state_record(crm_current, current)
     name_col = find_column(pd.DataFrame([row]), ["Nombre restaurante"]) or "Nombre restaurante"
     previous_estado = normalize_crm_state(previous.get("Estado CRM", ""))
     current_estado = normalize_crm_state(current.get("Estado CRM", ""))
@@ -4811,7 +5068,6 @@ def save_lead_updates(row: pd.Series, updates: dict[str, object]) -> None:
             current,
             f"Anterior: {previous_estado or 'Sin estado'} | Nuevo: {current_estado}",
             clean_text(row.get(name_col, "")),
-            skip_if_same_event=True,
         )
     previous_resultado = normalize_resultado_seguimiento(previous.get("Resultado seguimiento", ""), "")
     current_resultado = normalize_resultado_seguimiento(current.get("Resultado seguimiento", ""), "")
@@ -4835,7 +5091,7 @@ def save_lead_updates(row: pd.Series, updates: dict[str, object]) -> None:
             current_note,
             clean_text(row.get(name_col, "")),
         )
-    st.cache_data.clear()
+    clear_contact_action_caches()
 
 
 def save_resultado_seguimiento(crm_id: str, key: str) -> None:
@@ -4850,9 +5106,7 @@ def save_resultado_seguimiento(crm_id: str, key: str) -> None:
         current.update(existing.iloc[0].to_dict())
     previous_resultado = normalize_resultado_seguimiento(current.get("Resultado seguimiento", ""), "")
     current["Resultado seguimiento"] = value
-    crm_current = crm_current[crm_current["CRM ID"] != crm_id]
-    crm_current = pd.concat([crm_current, pd.DataFrame([current])], ignore_index=True)
-    save_crm_state(crm_current)
+    save_single_crm_state_record(crm_current, current)
     if value != previous_resultado:
         append_contact_event(
             crm_id,
@@ -4861,7 +5115,26 @@ def save_resultado_seguimiento(crm_id: str, key: str) -> None:
             current,
             f"Anterior: {previous_resultado or 'Sin resultado'} | Nuevo: {value}",
         )
-    st.cache_data.clear()
+    refresh_crm_after_action()
+
+
+def save_estado_crm_from_widget(row_dict: dict, key: str) -> None:
+    estado = normalize_crm_state(st.session_state.get(key, ""))
+    if estado not in CRM_STATES:
+        return
+    save_lead_updates(pd.Series(row_dict), {"Estado CRM": estado})
+    st.session_state["lead_save_notice"] = "Estado CRM actualizado."
+    refresh_crm_after_action()
+
+
+def sync_estado_crm_widget(crm_id: object, estado_real: str) -> str:
+    estado = normalize_crm_state(estado_real) or "Nuevo"
+    if estado not in CRM_STATES:
+        estado = "Nuevo"
+    key = f"lead_estado_{clean_text(crm_id)}"
+    if st.session_state.get(key) != estado:
+        st.session_state[key] = estado
+    return key
 
 
 def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selected_index: object | None) -> None:
@@ -4923,7 +5196,8 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     render_lead_action_icons(row, name_col, comuna_col, mensaje_whatsapp, variante_mensaje)
 
     current_state = estado_actual if estado_actual in CRM_STATES else "Nuevo"
-    estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=f"lead_estado_{row['CRM ID']}")
+    estado_key = sync_estado_crm_widget(row["CRM ID"], current_state)
+    estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=estado_key)
     fecha_ultimo_whatsapp = st.date_input("Último WhatsApp", value=parse_existing_date(row.get("Fecha ultimo WhatsApp", "")), key=f"lead_wa_last_{row['CRM ID']}")
     observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=90, key=f"lead_obs_{row['CRM ID']}")
 
@@ -5199,7 +5473,18 @@ def render_selected_lead_panel(df: pd.DataFrame, filtered: pd.DataFrame, selecte
     render_rappi_review_block(row, name_col, comuna_col)
 
     current_state = estado_actual if estado_actual in CRM_STATES else "Nuevo"
-    estado = st.selectbox("Estado CRM", CRM_STATES, index=CRM_STATES.index(current_state), key=f"lead_estado_{row['CRM ID']}")
+    notice = st.session_state.pop("lead_save_notice", "")
+    if notice:
+        st.success(notice)
+    estado_key = sync_estado_crm_widget(row["CRM ID"], current_state)
+    estado = st.selectbox(
+        "Estado CRM",
+        CRM_STATES,
+        index=CRM_STATES.index(current_state),
+        key=estado_key,
+        on_change=save_estado_crm_from_widget,
+        args=(row.to_dict(), estado_key),
+    )
     observacion = st.text_area("Notas comerciales", value=clean_text(row.get("Observacion CRM", "")), height=105, key=f"lead_obs_{row['CRM ID']}")
 
     if st.button("Guardar lead", type="primary", use_container_width=True, key=f"save_lead_main_{row['CRM ID']}"):
@@ -5226,19 +5511,20 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
 
     name_col = find_column(df, ["Nombre restaurante"]) or "Nombre restaurante"
     comuna_col = find_column(df, ["Comuna"]) or "Comuna"
-    settings_href = whatsapp_messages_settings_href(row)
-    st.markdown(
-        f"""
-        <div class="wa-header-row">
-            <div class="section-title">Contacto WhatsApp</div>
-            <div class="wa-settings-inline">
-                <a href="{html.escape(settings_href, quote=True)}" target="_self" title="Editar mensajes WhatsApp" aria-label="Editar mensajes WhatsApp">⚙</a>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    maybe_open_whatsapp_messages_dialog(row, name_col, comuna_col)
+    st.markdown('<div class="wa-header-polish">', unsafe_allow_html=True)
+    header_title, header_settings = st.columns([0.86, 0.14], vertical_alignment="center")
+    with header_title:
+        st.markdown('<div class="section-title wa-title">Contacto WhatsApp</div>', unsafe_allow_html=True)
+    with header_settings:
+        with st.popover(
+            "",
+            icon=":material/settings:",
+            help="Editar mensajes WhatsApp",
+            key=f"open_whatsapp_messages_editor_{row['CRM ID']}",
+            width="content",
+        ):
+            render_whatsapp_messages_editor_body(row, name_col, comuna_col)
+    st.markdown("</div>", unsafe_allow_html=True)
     current_variant = assigned_message_variant(row)
     message_variants = load_message_variants()
     if current_variant not in message_variants:
@@ -5284,7 +5570,7 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         args=(row["CRM ID"], resultado_key),
     )
 
-    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=205, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
+    mensaje_whatsapp = st.text_area("Mensaje enviado", value=default_variant_message, height=175, key=f"lead_wa_msg_{row['CRM ID']}_{message_version}")
     st.caption(f"{len(mensaje_whatsapp)} caracteres")
 
     wa_url = whatsapp_action_url(row, name_col, comuna_col, mensaje_whatsapp)
@@ -5339,6 +5625,53 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
         }
         div[data-testid="stLinkButton"] a[href*="wa.me"]::before,
         div[data-testid="stButton"] button:disabled::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            flex: 0 0 16px;
+            background: currentColor;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 3.5A11.8 11.8 0 0 0 2.4 18.4L1 23l4.7-1.3A11.8 11.8 0 0 0 23 11.8a11.7 11.7 0 0 0-2.5-8.3Zm-8.7 17.2c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-2.8.8.8-2.7-.2-.4A9.8 9.8 0 1 1 21 11.8a9.2 9.2 0 0 1-9.2 8.9Zm5.3-6.9c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.3 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.5-.4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 3.5A11.8 11.8 0 0 0 2.4 18.4L1 23l4.7-1.3A11.8 11.8 0 0 0 23 11.8a11.7 11.7 0 0 0-2.5-8.3Zm-8.7 17.2c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-2.8.8.8-2.7-.2-.4A9.8 9.8 0 1 1 21 11.8a9.2 9.2 0 0 1-9.2 8.9Zm5.3-6.9c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.3 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.5-.4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+        }
+        div[class*="st-key-wa_open_"] button[kind="primary"] {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+            color: #ffffff !important;
+        }
+        div[class*="st-key-wa_open_"] button[kind="primary"]:hover {
+            background: #1fb457 !important;
+            border-color: #1fb457 !important;
+            color: #ffffff !important;
+        }
+        div[class*="st-key-wa_open_"] button[kind="primary"]::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            flex: 0 0 16px;
+            background: currentColor;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 3.5A11.8 11.8 0 0 0 2.4 18.4L1 23l4.7-1.3A11.8 11.8 0 0 0 23 11.8a11.7 11.7 0 0 0-2.5-8.3Zm-8.7 17.2c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-2.8.8.8-2.7-.2-.4A9.8 9.8 0 1 1 21 11.8a9.2 9.2 0 0 1-9.2 8.9Zm5.3-6.9c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.3 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.5-.4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 3.5A11.8 11.8 0 0 0 2.4 18.4L1 23l4.7-1.3A11.8 11.8 0 0 0 23 11.8a11.7 11.7 0 0 0-2.5-8.3Zm-8.7 17.2c-1.9 0-3.7-.5-5.3-1.5l-.4-.2-2.8.8.8-2.7-.2-.4A9.8 9.8 0 1 1 21 11.8a9.2 9.2 0 0 1-9.2 8.9Zm5.3-6.9c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.7.2-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.8-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2c-.2-.5-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.2.3 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.5-.4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+        }
+        div[class*="st-key-wa_open_"] button[data-testid="stBaseButton-primary"] {
+            background: #25D366 !important;
+            border-color: #25D366 !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        div[class*="st-key-wa_open_"] button[data-testid="stBaseButton-primary"]:hover {
+            background: #1fb457 !important;
+            border-color: #1fb457 !important;
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        div[class*="st-key-wa_open_"] button[data-testid="stBaseButton-primary"] * {
+            color: #ffffff !important;
+            fill: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        div[class*="st-key-wa_open_"] button[data-testid="stBaseButton-primary"]::before {
             content: "";
             width: 16px;
             height: 16px;
@@ -5415,43 +5748,6 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             align-items: center !important;
             justify-content: center !important;
         }
-        button[kind="secondary"][title="Editar mensajes WhatsApp"] {
-            width: 42px !important;
-            height: 42px !important;
-            min-height: 42px !important;
-            max-width: 42px !important;
-            padding: 0 !important;
-            border-radius: 10px !important;
-            background: #ffffff !important;
-            border-color: #e7eaef !important;
-            color: #68727d !important;
-            box-shadow: none !important;
-            font-size: 15px !important;
-            line-height: 1 !important;
-        }
-        button[kind="secondary"][title="Editar mensajes WhatsApp"]:hover {
-            background: #f8fafc !important;
-            border-color: #cbd5e1 !important;
-            color: var(--crm-rappi-dark) !important;
-        }
-        div[data-testid="stButton"]:has(button[title="Editar mensajes WhatsApp"]) {
-            width: 42px !important;
-            min-width: 42px !important;
-            max-width: 42px !important;
-            height: 44px !important;
-            min-height: 44px !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            overflow: visible !important;
-            position: static !important;
-            z-index: 5 !important;
-        }
-        div[data-testid="stButton"]:has(button[title="Editar mensajes WhatsApp"]) button {
-            position: static !important;
-            width: 42px !important;
-            max-width: 42px !important;
-            min-width: 42px !important;
-        }
         div[data-testid="stTextArea"] {
             margin-bottom: 0 !important;
         }
@@ -5495,13 +5791,74 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             color: var(--crm-rappi-dark);
             text-decoration: none;
         }
+        .wa-header-polish {
+            margin: 0 0 12px !important;
+        }
+        .wa-header-polish [data-testid="stHorizontalBlock"] {
+            align-items: center !important;
+            margin: 0 !important;
+        }
+        .wa-header-polish [data-testid="column"] {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .wa-header-polish [data-testid="column"]:last-child {
+            justify-content: flex-end !important;
+            padding-right: 2px !important;
+        }
+        .wa-header-polish .section-title {
+            margin: 0 !important;
+            line-height: 30px !important;
+        }
+        .wa-header-polish div[data-testid="stPopover"] {
+            width: 32px !important;
+            min-width: 32px !important;
+            max-width: 32px !important;
+            height: 32px !important;
+            min-height: 32px !important;
+            margin-left: auto !important;
+            margin-top: 0 !important;
+            overflow: visible !important;
+        }
+        .wa-header-polish div[data-testid="stPopover"] button {
+            width: 32px !important;
+            min-width: 32px !important;
+            max-width: 32px !important;
+            height: 32px !important;
+            min-height: 32px !important;
+            padding: 0 !important;
+            border-radius: 8px !important;
+            border-color: #e7eaef !important;
+            background: #ffffff !important;
+            color: #68727d !important;
+            box-shadow: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 13px !important;
+            line-height: 1 !important;
+        }
+        .wa-header-polish div[data-testid="stPopover"] button:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+        }
+        .wa-header-polish div[data-testid="stPopover"] button svg {
+            width: 17px !important;
+            height: 17px !important;
+            margin: 0 !important;
+        }
+        .wa-header-polish div[data-testid="stPopover"] button > div:last-child,
+        .wa-header-polish div[data-testid="stPopover"] button [data-testid="stMarkdownContainer"]:empty {
+            display: none !important;
+        }
         div[data-testid="stTextArea"] textarea {
             min-height: 135px !important;
         }
         div[data-testid="stTextArea"] + div,
         div[data-testid="stCaptionContainer"] {
-            margin-top: 2px !important;
-            margin-bottom: 4px !important;
+            margin-top: 0 !important;
+            margin-bottom: 2px !important;
         }
         div[data-testid="stSelectbox"] {
             margin-bottom: 4px !important;
@@ -5540,14 +5897,15 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
     )
     action_cols = st.columns(2, gap="small")
     if wa_url:
-        action_cols[0].link_button(
+        action_cols[0].button(
             "WhatsApp",
-            wa_url,
+            type="primary",
             disabled=False,
             use_container_width=True,
             help="Abre WhatsApp con el mensaje sugerido y registra el contacto en el CRM.",
-            on_click=mark_whatsapp_contacted,
-            args=(row["CRM ID"], mensaje_whatsapp or "", variante_mensaje, clean_text(row.get(name_col, ""))),
+            on_click=mark_whatsapp_contacted_and_open,
+            args=(row["CRM ID"], mensaje_whatsapp or "", variante_mensaje, clean_text(row.get(name_col, "")), wa_url),
+            key=f"wa_open_{row['CRM ID']}",
         )
     else:
         action_cols[0].button(
@@ -5557,18 +5915,15 @@ def render_whatsapp_column_panel(df: pd.DataFrame, filtered: pd.DataFrame, selec
             help="Este restaurante no tiene WhatsApp válido",
             key=f"wa_unavailable_{row['CRM ID']}",
         )
-    action_cols[1].link_button(
+    action_cols[1].button(
         "Llamar",
-        f"tel:+{call_phone}" if call_phone else "https://example.com",
         disabled=not bool(call_phone),
         use_container_width=True,
         help="Llamar al teléfono registrado." if call_phone else "No hay teléfono válido para llamada.",
-        on_click=mark_call_contacted if call_phone else "ignore",
-        args=(row["CRM ID"], clean_text(row.get(name_col, ""))) if call_phone else None,
+        on_click=mark_call_contacted_and_open if call_phone else None,
+        args=(row["CRM ID"], clean_text(row.get(name_col, "")), f"tel:+{call_phone}") if call_phone else None,
+        key=f"call_open_{row['CRM ID']}",
     )
-
-    if st.session_state.get("show_message_editor"):
-        render_whatsapp_messages_dialog(row, name_col, comuna_col)
 
 
 def compact_level(value: object) -> str:
@@ -5982,7 +6337,7 @@ def render_restaurant_table_modern(filtered: pd.DataFrame, total: int) -> object
         unsafe_allow_html=True,
     )
 
-    with st.container(height=500, border=False):
+    with st.container(height=620, border=False):
         selected_key = st.radio(
             "Restaurantes",
             option_keys,
@@ -5997,8 +6352,9 @@ def render_restaurant_table_modern(filtered: pd.DataFrame, total: int) -> object
 
 @fragment
 def render_lead_workspace_fragment(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
+    consume_pending_crm_full_refresh()
     table_col, detail_col, whatsapp_col = st.columns([0.38, 0.30, 0.32], gap="large")
-    panel_height = 680
+    panel_height = 800
     with table_col:
         with st.container(border=True, height=panel_height):
             table_placeholder = st.empty()
@@ -6037,7 +6393,7 @@ def render_lead_timeline(df: pd.DataFrame, filtered: pd.DataFrame) -> None:
     timeline_placeholder = st.empty()
     with timeline_placeholder.container():
         render_skeleton_timeline()
-    history = contact_history_for_crm_id(crm_id)
+    history = contact_history_for_crm_id(crm_id, row)
     timeline_placeholder.empty()
     if history.empty:
         components.html(
@@ -6288,6 +6644,9 @@ def build_contact_history_table(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return pd.DataFrame(columns=columns)
     history = load_contact_history()
+    if history.empty:
+        return pd.DataFrame(columns=columns)
+    history = visible_contact_history(history, commercial_initial_crm_ids(df))
     if history.empty:
         return pd.DataFrame(columns=columns)
     visible_ids = set(df["CRM ID"].fillna("").astype(str)) if "CRM ID" in df.columns else set()
@@ -6577,39 +6936,112 @@ def render_whatsapp_messages_editor_body(selected_row: pd.Series | None, name_co
     preview_name = selected_row.get(name_col, "Demo") if selected_row is not None and name_col else "Demo"
     preview_comuna = selected_row.get(comuna_col, "Las Condes") if selected_row is not None and comuna_col else "Las Condes"
 
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stPopoverBody"] {
+            width: min(84vw, 360px) !important;
+            max-width: min(84vw, 360px) !important;
+            padding: 10px !important;
+        }
+        div[data-testid="stPopoverBody"] .section-title {
+            margin-bottom: 0 !important;
+            font-size: 17px !important;
+            line-height: 1.15 !important;
+        }
+        div[data-testid="stPopoverBody"] div[data-testid="stTextArea"] textarea {
+            min-height: 88px !important;
+            max-height: 108px !important;
+        }
+        div[data-testid="stPopoverBody"] .message-preview-box {
+            max-height: 52px !important;
+            overflow-y: auto !important;
+            padding: 7px 9px !important;
+            font-size: 12px !important;
+            line-height: 1.25 !important;
+            margin-top: 0 !important;
+        }
+        div[data-testid="stPopoverBody"] .crm-divider {
+            margin: 6px 0 !important;
+        }
+        div[data-testid="stPopoverBody"] div[data-testid="stCaptionContainer"] {
+            margin-top: 0 !important;
+            margin-bottom: 4px !important;
+            font-size: 11px !important;
+        }
+        div[data-testid="stPopoverBody"] .stTabs [data-baseweb="tab-list"] {
+            margin-bottom: 4px !important;
+        }
+        div[data-testid="stPopoverBody"] .stTabs [data-baseweb="tab"] {
+            height: 28px !important;
+            padding: 0 9px !important;
+            font-size: 12px !important;
+        }
+        div[data-testid="stPopoverBody"] div[data-testid="stCheckbox"] {
+            margin-bottom: 2px !important;
+        }
+        div[data-testid="stPopoverBody"] div[data-testid="stButton"] button {
+            min-height: 32px !important;
+            height: 32px !important;
+            font-size: 12px !important;
+            padding: 0 8px !important;
+        }
+        div[data-testid="stPopoverBody"] details {
+            margin-top: 4px !important;
+        }
+        div[data-testid="stPopoverBody"] details summary {
+            font-size: 12px !important;
+        }
+        @media (max-width: 640px) {
+            div[data-testid="stPopoverBody"] {
+                width: min(86vw, 340px) !important;
+                max-width: min(86vw, 340px) !important;
+                padding: 9px !important;
+            }
+            div[data-testid="stPopoverBody"] div[data-testid="stTextArea"] textarea {
+                min-height: 82px !important;
+                max-height: 96px !important;
+            }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown('<div class="section-title">Mensajes WhatsApp</div>', unsafe_allow_html=True)
-    st.caption("Edita los mensajes que se usan para abrir WhatsApp. Puedes activar o pausar cada mensaje.")
+    st.caption("Edita un mensaje a la vez.")
+    st.caption("Comodines disponibles: {nombre} y {comuna}")
 
-    for variant in DEFAULT_MESSAGE_VARIANTS:
+    variants = list(DEFAULT_MESSAGE_VARIANTS)[:5]
+    tabs = st.tabs([str(variant) for variant in variants])
+    for tab, variant in zip(tabs, variants):
         item = config.get(variant, {"text": DEFAULT_MESSAGE_VARIANTS[variant], "active": True})
         text_key = f"msg_variant_text_{variant}"
         active_key = f"msg_variant_active_{variant}"
-        st.markdown(f"**Mensaje {variant}**")
-        st.checkbox("Activo", value=bool(item.get("active", True)), key=active_key)
-        text = st.text_area(
-            f"Texto mensaje {variant}",
-            value=clean_text(item.get("text", DEFAULT_MESSAGE_VARIANTS[variant])),
-            height=220,
-            key=text_key,
-            label_visibility="collapsed",
-        )
-        st.caption(f"{len(text)} caracteres")
-        for warning in validate_message_template(text):
-            st.warning(warning)
-        try:
-            preview = text.format(nombre=clean_text(preview_name) or "Demo", comuna=clean_text(preview_comuna) or "Las Condes")
-        except KeyError:
-            preview = text
-        st.markdown(
-            f'<div class="message-preview-box"><strong>Vista previa</strong><br>{html.escape(preview)}</div>',
-            unsafe_allow_html=True,
-        )
-        st.markdown('<div class="crm-divider"></div>', unsafe_allow_html=True)
+        with tab:
+            st.checkbox("Activo", value=bool(item.get("active", True)), key=active_key)
+            text = st.text_area(
+                f"Texto mensaje {variant}",
+                value=clean_text(item.get("text", DEFAULT_MESSAGE_VARIANTS[variant])),
+                height=88,
+                key=text_key,
+                label_visibility="collapsed",
+            )
+            for warning in validate_message_template(text):
+                st.warning(warning)
+            try:
+                preview = text.format(nombre=clean_text(preview_name) or "Demo", comuna=clean_text(preview_comuna) or "Las Condes")
+            except KeyError:
+                preview = text
+            with st.expander("Vista previa", expanded=False):
+                st.markdown(
+                    f'<div class="message-preview-box">{html.escape(preview)}</div>',
+                    unsafe_allow_html=True,
+                )
 
-    c1, c2, c3 = st.columns(3, gap="small")
-    if c1.button("Guardar mensajes", key="save_all_whatsapp_messages", use_container_width=True):
+    c1, c2 = st.columns([0.58, 0.42], gap="small")
+    if c1.button("Guardar", key="save_all_whatsapp_messages", use_container_width=True):
         updated = {}
-        for variant in DEFAULT_MESSAGE_VARIANTS:
+        for variant in variants:
             updated[variant] = {
                 "text": clean_text(st.session_state.get(f"msg_variant_text_{variant}", DEFAULT_MESSAGE_VARIANTS[variant])),
                 "active": bool(st.session_state.get(f"msg_variant_active_{variant}", True)),
@@ -6622,18 +7054,7 @@ def render_whatsapp_messages_editor_body(selected_row: pd.Series | None, name_co
         )
         st.session_state["show_message_editor"] = False
         st.rerun()
-    if c2.button("Restaurar por defecto", key="reset_all_whatsapp_messages", use_container_width=True):
-        save_message_config(default_message_config())
-        for variant, text in DEFAULT_MESSAGE_VARIANTS.items():
-            st.session_state[f"msg_variant_text_{variant}"] = text
-            st.session_state[f"msg_variant_active_{variant}"] = True
-        active_messages = load_message_variants()
-        refresh_whatsapp_message_state(active_messages)
-        st.session_state["messages_saved_notice"] = (
-            f"Mensajes restaurados. Mensaje activo actualizado: {', '.join(active_messages.keys())}."
-        )
-        st.rerun()
-    if c3.button("Cerrar", key="close_whatsapp_messages", use_container_width=True):
+    if c2.button("Cerrar", key="close_whatsapp_messages", use_container_width=True):
         st.session_state["show_message_editor"] = False
         st.rerun()
 
@@ -6648,26 +7069,11 @@ else:
             render_whatsapp_messages_editor_body(selected_row, name_col, comuna_col)
 
 
-def whatsapp_messages_settings_href(selected_row: pd.Series | None) -> str:
-    selected_id = clean_text(selected_row.get("CRM ID", "")) if selected_row is not None else ""
-    params = current_commercial_filter_params()
-    selected_key = clean_text(st.session_state.get("selected_lead_key", ""))
-    if selected_key:
-        params.append(("selected_lead_key", selected_key))
-    if selected_id:
-        params.append(("edit_whatsapp_messages", selected_id))
-    return "?" + urlencode(params)
+def open_whatsapp_messages_editor() -> None:
+    st.session_state["show_message_editor"] = True
 
 
 def maybe_open_whatsapp_messages_dialog(selected_row: pd.Series | None, name_col: str | None, comuna_col: str | None) -> None:
-    selected_id = clean_text(selected_row.get("CRM ID", "")) if selected_row is not None else ""
-    edit_target = clean_text(st.query_params.get("edit_whatsapp_messages", ""))
-    if selected_id and edit_target == selected_id:
-        st.session_state["show_message_editor"] = True
-        try:
-            del st.query_params["edit_whatsapp_messages"]
-        except Exception:
-            pass
     if st.session_state.get("show_message_editor") and selected_row is not None:
         render_whatsapp_messages_dialog(selected_row, name_col, comuna_col)
 
@@ -6790,29 +7196,37 @@ def main() -> None:
     ASSETS_DIR.mkdir(exist_ok=True)
     inject_styles()
     render_header()
+    render_pending_external_open()
+    process_pending_contact_action()
 
     loading_placeholder = st.empty()
     try:
-        with loading_placeholder.container():
-            render_skeleton_workspace()
-        base = load_base()
+        show_loading_skeleton = not st.session_state.get("show_message_editor", False)
+        if show_loading_skeleton:
+            with loading_placeholder.container():
+                render_skeleton_workspace()
+        base = timed_call("carga_restaurantes", load_base)
         if base.empty:
             loading_placeholder.empty()
             st.error(f"No se encontró la base principal: {BASE_XLSX}")
             return
 
-        crm = load_crm_state()
-        if auto_transition_pending_contacts(base, crm):
-            crm = load_crm_state()
-        df = merge_crm(base, crm)
+        crm = timed_call("carga_crm_estado", load_crm_state)
+        if timed_call("auto_transicion_pendientes", auto_transition_pending_contacts, base, crm):
+            crm = timed_call("recarga_crm_estado_post_auto", load_crm_state)
+        df = timed_call("merge_restaurantes_crm", merge_crm, base, crm)
     except Exception as exc:
         loading_placeholder.empty()
         st.error("Error cargando datos")
         st.caption(str(exc))
         return
     loading_placeholder.empty()
-    added_events = generate_restaurant_added_events(df)
-    alert_count = generate_no_response_alerts(df)
+    if st.session_state.pop("skip_heavy_history_checks_once", False):
+        added_events = 0
+        alert_count = 0
+    else:
+        added_events = timed_call("eventos_restaurante_agregado", generate_restaurant_added_events, df)
+        alert_count = timed_call("alertas_sin_respuesta", generate_no_response_alerts, df)
     if alert_count:
         st.session_state["system_alert_count"] = alert_count
     if added_events:
@@ -6826,9 +7240,9 @@ def main() -> None:
 
     tab_crm, tab_update = st.tabs(["CRM Comercial", "Actualizar base"])
     with tab_crm:
-        render_crm_comercial_unified(df)
+        timed_call("render_crm_comercial", render_crm_comercial_unified, df)
     with tab_update:
-        render_update_base_unified(base)
+        timed_call("render_actualizar_base", render_update_base_unified, base)
 
     st.divider()
     st.caption(f"Base principal: {BASE_XLSX}")

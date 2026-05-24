@@ -1,0 +1,18 @@
+{
+  "piloto": {
+    "comuna": "Providencia",
+    "region": "Metropolitana",
+    "pais": "Chile",
+    "busqueda": "restaurantes",
+    "maxResultados": 30,
+    "maxScrolls": 6,
+    "pausaMinMs": 2000,
+    "pausaMaxMs": 5000,
+    "headless": false,
+    "chromePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    "salidaCsv": "data/incremental/incremental_04_providencia_manual.csv",
+    "salidaExcel": "data/incremental/incremental_04_providencia_manual.xlsx",
+    "salidaRaw": "data/incremental/incremental_04_providencia_manual_raw.json",
+    "log": "data/logs/incremental_04_providencia_manual.log"
+  }
+}

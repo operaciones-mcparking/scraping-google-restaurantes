@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from supabase_client import SupabaseConfigError, get_supabase_client
+from supabase_client import SupabaseConfigError, get_supabase_client, get_supabase_service_client, jwt_role
 
 
 DEFAULT_CONFIG = ROOT / "configs" / "actualizacion_incremental_manual.json"
@@ -49,6 +49,61 @@ def norm_text(text: Any) -> str:
     text = strip_accents(text).lower()
     text = re.sub(r"[^a-z0-9\s]", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def display_normalized_name(value: Any) -> str:
+    text = clean_text(value)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def infer_tipo_negocio(row: dict[str, Any]) -> str:
+    category = norm_text(find_value(row, "Categoria", "Categoría"))
+    name = norm_text(find_value(row, "Nombre restaurante"))
+    text = f"{category} {name}".strip()
+    if any(token in text for token in ["bar", "pub", "cerveceria"]):
+        return "Bar/Pub"
+    if any(token in text for token in ["cafe", "cafeteria", "bakery", "pasteleria", "heladeria", "salon de te"]):
+        return "Cafetería"
+    if any(token in text for token in ["fast", "hamburg", "burger", "pizza", "sandwich", "shawarma", "empanad", "completo", "food truck"]):
+        return "Fast Food"
+    if any(token in text for token in ["restaurant", "restaurante", "marisqueria", "parrilla", "sushi", "peruano", "italiano", "chino", "indio", "cocina"]):
+        return "Restaurante"
+    return "Otro"
+
+
+def infer_score_comercial(row: dict[str, Any], tipo_negocio: str) -> float | None:
+    rating = parse_number(find_value(row, "Rating"))
+    reviews = parse_int(find_value(row, "Cantidad reviews"))
+    if rating is None and reviews is None:
+        return None
+    rating_score = min(max((rating or 0) * 12, 0), 60)
+    reviews_value = reviews or 0
+    if reviews_value >= 500:
+        reviews_score = 25
+    elif reviews_value >= 200:
+        reviews_score = 20
+    elif reviews_value >= 100:
+        reviews_score = 16
+    elif reviews_value >= 50:
+        reviews_score = 12
+    elif reviews_value >= 20:
+        reviews_score = 8
+    elif reviews_value > 0:
+        reviews_score = 4
+    else:
+        reviews_score = 0
+    type_bonus = {"Restaurante": 5, "Bar/Pub": 5, "Fast Food": 0, "Cafetería": 0, "Otro": -5}.get(tipo_negocio, 0)
+    return float(max(0, min(90, round(rating_score + reviews_score + type_bonus))))
+
+
+def infer_nivel_comercial(score: float | None, tipo_negocio: str) -> str:
+    if score is None:
+        return ""
+    if score >= 78 and tipo_negocio != "Cafetería":
+        return "Alto potencial"
+    if score >= 60:
+        return "Medio potencial"
+    return "Bajo potencial"
 
 
 def norm_coord(value: Any) -> str:
@@ -157,6 +212,11 @@ def sqlite_rows(db_path: Path) -> list[dict[str, Any]]:
 def restaurant_record(row: dict[str, Any]) -> dict[str, Any]:
     crm_id = lead_key(row)
     keys = key_parts(row)
+    tipo_negocio = clean_text(find_value(row, "Tipo negocio")) or infer_tipo_negocio(row)
+    score_comercial = parse_number(find_value(row, "Score comercial"))
+    if score_comercial is None:
+        score_comercial = infer_score_comercial(row, tipo_negocio)
+    nivel_comercial = clean_text(find_value(row, "Nivel comercial")) or infer_nivel_comercial(score_comercial, tipo_negocio)
     return {
         "crm_id": crm_id,
         "unique_key": keys["selected"],
@@ -164,7 +224,7 @@ def restaurant_record(row: dict[str, Any]) -> dict[str, Any]:
         "key_nombre_direccion_comuna": keys["key2"],
         "key_nombre_lat_lng": keys["key3"],
         "nombre_restaurante": clean_text(find_value(row, "Nombre restaurante")),
-        "nombre_normalizado": clean_text(find_value(row, "Nombre normalizado")),
+        "nombre_normalizado": clean_text(find_value(row, "Nombre normalizado")) or display_normalized_name(find_value(row, "Nombre restaurante")),
         "rating": parse_number(find_value(row, "Rating")),
         "cantidad_reviews": parse_int(find_value(row, "Cantidad reviews")),
         "direccion": clean_text(find_value(row, "Direccion", "Dirección")),
@@ -189,9 +249,13 @@ def restaurant_record(row: dict[str, Any]) -> dict[str, Any]:
         "tiene_redes": clean_text(find_value(row, "Tiene Redes")),
         "calidad_redes": clean_text(find_value(row, "Calidad Redes")),
         "observaciones": clean_text(find_value(row, "Observaciones")),
-        "tipo_negocio": clean_text(find_value(row, "Tipo negocio")),
-        "score_comercial": parse_number(find_value(row, "Score comercial")),
-        "nivel_comercial": clean_text(find_value(row, "Nivel comercial")),
+        "tipo_negocio": tipo_negocio,
+        "score_comercial": score_comercial,
+        "nivel_comercial": nivel_comercial,
+        "estado_revision_rappi": clean_text(find_value(row, "Estado revision Rappi", "Estado revisión Rappi")) or "No revisado",
+        "fecha_revision_rappi": parse_datetime(find_value(row, "Fecha revision Rappi", "Fecha revisión Rappi")),
+        "url_rappi": clean_text(find_value(row, "URL Rappi")),
+        "observacion_revision_rappi": clean_text(find_value(row, "Observacion revision Rappi", "Observación revision Rappi")),
         "data_json": row_to_json({key: value for key, value in row.items() if not str(key).startswith("_")}),
     }
 
@@ -200,11 +264,12 @@ def clean_record(record: dict[str, Any]) -> dict[str, Any]:
     return {key: json_safe(value) for key, value in record.items() if value is not None}
 
 
-def existing_supabase_keys(client) -> tuple[set[str], set[str]]:
-    rows = client.table("restaurantes").select("crm_id,google_maps_url").execute().data or []
+def existing_supabase_keys(client) -> tuple[set[str], set[str], int]:
+    response = client.table("restaurantes").select("crm_id,google_maps_url").execute()
+    rows = response.data or []
     crm_ids = {clean_text(row.get("crm_id")) for row in rows if clean_text(row.get("crm_id"))}
     urls = {clean_text(row.get("google_maps_url")) for row in rows if clean_text(row.get("google_maps_url"))}
-    return crm_ids, urls
+    return crm_ids, urls, len(rows)
 
 
 def event_key(crm_id: str, fecha_hora: str, accion: str, mensaje: str) -> str:
@@ -226,11 +291,14 @@ def sync(config: dict, dry_run: bool = False) -> dict:
     summary = {
         "modo_prueba": bool(dry_run),
         "registros_locales": 0,
+        "existentes_supabase": 0,
         "nuevos_supabase": 0,
+        "insertados_supabase": 0,
         "crm_estado_creados": 0,
         "eventos_iniciales_creados": 0,
         "duplicados_supabase": 0,
         "errores_supabase": 0,
+        "credencial": "",
     }
     rows = sqlite_rows(project_path(config["baseDatos"]))
     summary["registros_locales"] = len(rows)
@@ -238,11 +306,31 @@ def sync(config: dict, dry_run: bool = False) -> dict:
         return summary
 
     try:
-        client = get_supabase_client()
-        existing_ids, existing_urls = existing_supabase_keys(client)
+        client = get_supabase_service_client()
+        summary["credencial"] = "service_role"
     except SupabaseConfigError as exc:
+        if not dry_run:
+            summary["errores_supabase"] = 1
+            summary["motivo_abortado"] = str(exc)
+            summary["error"] = str(exc)
+            return summary
+
+        try:
+            client = get_supabase_client()
+            summary["credencial"] = f"lectura_{jwt_role(load_supabase_key_for_role_check()) or 'desconocida'}"
+        except SupabaseConfigError as read_exc:
+            summary["errores_supabase"] = 1
+            summary["motivo_abortado"] = f"No se pudo configurar cliente de lectura: {read_exc}"
+            summary["error"] = summary["motivo_abortado"]
+            return summary
+
+    try:
+        existing_ids, existing_urls, existing_count = existing_supabase_keys(client)
+        summary["existentes_supabase"] = existing_count
+    except Exception as exc:
         summary["errores_supabase"] = 1
-        summary["error"] = f"Configuracion Supabase: {exc}"
+        summary["motivo_abortado"] = f"No se pudieron leer existentes en Supabase. No se asumen nuevos para evitar duplicados: {exc}"
+        summary["error"] = summary["motivo_abortado"]
         return summary
 
     restaurants = []
@@ -260,7 +348,19 @@ def sync(config: dict, dry_run: bool = False) -> dict:
             continue
         fecha = record.get("fecha_carga") or datetime.now().isoformat(timespec="seconds")
         restaurants.append(record)
-        crm_rows.append({"crm_id": crm_id, "estado_crm": "Nuevo", "estado_whatsapp": "No contactado", "resultado_seguimiento": ""})
+        crm_rows.append(
+            {
+                "crm_id": crm_id,
+                "estado_crm": "Nuevo",
+                "resultado_seguimiento": "Sin respuesta",
+                "estado_whatsapp": "No contactado",
+                "canal_ultimo_contacto": None,
+                "fecha_ultimo_contacto": None,
+                "fecha_ultimo_whatsapp": None,
+                "mensaje_enviado": None,
+                "observacion_crm": "",
+            }
+        )
         history_rows.append(
             {
                 "event_key": event_key(crm_id, clean_text(fecha), "Restaurante agregado", "Lead ingresado a la base"),
@@ -271,7 +371,7 @@ def sync(config: dict, dry_run: bool = False) -> dict:
                 "canal": "Sistema",
                 "accion": "Restaurante agregado",
                 "estado_crm_actual": "Nuevo",
-                "resultado_seguimiento_actual": "",
+                "resultado_seguimiento_actual": "Sin respuesta",
                 "mensaje_enviado": "Lead ingresado a la base",
             }
         )
@@ -286,13 +386,20 @@ def sync(config: dict, dry_run: bool = False) -> dict:
         return summary
 
     try:
-        upload_batch(client, "restaurantes", restaurants, "crm_id")
+        summary["insertados_supabase"] = upload_batch(client, "restaurantes", restaurants, "crm_id")
         upload_batch(client, "crm_estado", crm_rows, "crm_id")
         upload_batch(client, "historial_contactos", history_rows, "event_key")
     except Exception as exc:
         summary["errores_supabase"] += 1
         summary["error"] = str(exc)
     return summary
+
+
+def load_supabase_key_for_role_check() -> str:
+    from supabase_client import load_supabase_secrets
+
+    secrets = load_supabase_secrets()
+    return secrets.get("SUPABASE_KEY", "")
 
 
 def main() -> int:

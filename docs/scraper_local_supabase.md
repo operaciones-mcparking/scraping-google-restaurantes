@@ -98,6 +98,34 @@ Puedes validar la sincronizacion sin subir datos:
 python scripts/sincronizar_incremental_supabase.py --config configs/actualizacion_incremental_manual.json --dry-run
 ```
 
+## Credencial para sincronizar con RLS activo
+
+La sincronizacion local hacia Supabase necesita una key `service_role` porque inserta en tablas con RLS activo.
+
+El script busca credenciales en este orden:
+
+1. Variable de entorno `SUPABASE_SERVICE_ROLE_KEY`.
+2. `.streamlit/secrets.toml` con `SUPABASE_SERVICE_ROLE_KEY`.
+3. `SUPABASE_KEY` solo para lectura/dry-run, nunca para insertar.
+
+Ejemplo seguro:
+
+```toml
+SUPABASE_URL = "https://tu-proyecto.supabase.co"
+SUPABASE_KEY = "tu-anon-key"
+SUPABASE_SERVICE_ROLE_KEY = "tu-service-role-key"
+```
+
+No subir `.streamlit/secrets.toml` al repositorio. Usar `.streamlit/secrets.toml.example` como referencia.
+
+Si falta `SUPABASE_SERVICE_ROLE_KEY`, el sync real aborta con:
+
+```text
+Falta SUPABASE_SERVICE_ROLE_KEY para escribir en Supabase con RLS activo.
+```
+
+Si la lectura de existentes falla por RLS, el sync tambien aborta. No asume que todos los registros locales son nuevos, para evitar duplicados.
+
 ## Prueba real
 
 Ejecuta:
