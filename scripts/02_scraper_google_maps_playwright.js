@@ -577,7 +577,7 @@ async function collectResultLinks(page, config, log) {
 
 async function scrapePlace(page, url, config, log) {
   log(`Abriendo ficha: ${url}`);
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: Number(config.timeoutGoogleMapsMs || 60000) });
   if (!ensureNotStopped(log, "Detencion solicitada despues de abrir ficha.")) return null;
   const completedPause = await slowPause(config, log, "espera de ficha");
   if (!completedPause) return null;
@@ -679,7 +679,7 @@ async function main() {
 
   try {
     log(`Abriendo Google Maps: ${searchUrl}`);
-    await page.goto(searchUrl, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await page.goto(searchUrl, { waitUntil: "domcontentloaded", timeout: Number(config.timeoutGoogleMapsMs || 60000) });
     if (!ensureNotStopped(log, "Detencion solicitada despues de cargar busqueda.")) return;
     await slowPause(config, log, "carga inicial");
     if (!ensureNotStopped(log, "Detencion solicitada despues de la carga inicial.")) return;

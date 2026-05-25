@@ -11,6 +11,10 @@ const SCRAPER = path.join(ROOT, "scripts", "02_scraper_google_maps_playwright.js
 const SUPABASE_SYNC = path.join(ROOT, "scripts", "sincronizar_incremental_supabase.py");
 const PROGRESS_PATH = path.join(ROOT, "data", "scraping_progress.json");
 const STOP_FLAG = path.join(ROOT, "data", "stop_scraping.flag");
+const RUNTIME_CONFIG_PATH = path.join(ROOT, "data", "scraping_runtime_config.json");
+const CRM_URL = "http://localhost:3000";
+let currentStep = "Inicializando";
+let currentCommand = "";
 
 class StopRequested extends Error {
   constructor(message = "Detencion solicitada por el usuario.") {
@@ -47,6 +51,36 @@ function readProgress() {
   }
 }
 
+function readRuntimeConfig() {
+  try {
+    return JSON.parse(fs.readFileSync(RUNTIME_CONFIG_PATH, "utf8"));
+  } catch {
+    return {};
+  }
+}
+
+function applyRuntimeConfig(config) {
+  const runtime = readRuntimeConfig();
+  const selectedComunas = new Set(runtime.comunas_configuradas || []);
+  const delay = runtime.delay_scroll_ms;
+  return {
+    ...config,
+    modoPrueba: runtime.modo_prueba ?? config.modoPrueba,
+    sincronizarSupabase: runtime.sincronizar_supabase ?? config.sincronizarSupabase,
+    dryRunSupabase: runtime.dry_run_supabase ?? config.dryRunSupabase,
+    maxNuevosObjetivo: runtime.objetivo_nuevos ?? config.maxNuevosObjetivo,
+    maxResultadosPorComuna: runtime.maximo_resultados_por_comuna ?? config.maxResultadosPorComuna,
+    maxScrollsPorComuna: runtime.scrolls_maximos ?? config.maxScrollsPorComuna,
+    pausaMinMs: delay ?? config.pausaMinMs,
+    pausaMaxMs: delay ?? config.pausaMaxMs,
+    timeoutGoogleMapsMs: runtime.timeout_google_maps_ms ?? config.timeoutGoogleMapsMs,
+    comunas: selectedComunas.size
+      ? (config.comunas || []).filter((item) => selectedComunas.has(item.comuna))
+      : config.comunas,
+    runtimeConfigUsada: runtime,
+  };
+}
+
 function elapsedSeconds(startedAt) {
   const started = startedAt ? Date.parse(startedAt) : Date.now();
   return Math.max(Math.round((Date.now() - started) / 1000), 0);
@@ -80,6 +114,7 @@ function updateProgress(patch) {
     subidos_supabase: 0,
     errores: 0,
     errores_supabase: 0,
+    ultimos_restaurantes_nuevos: [],
     sincronizacion_supabase: {
       ultima_exitosa: null,
       registros_insertados: 0,
@@ -99,6 +134,74 @@ function updateProgress(patch) {
   };
   fs.writeFileSync(PROGRESS_PATH, JSON.stringify(next, null, 2), "utf8");
   return next;
+}
+
+function readLogTail(logPath, maxLines = 30) {
+  try {
+    if (!logPath || !fs.existsSync(logPath)) return [];
+    return fs.readFileSync(logPath, "utf8").split(/\r?\n/).filter(Boolean).slice(-maxLines);
+  } catch {
+    return [];
+  }
+}
+
+function firstValue(row, keys) {
+  for (const key of keys) {
+    const value = row?.[key];
+    if (value !== undefined && value !== null && String(value).trim()) return value;
+  }
+  return "";
+}
+
+function normalizeNewRestaurant(row, patch = {}) {
+  const nombre = firstValue(row, ["nombre_restaurante", "Nombre restaurante"]);
+  const comuna = firstValue(row, ["comuna", "Comuna"]);
+  const googleMapsUrl = firstValue(row, ["google_maps_url", "Google Maps URL"]);
+  return {
+    nombre_restaurante: nombre,
+    comuna,
+    tipo_negocio: firstValue(row, ["tipo_negocio", "Tipo negocio", "Categoría", "Categoria"]) || "",
+    nivel_comercial: firstValue(row, ["nivel_comercial", "Nivel comercial"]) || "",
+    telefono: firstValue(row, ["telefono", "Teléfono", "Telefono"]) || "",
+    rating: firstValue(row, ["rating", "Rating"]) || "",
+    reviews: firstValue(row, ["reviews", "Cantidad reviews"]) || "",
+    fecha_detectado: firstValue(row, ["fecha_detectado", "_fecha_detectado", "fecha_carga", "Fecha extracción", "Fecha extraccion"]) || new Date().toISOString(),
+    fecha_sincronizado: firstValue(row, ["fecha_sincronizado"]) || null,
+    sincronizado_supabase: Boolean(row?.sincronizado_supabase),
+    crm_id: firstValue(row, ["crm_id"]) || googleMapsUrl,
+    google_maps_url: googleMapsUrl,
+    crm_url: CRM_URL,
+    ...patch,
+  };
+}
+
+function mergeRecentRestaurants(current = [], incoming = [], maxItems = 50) {
+  const map = new Map();
+  for (const item of current) {
+    const normalized = normalizeNewRestaurant(item);
+    const key = normalized.crm_id || `${normalized.nombre_restaurante}|${normalized.comuna}`;
+    if (key) map.set(key, normalized);
+  }
+  for (const item of incoming) {
+    const normalized = normalizeNewRestaurant(item);
+    const key = normalized.crm_id || `${normalized.nombre_restaurante}|${normalized.comuna}`;
+    if (!key) continue;
+    map.set(key, { ...(map.get(key) || {}), ...normalized });
+  }
+  return [...map.values()]
+    .sort((a, b) => new Date(b.fecha_sincronizado || b.fecha_detectado || 0) - new Date(a.fecha_sincronizado || a.fecha_detectado || 0))
+    .slice(0, maxItems);
+}
+
+function updateRecentRestaurants(incoming, patch = {}) {
+  if (!incoming?.length) return;
+  const progress = readProgress();
+  updateProgress({
+    ultimos_restaurantes_nuevos: mergeRecentRestaurants(
+      progress.ultimos_restaurantes_nuevos || [],
+      incoming.map((item) => normalizeNewRestaurant(item, patch)),
+    ),
+  });
 }
 
 function checkStop() {
@@ -163,7 +266,8 @@ function makeLogger(logPath) {
 
 function run(command, args, log) {
   checkStop();
-  log(`Ejecutando: ${command} ${args.join(" ")}`);
+  currentCommand = `${command} ${args.join(" ")}`;
+  log(`Ejecutando: ${currentCommand}`);
   const result = spawnSync(command, args, { cwd: ROOT, encoding: "utf8" });
   if (result.stdout) {
     for (const line of result.stdout.trim().split(/\r?\n/).filter(Boolean)) log(line);
@@ -172,7 +276,10 @@ function run(command, args, log) {
     for (const line of result.stderr.trim().split(/\r?\n/).filter(Boolean)) log(`ERR: ${line}`);
   }
   if (result.status !== 0) {
-    throw new Error(`Comando falló con código ${result.status}`);
+    const error = new Error(`Comando fallo con codigo ${result.status}: ${currentCommand}`);
+    error.failedStep = currentStep || readProgress().etapa_actual || "Comando";
+    error.failedCommand = currentCommand;
+    throw error;
   }
   checkStop();
   return result.stdout || "";
@@ -180,7 +287,8 @@ function run(command, args, log) {
 
 function runSoft(command, args, log) {
   checkStop();
-  log(`Ejecutando: ${command} ${args.join(" ")}`);
+  currentCommand = `${command} ${args.join(" ")}`;
+  log(`Ejecutando: ${currentCommand}`);
   const result = spawnSync(command, args, { cwd: ROOT, encoding: "utf8" });
   if (result.stdout) {
     for (const line of result.stdout.trim().split(/\r?\n/).filter(Boolean)) log(line);
@@ -194,13 +302,15 @@ function runSoft(command, args, log) {
 
 function parseLastJson(stdout) {
   const text = stdout.trim();
-  const start = text.lastIndexOf("{");
-  if (start === -1) return {};
-  try {
-    return JSON.parse(text.slice(start));
-  } catch {
-    return {};
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] !== "{") continue;
+    try {
+      return JSON.parse(text.slice(index));
+    } catch {
+      // Try the next object-like segment.
+    }
   }
+  return {};
 }
 
 function readDbCount(config, log) {
@@ -224,6 +334,7 @@ function createRunConfig(config, comunaConfig, index) {
       maxScrolls: config.maxScrollsPorComuna,
       pausaMinMs: config.pausaMinMs,
       pausaMaxMs: config.pausaMaxMs,
+      timeoutGoogleMapsMs: config.timeoutGoogleMapsMs,
       headless: false,
       chromePath: config.chromePath,
       salidaCsv: `data/incremental/${baseName}.csv`,
@@ -267,7 +378,7 @@ function syncSupabase(config, args, log, dryRun = false) {
     porcentaje_estimado: 94,
   });
   const syncArgs = [SUPABASE_SYNC, "--config", args.config];
-  if (dryRun) syncArgs.push("--dry-run");
+  if (dryRun || config.dryRunSupabase) syncArgs.push("--dry-run");
   const result = runSoft(PYTHON, syncArgs, log);
   const summary = parseLastJson(result.stdout);
   if (!result.ok) {
@@ -291,12 +402,19 @@ function syncSupabase(config, args, log, dryRun = false) {
       credencial_usada: summary.credencial || "",
     },
   });
+  updateRecentRestaurants(summary.ultimos_restaurantes_nuevos || [], {
+    sincronizado_supabase: !dryRun && (summary.errores_supabase || 0) === 0,
+    fecha_sincronizado: new Date().toISOString(),
+  });
   return summary;
 }
 
 function main() {
   const args = parseArgs();
-  const config = JSON.parse(fs.readFileSync(args.config, "utf8"));
+  const config = applyRuntimeConfig(JSON.parse(fs.readFileSync(args.config, "utf8")));
+  if (!config.comunas || !config.comunas.length) {
+    throw new Error("No hay comunas configuradas para la corrida.");
+  }
   activeLockPath = acquireLock(config);
   if (fs.existsSync(STOP_FLAG)) fs.unlinkSync(STOP_FLAG);
   const log = makeLogger(projectPath(config.log));
@@ -320,7 +438,9 @@ function main() {
       comunas_configuradas: (config.comunas || []).map((item) => item.comuna),
       archivo_config_usado: args.config,
       sincronizar_supabase: config.sincronizarSupabase !== false,
-      dry_run_supabase: Boolean(config.modoPrueba),
+      dry_run_supabase: Boolean(config.modoPrueba || config.dryRunSupabase),
+      delay_scroll_ms: Number(config.pausaMinMs || 0),
+      timeout_google_maps_ms: Number(config.timeoutGoogleMapsMs || 60000),
     },
   });
 
@@ -329,7 +449,8 @@ function main() {
 
   if (!fs.existsSync(dbPath)) {
     checkStop();
-    updateProgress({ etapa_actual: "Importando base inicial", mensaje_actual: "No existe SQLite. Importando base inicial." });
+    currentStep = "Importando base inicial";
+    updateProgress({ etapa_actual: currentStep, mensaje_actual: "No existe SQLite. Importando base inicial." });
     log("No existe SQLite. Importando base inicial desde Excel.");
     run(PYTHON, [IMPORTER, "--config", args.config, "--import-base"], log);
     checkStop();
@@ -349,7 +470,8 @@ function main() {
 
   if (config.modoPrueba) {
     checkStop();
-    updateProgress({ etapa_actual: "Modo prueba", mensaje_actual: "Modo prueba activo.", porcentaje_estimado: 15 });
+    currentStep = "Modo prueba";
+    updateProgress({ etapa_actual: currentStep, mensaje_actual: "Modo prueba activo.", porcentaje_estimado: 15 });
     log("Modo prueba activo: no se abrirá Google Maps ni se hará scraping.");
     const stdout = run(PYTHON, [IMPORTER, "--config", args.config, "--test-no-scraping"], log);
     checkStop();
@@ -377,8 +499,9 @@ function main() {
       }
       const item = config.comunas[i];
       const { runPath, csvPath } = createRunConfig(config, item, i);
+      currentStep = `Procesando comuna: ${item.comuna}`;
       updateProgress({
-        etapa_actual: "Procesando comuna...",
+        etapa_actual: currentStep,
         mensaje_actual: `Scraping controlado para comuna: ${item.comuna}`,
         comuna_actual: item.comuna,
         comuna_index: i + 1,
@@ -398,10 +521,12 @@ function main() {
         continue;
       }
       checkStop();
-      updateProgress({ etapa_actual: "Guardando SQLite...", mensaje_actual: `Guardando resultados de ${item.comuna} en SQLite.` });
+      currentStep = `Guardando SQLite: ${item.comuna}`;
+      updateProgress({ etapa_actual: currentStep, mensaje_actual: `Guardando resultados de ${item.comuna} en SQLite.` });
       const stdout = run(PYTHON, [IMPORTER, "--config", args.config, "--merge-file", csvPath], log);
       checkStop();
       const summary = parseLastJson(stdout);
+      updateRecentRestaurants(summary.nuevos || [], { sincronizado_supabase: false });
       totalFinal = summary.total_final || totalFinal;
       encontrados += summary.encontrados || 0;
       insertados += summary.insertados || 0;
@@ -416,12 +541,13 @@ function main() {
       });
     }
     checkStop();
-    updateProgress({ etapa_actual: "Guardando Excel...", mensaje_actual: "Exportando base local a Excel/CSV.", porcentaje_estimado: 90 });
+    currentStep = "Guardando Excel";
+    updateProgress({ etapa_actual: currentStep, mensaje_actual: "Exportando base local a Excel/CSV.", porcentaje_estimado: 90 });
     run(PYTHON, [IMPORTER, "--config", args.config, "--export"], log);
     checkStop();
     totalFinal = readDbCount(config, log);
     checkStop();
-    const supabaseSummary = syncSupabase(config, args, log, false);
+    const supabaseSummary = syncSupabase(config, args, log, Boolean(config.dryRunSupabase));
     checkStop();
     nuevosSupabase += supabaseSummary.insertados_supabase ?? supabaseSummary.nuevos_supabase ?? 0;
     duplicadosSupabase += supabaseSummary.duplicados_supabase || 0;
@@ -474,11 +600,22 @@ try {
     console.log(error.message);
     process.exitCode = 0;
   } else {
+    const previous = readProgress();
+    const errorMessage = error.message || String(error);
+    const failedStep = error.failedStep || currentStep || previous.etapa_actual || "Error";
+    const failedCommand = error.failedCommand || currentCommand || "";
+    const logPath = previous.logs_path || "";
     updateProgress({
       status: "error",
       finished_at: new Date().toISOString(),
-      etapa_actual: "Error",
-      mensaje_actual: error.message || String(error),
+      etapa_actual: failedStep,
+      mensaje_actual: errorMessage,
+      error_message: errorMessage,
+      error_stack: error.stack || "",
+      failed_step: failedStep,
+      failed_command: failedCommand,
+      error_at: new Date().toISOString(),
+      recent_logs: readLogTail(logPath, 30),
       errores: (readProgress().errores || 0) + 1,
     });
     console.error(error.stack || error.message || String(error));

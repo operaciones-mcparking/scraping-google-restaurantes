@@ -6,7 +6,7 @@ import re
 import sqlite3
 import sys
 import unicodedata
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -299,6 +299,7 @@ def sync(config: dict, dry_run: bool = False) -> dict:
         "duplicados_supabase": 0,
         "errores_supabase": 0,
         "credencial": "",
+        "ultimos_restaurantes_nuevos": [],
     }
     rows = sqlite_rows(project_path(config["baseDatos"]))
     summary["registros_locales"] = len(rows)
@@ -346,8 +347,24 @@ def sync(config: dict, dry_run: bool = False) -> dict:
         if crm_id in existing_ids or (google_url and google_url in existing_urls):
             summary["duplicados_supabase"] += 1
             continue
-        fecha = record.get("fecha_carga") or datetime.now().isoformat(timespec="seconds")
+        fecha = datetime.now(timezone.utc).isoformat(timespec="milliseconds")
         restaurants.append(record)
+        summary["ultimos_restaurantes_nuevos"].append(
+            {
+                "nombre_restaurante": record.get("nombre_restaurante", ""),
+                "comuna": record.get("comuna", ""),
+                "tipo_negocio": record.get("tipo_negocio", ""),
+                "nivel_comercial": record.get("nivel_comercial", ""),
+                "telefono": record.get("telefono", ""),
+                "rating": record.get("rating"),
+                "reviews": record.get("reviews"),
+                "fecha_detectado": fecha,
+                "fecha_sincronizado": fecha,
+                "sincronizado_supabase": not dry_run,
+                "crm_id": crm_id,
+                "google_maps_url": record.get("google_maps_url", ""),
+            }
+        )
         crm_rows.append(
             {
                 "crm_id": crm_id,

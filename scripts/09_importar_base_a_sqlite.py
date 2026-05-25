@@ -4,7 +4,7 @@ import json
 import re
 import sqlite3
 import unicodedata
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
@@ -136,7 +136,7 @@ def existing_match(conn: sqlite3.Connection, keys: dict) -> bool:
 
 
 def insert_rows(conn: sqlite3.Connection, rows: list[dict], origen: str, dry_run: bool = False) -> dict:
-    summary = {"encontrados": len(rows), "insertados": 0, "duplicados": 0, "errores": 0}
+    summary = {"encontrados": len(rows), "insertados": 0, "duplicados": 0, "errores": 0, "nuevos": []}
     now = datetime.now().isoformat(timespec="seconds")
     for row in rows:
         keys = key_parts(row)
@@ -148,6 +148,7 @@ def insert_rows(conn: sqlite3.Connection, rows: list[dict], origen: str, dry_run
             continue
         if dry_run:
             summary["insertados"] += 1
+            summary["nuevos"].append({**row, "_fecha_detectado": now})
             continue
         conn.execute(
             """
@@ -171,6 +172,7 @@ def insert_rows(conn: sqlite3.Connection, rows: list[dict], origen: str, dry_run
             ),
         )
         summary["insertados"] += 1
+        summary["nuevos"].append({**row, "_fecha_detectado": now})
     if not dry_run:
         conn.commit()
     return summary
@@ -204,6 +206,18 @@ def style_sheet(ws) -> None:
         ws.column_dimensions[get_column_letter(column_cells[0].column)].width = min(max(max_len + 2, 12), 45)
 
 
+def safe_excel_value(value):
+    if value is None:
+        return ""
+    if isinstance(value, (list, dict)):
+        return json.dumps(value, ensure_ascii=False, indent=2)
+    if isinstance(value, (datetime, date)):
+        return value.isoformat()
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    return str(value)
+
+
 def write_xlsx(path: Path, headers: list[str], rows: list[dict], summary: dict | None = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     wb = Workbook()
@@ -211,13 +225,13 @@ def write_xlsx(path: Path, headers: list[str], rows: list[dict], summary: dict |
     ws.title = "Base restaurantes"
     ws.append(headers)
     for row in rows:
-        ws.append([row.get(header, "") for header in headers])
+        ws.append([safe_excel_value(row.get(header, "")) for header in headers])
     style_sheet(ws)
     if summary:
         sws = wb.create_sheet("Resumen")
         sws.append(["Métrica", "Valor"])
         for key, value in summary.items():
-            sws.append([key, value])
+            sws.append([safe_excel_value(key), safe_excel_value(value)])
         style_sheet(sws)
     wb.save(path)
 

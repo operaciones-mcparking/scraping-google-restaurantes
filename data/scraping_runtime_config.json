@@ -1,0 +1,22 @@
+{
+  "objetivo_nuevos": 200,
+  "maximo_resultados_por_comuna": 30,
+  "scrolls_maximos": 20,
+  "comunas_configuradas": [
+    "Las Condes",
+    "Vitacura",
+    "Lo Barnechea",
+    "Providencia",
+    "La Reina",
+    "Ñuñoa",
+    "La Florida",
+    "Curicó",
+    "Chillán"
+  ],
+  "modo_prueba": false,
+  "sincronizar_supabase": true,
+  "dry_run_supabase": false,
+  "delay_scroll_ms": 2000,
+  "timeout_google_maps_ms": 60000,
+  "updated_at": "2026-05-24T21:05:46.849Z"
+}

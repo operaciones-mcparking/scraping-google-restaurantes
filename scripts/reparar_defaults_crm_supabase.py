@@ -100,7 +100,7 @@ def main() -> int:
     for crm_id, row in restaurant_by_id.items():
         if crm_id in initial_ids:
             continue
-        fecha = row.get("fecha_carga") or row.get("fecha_extraccion") or row.get("created_at") or timestamp
+        fecha = timestamp
         initial_events.append(
             {
                 "event_key": event_key(crm_id, clean(fecha) or timestamp),

@@ -1,8 +1,7 @@
 {
-  "pid": 3292,
-  "started_at": "2026-05-24T18:20:31.030Z",
-  "command": "C:\\Users\\gabyp\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe C:\\Users\\gabyp\\Documents\\SCRAPING_GOOGLE\\scripts\\10_actualizar_incremental.js --config C:\\Users\\gabyp\\Documents\\SCRAPING_GOOGLE\\configs\\actualizacion_incremental_manual.json",
-  "status": "exited",
-  "alive": false,
-  "exited_at": "2026-05-24T19:34:59.657Z"
+  "pid": 5972,
+  "status": "running",
+  "command": "C:\\Users\\gabyp\\Documents\\SCRAPING_GOOGLE\\actualizar_restaurantes.bat",
+  "started_at": "2026-05-25T03:14:59.709Z",
+  "updated_at": "2026-05-25T03:14:59.709Z"
 }
